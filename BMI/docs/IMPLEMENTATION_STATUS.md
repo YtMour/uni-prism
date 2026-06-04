@@ -68,6 +68,7 @@ The current app is a local-first wellness utility with five tabs: BMI, Calories,
 - Settings controls for record retention and chart sampling
 - Dedicated Privacy Policy page and Settings entry point
 - Dedicated Disclaimer page and Settings entry point
+- Android manifest permissions reduced to an empty MVP baseline
 - Ad slot visual placeholders after useful content
 - Fixed bottom navigation and improved icon rendering
 
@@ -75,7 +76,7 @@ The current app is a local-first wellness utility with five tabs: BMI, Calories,
 
 - Guidance content is simple static guidance; it is not expanded by BMI category or detailed goal state yet.
 - Language setting is a placeholder; no i18n dictionary or runtime language switching yet.
-- Ad slots are placeholders; no real ad abstraction or platform SDK integration yet.
+- Ad slots are placeholders by decision; no production ad SDK or rewarded ad behavior should be added during current MVP hardening.
 - Input validation covers height, weight, and age ranges, but field-specific UX can still be refined for platform keyboards and copy.
 - Five tabs are split into feature screen components, while shared state remains in `pages/index/index.vue`.
 - App-base/Android smoke testing is in progress via user device checking, but no packaged Android build has been verified yet.
@@ -93,6 +94,7 @@ The current app is a local-first wellness utility with five tabs: BMI, Calories,
 - Store listing screenshots and copy
 - Android package build verification
 - iOS validation
+- Final store launch copy and screenshots
 
 ## Verification
 
@@ -101,6 +103,7 @@ Latest verified in `FitCal-Uniapp`:
 ```bash
 npm run typecheck
 npm run build:h5
+npm run smoke:h5
 ```
 
 Runtime checked:
@@ -174,6 +177,26 @@ Reason:
 - Improves retention
 - Reduces review risk
 - Keeps the tool experience usable
+
+### 2026-06-04
+
+Decision: keep Android manifest permissions empty for the current MVP.
+
+Reason:
+
+- FitCal currently stores records locally and does not need camera, account, phone state, WiFi, log, or system settings access.
+- Ad SDK integration is deferred, so ad-related permissions should not appear yet.
+- Store privacy/data-safety wording should match the shipped binary.
+
+### 2026-06-04
+
+Decision: keep monetization placeholder-only during MVP hardening.
+
+Reason:
+
+- Core H5 and Android App-base smoke should stabilize before SDK integration.
+- Privacy and store wording must match shipped behavior.
+- Calculator, guidance, and record flows should not depend on ad loading.
 
 ### 2026-06-04
 

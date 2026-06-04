@@ -45,14 +45,18 @@
 			<view class="metric-row"><text>Daily target</text><text class="metric-value">{{ calorieTarget }} kcal</text></view>
 		</view>
 
-		<view class="ad-slot">AD SLOT - RESULT PAGE</view>
+		<AdPlaceholder label="AD SLOT - RESULT PAGE" />
 	</view>
 </template>
 
 <script lang="ts">
+	import AdPlaceholder from './AdPlaceholder.vue'
 	import type { ActivityKey, ActivityOption, Goal, Sex } from '../types/fitcal'
 
 	export default {
+		components: {
+			AdPlaceholder
+		},
 		props: {
 			sex: { type: String as () => Sex, required: true },
 			age: { type: String, required: true },

@@ -80,7 +80,7 @@ Run after H5 smoke passes:
 - Records trend chart line and dots stay inside the chart card.
 - Records trend chart labels remain readable and do not cover the main line.
 - Bottom navigation is not covered by the safe area.
-- No unrelated sensitive permissions appear in the Android manifest.
+- Android manifest permissions remain empty for the local-first, ad-placeholder-only MVP.
 
 ## Known Non-Blocking Notes
 

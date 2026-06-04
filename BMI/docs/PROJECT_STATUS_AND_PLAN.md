@@ -92,6 +92,15 @@ npm run typecheck
 npm run build:h5
 ```
 
+Latest verification refresh on 2026-06-04:
+
+- H5 dev server returned HTTP 200 at `http://127.0.0.1:5179/`.
+- Automated H5 browser smoke confirmed the five tabs render.
+- BMI calculation created Records entries.
+- Privacy Policy and Disclaimer routes rendered.
+- No blocking browser runtime errors were found.
+- Chromium reported a non-blocking Records canvas readback performance warning.
+
 Latest H5 checks:
 
 - Five tabs render
@@ -110,7 +119,7 @@ Latest H5 checks:
 - Records canvas chart was changed after App-base feedback and should be rechecked on device.
 - Guidance remains simple and static.
 - Language setting is a placeholder; no i18n dictionary exists yet.
-- Ad slots are visual placeholders; no ad abstraction or SDK integration exists yet.
+- Ad slots are visual placeholders by decision; production ad SDK integration is deferred.
 - Shared state still lives in `pages/index/index.vue`; this is acceptable for MVP but may need a store if the app expands.
 - Record editing is not implemented; only add/delete exists.
 
@@ -126,10 +135,13 @@ Latest H5 checks:
 - Optional reminders
 - App icon and splash assets
 - Store listing screenshots and copy
+- App icon and splash asset candidates generated under `FitCal-Uniapp/static/brand/`
 - Android package build verification
 - iOS validation
 
 ## Immediate Next Plan
+
+Detailed execution plan: `docs/MVP_HARDENING_PLAN.md`.
 
 ### P0: Finish MVP Smoke Hardening
 
@@ -143,22 +155,23 @@ Latest H5 checks:
    - chart sample limit
 5. Confirm policy page navigation and Back behavior in App-base.
 6. Refine validation copy or input behavior only if App-base smoke exposes issues.
+7. Add automated H5 route and interaction smoke coverage for home, policy routes, BMI-to-record, and Records deletion.
 
 ### P1: Compliance and Trust
 
-1. Review Android manifest and remove unrelated sensitive permissions.
+1. Keep Android manifest permissions empty for the local-first, ad-placeholder-only MVP.
 2. Confirm Privacy Policy text matches actual local-only behavior.
 3. Confirm Disclaimer avoids medical claims.
 4. Prepare store-safe short and long descriptions.
 5. Decide whether language switching is required before first release.
 
-### P2: Monetization Foundation
+### P2: Placeholder-Only Monetization Surface
 
 1. Create an ad slot component abstraction.
 2. Keep H5/dev placeholder mode.
-3. Add platform adapter interface.
+3. Do not add production ad SDK dependencies yet.
 4. Preserve the rule that ads appear only after useful calculation results.
-5. Prototype rewarded guide unlock state without real SDK dependency.
+5. Defer rewarded guide unlock state until MVP smoke and compliance copy are stable.
 
 ### P3: Retention
 
@@ -174,6 +187,7 @@ Latest H5 checks:
 3. Build Android package.
 4. Install and smoke test package.
 5. Finalize store listing copy and data safety notes.
+6. Use `docs/STORE_LAUNCH_PREP.md` as the current copy and data-safety draft.
 
 ## Current Source Files
 
@@ -186,3 +200,6 @@ Latest H5 checks:
 - Static options: `FitCal-Uniapp/data/appData.ts`
 - Shared types: `FitCal-Uniapp/types/fitcal.ts`
 - Smoke checklist: `docs/SMOKE_CHECKLIST.md`
+- Android App-base smoke guide: `docs/ANDROID_APP_BASE_SMOKE.md`
+- Store launch prep: `docs/STORE_LAUNCH_PREP.md`
+- Brand assets: `docs/BRAND_ASSETS.md`

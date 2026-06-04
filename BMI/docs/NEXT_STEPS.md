@@ -50,16 +50,25 @@ Manual smoke test:
 
 Recommended order:
 
-1. Add a smoke script or documented route smoke checklist for:
+1. Add a smoke script for:
    - `/pages/index/index`
    - `/pages/policy/policy?type=privacy`
    - `/pages/policy/policy?type=disclaimer`
+   - BMI Calculate creates a Records entry
+   - Records Delete removes one entry
 2. Android App base check:
    - numeric keyboard behavior
    - policy page back navigation
    - record add/delete persistence
    - safe-area bottom navigation
-3. Then start P1 compliance cleanup and P2 ad abstraction.
+   - use `docs/ANDROID_APP_BASE_SMOKE.md`
+3. Fix only issues exposed by H5 smoke or Android App-base smoke.
+4. Then start P1 compliance cleanup.
+5. Keep monetization as placeholder-only until App-base smoke and compliance wording are stable.
+
+Detailed plan:
+
+- `docs/MVP_HARDENING_PLAN.md`
 
 ## P1: Compliance and Trust
 
@@ -86,21 +95,21 @@ Verification:
 
 Goal:
 
-Prepare ads without damaging the calculator flow.
+Reserve ad layout positions without integrating real ads yet.
 
 Tasks:
 
-1. Create an ad slot component.
-2. Create a platform adapter interface.
-3. Keep placeholder mode for H5/dev.
-4. Add result-page and guidance-page ad slots through the abstraction.
-5. Add rewarded guide unlock state without real SDK dependency first.
+1. Keep a reusable ad placeholder component.
+2. Keep placeholder mode for H5/dev.
+3. Do not add production ad SDK dependencies yet.
+4. Do not add rewarded guide unlock behavior yet.
+5. Revisit adapter interfaces after MVP smoke and compliance checks are stable.
 
 Verification:
 
-- App remains usable when ad adapter returns unavailable.
+- App remains usable with placeholders only.
 - No ad appears before the first useful result.
-- Rewarded content is optional.
+- No calculator, guidance, or record flow depends on ad loading.
 
 ## P3: Retention
 

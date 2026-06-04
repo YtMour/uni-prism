@@ -44,6 +44,12 @@ MVP data strategy:
 
 Privacy policy must match the actual implementation.
 
+Current Android permission baseline:
+
+- The MVP should not request camera, contacts/accounts, phone state, log access, WiFi management, system settings, or storage-mount permissions.
+- The Android manifest should keep `permissions` empty while the app remains local-first and ad-placeholder-only.
+- Revisit this baseline only when a real platform feature or SDK requires a specific permission.
+
 If analytics or ads are integrated later, disclose:
 
 - Third-party SDK usage
@@ -55,6 +61,7 @@ If analytics or ads are integrated later, disclose:
 
 Rules:
 
+- Current MVP uses ad placeholders only; no real ad SDK is integrated.
 - Do not target ads based on sensitive health conditions.
 - Do not imply medical endorsement.
 - Do not hide required content behind ads.
@@ -82,6 +89,10 @@ Store copy should avoid:
 - Before/after transformation claims
 - Disease treatment claims
 - Claims that the app replaces professional advice
+
+Detailed store-prep draft:
+
+- `docs/STORE_LAUNCH_PREP.md`
 
 ## Age and Region Notes
 

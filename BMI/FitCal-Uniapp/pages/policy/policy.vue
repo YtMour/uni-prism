@@ -20,6 +20,8 @@
 <script lang="ts">
 	import { getPolicyPage, type PolicyPageContent, type PolicyType } from '../../services/policy'
 
+	declare function getCurrentPages(): Array<{ options?: { type?: string } }>
+
 	export default {
 		data() {
 			return {
@@ -32,9 +34,17 @@
 			}
 		},
 		onLoad(options?: { type?: string }) {
-			this.pageType = options?.type === 'disclaimer' ? 'disclaimer' : 'privacy'
+			this.setPageType(options?.type)
+		},
+		onShow() {
+			const pages = getCurrentPages()
+			const currentPage = pages[pages.length - 1]
+			this.setPageType(currentPage?.options?.type)
 		},
 		methods: {
+			setPageType(type?: string) {
+				this.pageType = type === 'disclaimer' ? 'disclaimer' : 'privacy'
+			},
 			goBack() {
 				uni.navigateBack()
 			}

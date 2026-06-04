@@ -4,6 +4,13 @@
 
 FitCal should use an ad-supported model first, with optional premium features later.
 
+Current MVP decision:
+
+- Use ad placeholders only.
+- Do not integrate a production ad SDK yet.
+- Do not add rewarded video behavior yet.
+- Keep all calculator, guidance, and record flows independent from ad loading.
+
 Primary revenue:
 
 - Native/banner ads on result and guidance pages
@@ -85,7 +92,7 @@ Retention features that support ad stability:
 
 uni-app can reserve ad components through an abstraction layer so each platform can implement supported ad formats later.
 
-The MVP should use placeholder ad containers during development, then integrate production ad SDKs after the core flow is stable.
+The MVP should use placeholder ad containers during development. Production ad SDK integration is explicitly deferred until H5 smoke, Android App-base smoke, and compliance wording are stable.
 
 ## Metrics to Track Later
 

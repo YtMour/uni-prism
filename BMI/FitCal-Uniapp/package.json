@@ -5,6 +5,7 @@
   "scripts": {
     "dev:h5": "cross-env UNI_PLATFORM=h5 UNI_INPUT_DIR=. vite --host 0.0.0.0 --port 5179",
     "build:h5": "cross-env UNI_PLATFORM=h5 UNI_INPUT_DIR=. vite build",
+    "smoke:h5": "node scripts/smoke-h5.mjs",
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {

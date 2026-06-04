@@ -1,0 +1,7 @@
+# FitCal local Android signing artifacts
+BMI/*.keystore
+BMI/*.jks
+BMI/*.p12
+BMI/*.pfx
+BMI/*.password
+BMI/*.secret

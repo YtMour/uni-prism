@@ -29,8 +29,12 @@ const POLICY_PAGES: Record<PolicyType, PolicyPageContent> = {
         body: 'Users can clear local records from Settings. Clearing records keeps the history empty until the user adds a new record.'
       },
       {
+        heading: 'Android permissions',
+        body: 'The current MVP does not request Android camera, contacts, phone state, WiFi management, log access, system settings, or location permissions.'
+      },
+      {
         heading: 'Advertising readiness',
-        body: 'Current H5 development builds show ad placeholders only. Any production ad SDK must be reviewed so the privacy text matches the shipped behavior.'
+        body: 'Current builds show ad placeholders only and do not integrate a production ad SDK. Any future ad SDK must be reviewed so the privacy text matches the shipped behavior.'
       }
     ]
   },

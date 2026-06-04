@@ -38,7 +38,12 @@ The app should be positioned as a wellness and fitness utility, not as a medical
 - [Compliance Notes](docs/COMPLIANCE_NOTES.md)
 - [Implementation Status](docs/IMPLEMENTATION_STATUS.md)
 - [Project Status and Plan](docs/PROJECT_STATUS_AND_PLAN.md)
+- [MVP Hardening Plan](docs/MVP_HARDENING_PLAN.md)
 - [Smoke Checklist](docs/SMOKE_CHECKLIST.md)
+- [Android App-base Smoke Guide](docs/ANDROID_APP_BASE_SMOKE.md)
+- [Store Launch Prep](docs/STORE_LAUNCH_PREP.md)
+- [Brand Assets](docs/BRAND_ASSETS.md)
+- [Android Keystore](ANDROID_KEYSTORE.md)
 
 ## Current Stage
 

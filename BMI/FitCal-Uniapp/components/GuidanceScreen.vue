@@ -18,7 +18,7 @@
 			</view>
 		</view>
 
-		<view class="ad-slot">AD SLOT - GUIDANCE</view>
+		<AdPlaceholder label="AD SLOT - GUIDANCE" />
 
 		<view class="plain-card">
 			<text class="field-label">Meal focus</text>
@@ -37,9 +37,13 @@
 </template>
 
 <script lang="ts">
+	import AdPlaceholder from './AdPlaceholder.vue'
 	import type { MealFocus } from '../types/fitcal'
 
 	export default {
+		components: {
+			AdPlaceholder
+		},
 		props: {
 			goalTitle: { type: String, required: true },
 			calorieTarget: { type: String, required: true },
