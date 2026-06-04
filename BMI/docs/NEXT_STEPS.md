@@ -39,7 +39,7 @@ Manual smoke test:
 - Add Record adds a local record.
 - Delete Record removes one record and updates the trend.
 - Records Current/BMI summary cards match the latest saved record.
-- Records list is capped at 5 entries.
+- Records list respects the configured saved-record limit.
 - Clear local data removes records and stays empty after refresh.
 - Records trend reflects local weight/BMI records.
 - Invalid height, weight, and age values show page-level field errors.

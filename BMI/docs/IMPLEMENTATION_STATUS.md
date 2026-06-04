@@ -126,9 +126,11 @@ Known build notes:
 ## Current Source Of Truth
 
 - Implementation overview: `docs/IMPLEMENTATION_OVERVIEW.md`
+- Project status and plan: `docs/PROJECT_STATUS_AND_PLAN.md`
 - Current status: this file
 - Next implementation sequence: `docs/IMPLEMENTATION_ROADMAP.md`
 - Feature behavior target: `docs/FEATURE_SPEC.md`
+- Smoke checklist: `docs/SMOKE_CHECKLIST.md`
 - Visual target: `docs/design/FITCAL_VISUAL_STYLE_GUIDE.md`
 
 ## Immediate Next Step

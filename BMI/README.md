@@ -37,6 +37,8 @@ The app should be positioned as a wellness and fitness utility, not as a medical
 - [Monetization Plan](docs/MONETIZATION_PLAN.md)
 - [Compliance Notes](docs/COMPLIANCE_NOTES.md)
 - [Implementation Status](docs/IMPLEMENTATION_STATUS.md)
+- [Project Status and Plan](docs/PROJECT_STATUS_AND_PLAN.md)
+- [Smoke Checklist](docs/SMOKE_CHECKLIST.md)
 
 ## Current Stage
 
