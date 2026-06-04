@@ -1,4 +1,6 @@
 node_modules/
 unpackage/
+dist/
+dev-server.*.log
 .hbuilderx/
 .DS_Store

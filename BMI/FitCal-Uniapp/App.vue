@@ -1,17 +1,22 @@
 <script>
 	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
+		onLaunch() {}
 	}
 </script>
 
 <style>
-	/*每个页面公共css */
+	page {
+		background: #F4F8F8;
+		color: #172326;
+		font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+	}
+
+	view,
+	text,
+	input,
+	button,
+	scroll-view {
+		box-sizing: border-box;
+		letter-spacing: 0;
+	}
 </style>

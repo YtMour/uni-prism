@@ -38,10 +38,17 @@ The app should be positioned as a wellness and fitness utility, not as a medical
 
 ## Current Stage
 
-Planning and documentation. The next implementation step is to scaffold the uni-app project and build the offline MVP:
+The uni-app offline MVP has been scaffolded under `FitCal-Uniapp` and now includes:
 
 1. BMI calculator
 2. Calorie calculator
 3. Diet guidance
 4. Local history
-5. Settings and disclaimer
+5. Settings, privacy, and disclaimer entry points
+
+Run the H5 verification build from `FitCal-Uniapp`:
+
+```bash
+npm install
+npm run build:h5
+```

@@ -3,15 +3,16 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "FitCal"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTitleText": "FitCal",
+		"navigationBarBackgroundColor": "#F4F8F8",
+		"backgroundColor": "#F4F8F8"
 	},
 	"uniIdRouter": {}
 }
