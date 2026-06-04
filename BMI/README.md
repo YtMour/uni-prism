@@ -31,7 +31,9 @@ The app should be positioned as a wellness and fitness utility, not as a medical
 
 - [Product Plan](docs/PRODUCT_PLAN.md)
 - [Feature Specification](docs/FEATURE_SPEC.md)
+- [Implementation Overview](docs/IMPLEMENTATION_OVERVIEW.md)
 - [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md)
+- [Next Steps](docs/NEXT_STEPS.md)
 - [Monetization Plan](docs/MONETIZATION_PLAN.md)
 - [Compliance Notes](docs/COMPLIANCE_NOTES.md)
 - [Implementation Status](docs/IMPLEMENTATION_STATUS.md)
@@ -45,10 +47,13 @@ The uni-app offline MVP has been scaffolded under `FitCal-Uniapp` and now includ
 3. Diet guidance
 4. Local history
 5. Settings, privacy, and disclaimer entry points
+6. TypeScript entrypoints and modular calculator/storage/data services
 
 Run the H5 verification build from `FitCal-Uniapp`:
 
 ```bash
 npm install
+npm run typecheck
 npm run build:h5
+npm run dev:h5
 ```

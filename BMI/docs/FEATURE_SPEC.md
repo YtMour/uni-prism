@@ -1,149 +1,252 @@
 # Feature Specification
 
-## Feature Categories
+Last updated: 2026-06-04
 
-### 1. BMI Calculator
+## Feature Status Legend
 
-Purpose: provide a fast body mass index result and plain-language category.
+- Done: implemented in the current app.
+- Partial: implemented but needs hardening or richer behavior.
+- Planned: not implemented yet.
 
-Inputs:
+## 1. BMI Calculator
 
-- Height
-- Weight
-- Unit system
-- Optional age and sex for future personalization
+Status: done, with validation hardening planned
 
-Outputs:
+Purpose:
 
-- BMI value
-- BMI category
+Provide a fast body mass index result and plain-language category.
+
+Current implementation:
+
+- Metric/imperial control
+- Height input
+- Weight input
+- BMI calculation
+- BMI category badge
 - Healthy weight range
-- Short wellness note
+- Short wellness disclaimer
 
-MVP calculation:
+Current files:
+
+- UI: `FitCal-Uniapp/pages/index/index.vue`
+- Logic: `FitCal-Uniapp/services/calculators.ts`
+- Types: `FitCal-Uniapp/types/fitcal.ts`
+
+Calculation:
 
 ```text
 BMI = weight_kg / (height_m * height_m)
 ```
 
-Suggested categories:
+Categories:
 
 - Underweight
 - Normal weight
 - Overweight
 - Obesity
 
-Notes:
+Planned improvements:
 
-- Category labels should be localized later.
-- Display a non-medical disclaimer near result details.
+- Empty input state
+- Min/max range validation
+- Better category explanation
+- Optional record snapshot after calculation
 
-### 2. Calorie Calculator
+## 2. Calorie Calculator
 
-Purpose: estimate daily calorie needs using BMR and activity level.
+Status: done, with form refinement planned
 
-Inputs:
+Purpose:
 
-- Sex
-- Age
-- Height
-- Weight
-- Activity level
-- Goal: maintain, lose weight, gain weight
+Estimate daily calorie needs using BMR, activity level, and goal.
 
-Outputs:
+Current implementation:
 
-- BMR
-- TDEE
-- Suggested daily calorie target
-- Goal explanation
+- Sex selection
+- Age input
+- Activity level selection: Light, Moderate, Active
+- Goal selection: Maintain, Lose, Gain
+- BMR output
+- TDEE output
+- Daily target output
 
-Suggested formulas:
+Current files:
+
+- UI: `FitCal-Uniapp/pages/index/index.vue`
+- Logic: `FitCal-Uniapp/services/calculators.ts`
+- Static options: `FitCal-Uniapp/data/appData.ts`
+
+Formula direction:
 
 - Mifflin-St Jeor formula for BMR
 - TDEE = BMR * activity factor
+- Daily target = TDEE plus or minus a simple MVP offset
 
-Activity levels:
+Current limitation:
 
-- Sedentary
-- Lightly active
-- Moderately active
-- Very active
-- Extra active
+- Height and weight are shared from the BMI tab rather than repeated in a dedicated calories form.
+- Activity choices are simplified compared with the broader product plan.
+- Goal adjustment uses a simple fixed offset.
 
-Goal adjustment:
+Planned improvements:
 
-- Maintain: TDEE
-- Lose weight: TDEE minus a moderate deficit
-- Gain weight: TDEE plus a moderate surplus
+- Dedicated height/weight context or clearer shared input behavior
+- Expanded activity levels
+- More transparent goal adjustment copy
+- Validation for age and body metrics
 
-### 3. Diet Guidance
+## 3. Diet Guidance
 
-Purpose: convert BMI and calorie results into easy, non-clinical food guidance.
+Status: partial
 
-Guidance dimensions:
+Purpose:
 
-- Goal-based calorie direction
-- Protein, carbs, and fat balance
-- Meal structure suggestions
-- General habits such as water, vegetables, and processed food reduction
+Convert calculator results into simple, non-clinical diet guidance.
 
-MVP implementation:
+Current implementation:
 
-- Rule-based templates
-- No AI dependency
-- No medical diet plans
+- Goal summary
+- Daily target
+- Macro split visual
+- Meal focus suggestions
+- Wellness-only note
+- Optional extended guide CTA placeholder
+- Guidance ad placeholder
 
-Example guidance types:
+Current files:
 
-- Weight loss guidance
-- Weight maintenance guidance
-- Muscle gain guidance
-- Underweight support guidance
+- UI: `FitCal-Uniapp/pages/index/index.vue`
+- Static content: `FitCal-Uniapp/data/appData.ts`
 
-### 4. Record History
+Current limitation:
 
-Purpose: improve retention and support repeat use.
+- Content is static and only lightly connected to goal state.
+- No BMI-category-specific guidance.
+- No rewarded video unlock behavior.
+
+Planned improvements:
+
+- Goal-specific guidance templates
+- BMI-category-sensitive notes
+- Expanded free guidance before any rewarded ad
+- Optional 7-day guide unlock flow
+
+## 4. Record History
+
+Status: partial
+
+Purpose:
+
+Improve retention and support repeat use through local tracking.
+
+Current implementation:
+
+- Local record list
+- Add Record action
+- Current weight display
+- Current BMI display
+- Local data only note
+- Clear local data from Settings
+
+Current files:
+
+- UI: `FitCal-Uniapp/pages/index/index.vue`
+- Storage: `FitCal-Uniapp/services/storage.ts`
+- Default records: `FitCal-Uniapp/data/appData.ts`
 
 Stored locally:
 
-- Date
-- Height
+- Date label
 - Weight
 - BMI
-- BMI category
-- Optional calorie result snapshot
 
-Views:
+Current limitation:
 
-- Latest result
-- Record list
-- Basic trend chart in later version
+- Trend chart is visual/static and not generated from records.
+- No individual record delete/edit.
+- No schema versioning or migration.
 
-### 5. Settings
+Planned improvements:
 
-Required settings:
+- Data-driven weight trend chart
+- BMI trend chart
+- Individual record management
+- Record timestamp normalization
+- Optional calorie snapshot per record
 
-- Unit system: metric / imperial
-- Language later: English first, more languages later
-- Privacy policy
-- Disclaimer
+## 5. Settings
+
+Status: partial
+
+Purpose:
+
+Provide trust, unit control, privacy access, and data control.
+
+Current implementation:
+
+- Unit system switch
+- Language placeholder
+- Privacy Policy modal
+- Disclaimer modal
 - Clear local data
+- App version display
 
-### 6. Advertising
+Current files:
+
+- UI: `FitCal-Uniapp/pages/index/index.vue`
+- Policy text: `FitCal-Uniapp/services/policy.ts`
+- Storage: `FitCal-Uniapp/services/storage.ts`
+
+Current limitation:
+
+- Language setting does not change app language.
+- Privacy and disclaimer are modal text, not dedicated pages.
+
+Planned improvements:
+
+- Dedicated Privacy Policy page
+- Dedicated Disclaimer page
+- i18n dictionary and runtime language selection
+- Clear data confirmation flow
+
+## 6. Advertising
+
+Status: visual placeholder only
 
 Reserved placements:
 
-- Result page native/banner ad
-- Diet guidance page native/banner ad
-- Rewarded video for enhanced guidance in later version
-- Low-frequency interstitial after completed calculation in later version
+- Result page ad slot
+- Guidance page ad slot
+- Rewarded video for enhanced guidance in a later version
 
-Advertising must not block basic BMI and calorie calculation.
+Current implementation:
 
-## Navigation Proposal
+- Dashed placeholder containers after useful content
 
-Bottom tabs:
+Current files:
+
+- UI: `FitCal-Uniapp/pages/index/index.vue`
+
+Rules:
+
+- Ads must not block BMI calculation.
+- Ads must not block calorie calculation.
+- Ads must not appear before the first useful result.
+- Rewarded ads must unlock optional content only.
+
+Planned improvements:
+
+- Ad abstraction component
+- Platform-specific ad adapter
+- Development fallback
+- Unsupported-platform fallback
+- Rewarded video unlock flow
+
+## Navigation
+
+Status: done
+
+Current tabs:
 
 - BMI
 - Calories
@@ -151,4 +254,11 @@ Bottom tabs:
 - Records
 - Settings
 
-MVP may combine BMI and Calories into one Calculate tab if development speed is prioritized.
+Current implementation:
+
+- Fixed bottom navigation in `pages/index/index.vue`
+- SVG icon assets in `FitCal-Uniapp/static/icons`
+
+Planned improvement:
+
+- Split large tab content into feature components or route-level pages as complexity grows.
