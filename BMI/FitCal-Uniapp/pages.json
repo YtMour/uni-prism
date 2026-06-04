@@ -6,6 +6,13 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "FitCal"
 			}
+		},
+		{
+			"path": "pages/policy/policy",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "FitCal"
+			}
 		}
 	],
 	"globalStyle": {

@@ -39,6 +39,7 @@ The current app is a local-first wellness utility with five tabs: BMI, Calories,
 - Calculator services: `services/calculators.ts`
 - Local storage services: `services/storage.ts`
 - Policy text service: `services/policy.ts`
+- Feature screen components under `components/`
 - SVG icon assets under `static/icons`
 
 ### MVP User Flows
@@ -47,41 +48,45 @@ The current app is a local-first wellness utility with five tabs: BMI, Calories,
 - Metric/imperial unit switching
 - Healthy weight range calculation
 - BMI category badge
+- BMI calculation saves a local weight/BMI snapshot
 - Calorie calculator UI and logic
 - BMR/TDEE/daily target output
+- Height, weight, and age validation states
 - Goal-based guidance summary
 - Macro split visual display
 - Meal focus suggestions
 - Local record list
 - Add Record action
-- Clear local data action
+- Individual record delete action
+- Configurable saved-record limit
+- Configurable chart-sample limit
+- Records Current/BMI summary linked to the latest saved record
+- Data-driven weight/BMI trend chart rendered with canvas for H5/App-base stability
+- Trend chart labels for title, latest value, value range, Y-axis marks, and start/end dates
+- Clear local data action with persistent empty state
 - Settings page shell
-- Privacy Policy modal entry point
-- Disclaimer modal entry point
+- Settings controls for record retention and chart sampling
+- Dedicated Privacy Policy page and Settings entry point
+- Dedicated Disclaimer page and Settings entry point
 - Ad slot visual placeholders after useful content
 - Fixed bottom navigation and improved icon rendering
 
 ## Partial / Needs Hardening
 
-- Records trend chart is currently visual/static; it is not data-driven yet.
 - Guidance content is simple static guidance; it is not expanded by BMI category or detailed goal state yet.
-- Privacy Policy and Disclaimer are modal text, not dedicated pages.
 - Language setting is a placeholder; no i18n dictionary or runtime language switching yet.
 - Ad slots are placeholders; no real ad abstraction or platform SDK integration yet.
-- Input validation is minimal; impossible age/height/weight values need explicit error states.
-- Five tabs are currently implemented in one `index.vue`; feature components or route-level pages should be introduced as scope grows.
+- Input validation covers height, weight, and age ranges, but field-specific UX can still be refined for platform keyboards and copy.
+- Five tabs are split into feature screen components, while shared state remains in `pages/index/index.vue`.
 - App-base/Android smoke testing is in progress via user device checking, but no packaged Android build has been verified yet.
 
 ## Not Started
 
-- Dedicated Privacy Policy page
-- Dedicated Disclaimer page
 - i18n dictionary and language switching
 - Real ad component abstraction
 - Production ad SDK integration
 - Rewarded video unlock flow
-- Data-driven trend chart
-- Individual record edit/delete
+- Individual record edit
 - Reminder settings
 - Target weight setting
 - App icon and splash assets
@@ -103,7 +108,15 @@ Runtime checked:
 - H5 app opened at `http://localhost:5179/`
 - Five bottom tabs rendered
 - BMI screen rendered after TypeScript migration
+- Records trend chart renders inside its card with canvas and does not overflow in H5
+- Records trend chart shows title, latest value, range, Y-axis labels, and start/end date labels
 - Browser console showed no runtime errors during verification
+
+App-base feedback:
+
+- HBuilder App base showed the previous CSS-transform chart could overflow and break line segments.
+- The Records chart has been changed to canvas rendering to avoid App WebView percentage/transform drift.
+- HBuilder App base needs a follow-up visual check to confirm the canvas fix on device.
 
 Known build notes:
 
@@ -120,11 +133,11 @@ Known build notes:
 
 ## Immediate Next Step
 
-1. Split the large `pages/index/index.vue` into feature components while preserving the current UI.
-2. Add dedicated Privacy Policy and Disclaimer pages.
-3. Bind Records trend chart to local record data.
-4. Add validation states for numeric inputs.
-5. Run Android App base smoke verification after each UI/layout change.
+1. Add route-level smoke coverage for Settings policy navigation and Records deletion.
+2. Refine validation UX for Android App base keyboards and edge cases.
+3. Add Android App base smoke checklist and run it on device.
+4. Add individual record edit controls if retention testing needs them.
+5. Start ad slot abstraction only after MVP smoke checks stay stable.
 
 ## Decision Log
 

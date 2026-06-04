@@ -38,6 +38,11 @@ export interface WeightRecord {
   date: string
 }
 
+export interface RecordSettings {
+  maxSavedRecords: number
+  chartSampleLimit: number
+}
+
 export interface BmiResult {
   value: string
   category: BmiCategory
@@ -52,4 +57,20 @@ export interface CaloriesResult {
 export interface MeasurementState {
   height: string
   weight: string
+}
+
+export interface TrendPoint {
+  id: number
+  x: number
+  y: number
+}
+
+export interface TrendSummary {
+  title: string
+  unit: string
+  latestValue: string
+  rangeText: string
+  startLabel: string
+  endLabel: string
+  yLabels: string[]
 }

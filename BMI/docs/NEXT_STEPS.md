@@ -14,12 +14,11 @@ Keep the app usable on H5 and Android App base while reducing implementation ris
 
 Tasks:
 
-1. Split `pages/index/index.vue` into smaller feature components.
-2. Add input validation for height, weight, and age.
-3. Add clear user-facing error states.
-4. Replace static Records chart with data-driven chart rendering.
-5. Add dedicated Privacy Policy and Disclaimer pages.
-6. Confirm Android App base behavior on a real device.
+1. Add route-level smoke coverage after component split.
+2. Refine validation copy and keyboard behavior on Android App base.
+3. Run the Android App base smoke checklist on a real device.
+4. Add individual record editing only if user testing shows it is needed.
+5. Confirm Android App base behavior on a real device.
 
 Verification:
 
@@ -33,13 +32,34 @@ npm run dev:h5
 Manual smoke test:
 
 - BMI calculates from metric inputs.
+- BMI Calculate writes a linked Records entry.
 - Unit switch converts values.
 - Calories calculates after changing age/sex/activity/goal.
 - Guidance uses the current daily target.
 - Add Record adds a local record.
-- Clear local data removes records.
-- Privacy Policy and Disclaimer open.
+- Delete Record removes one record and updates the trend.
+- Records Current/BMI summary cards match the latest saved record.
+- Records list is capped at 5 entries.
+- Clear local data removes records and stays empty after refresh.
+- Records trend reflects local weight/BMI records.
+- Invalid height, weight, and age values show page-level field errors.
+- Privacy Policy and Disclaimer open as dedicated pages.
 - Bottom navigation remains fixed and icons render.
+
+## Next Implementation Slice
+
+Recommended order:
+
+1. Add a smoke script or documented route smoke checklist for:
+   - `/pages/index/index`
+   - `/pages/policy/policy?type=privacy`
+   - `/pages/policy/policy?type=disclaimer`
+2. Android App base check:
+   - numeric keyboard behavior
+   - policy page back navigation
+   - record add/delete persistence
+   - safe-area bottom navigation
+3. Then start P1 compliance cleanup and P2 ad abstraction.
 
 ## P1: Compliance and Trust
 

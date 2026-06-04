@@ -10,6 +10,12 @@ declare const uni: {
     showCancel?: boolean
     confirmColor?: string
   }): void
+  navigateTo(options: {
+    url: string
+  }): void
+  navigateBack(options?: {
+    delta?: number
+  }): void
 }
 
 declare module '*.vue' {

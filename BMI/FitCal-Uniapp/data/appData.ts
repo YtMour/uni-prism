@@ -1,9 +1,19 @@
-import type { ActivityOption, MealFocus, TabItem, WeightRecord } from '../types/fitcal'
+import type { ActivityOption, MealFocus, RecordSettings, TabItem, WeightRecord } from '../types/fitcal'
 
 export const STORAGE_KEYS = {
   records: 'fitcal_records',
-  units: 'fitcal_units'
+  units: 'fitcal_units',
+  recordSettings: 'fitcal_record_settings'
 } as const
+
+export const RECORD_LIMIT_OPTIONS = [5, 10, 20, 50] as const
+
+export const CHART_SAMPLE_OPTIONS = [5, 10, 20] as const
+
+export const DEFAULT_RECORD_SETTINGS: RecordSettings = {
+  maxSavedRecords: 10,
+  chartSampleLimit: 5
+}
 
 export const TABS: TabItem[] = [
   { key: 'bmi', label: 'BMI', icon: '/static/icons/calculator.svg', activeIcon: '/static/icons/calculator-active.svg' },

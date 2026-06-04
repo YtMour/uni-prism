@@ -47,18 +47,19 @@ Delivered:
 - Records tab
 - Settings tab
 - Local record storage
+- Individual record delete action
+- Data-driven weight/BMI trend chart
+- Height, weight, and age validation states
 - Unit preference storage
-- Privacy/disclaimer modal entry points
+- Dedicated Privacy Policy and Disclaimer pages
 - Ad placeholder slots
 - H5 typecheck and build verification
+- Feature screen component split
 
 Remaining hardening:
 
-- Dedicated Privacy Policy page
-- Dedicated Disclaimer page
-- Input validation and error states
-- Data-driven trend chart
-- Component split for the current large `index.vue`
+- Android App base validation UX refinement
+- Route-level smoke coverage
 - Android App base smoke verification
 
 Acceptance status:
@@ -67,8 +68,12 @@ Acceptance status:
 - User can calculate BMR/TDEE and target calories: done
 - User can read simple diet guidance: done
 - User can save and view recent records: done
+- User can delete individual records: done
 - User can clear local data: done
+- User can see local weight/BMI trend: done
+- User can open dedicated privacy/disclaimer pages: done
 - App runs in H5 preview: done
+- Feature screens are split into components: done
 - App package can be smoke-tested on Android: pending
 
 ## Phase 1.5: MVP Hardening
@@ -79,23 +84,22 @@ Goal:
 
 Make the implemented MVP maintainable and safer before adding monetization SDKs.
 
-Deliverables:
+Delivered:
 
 - Split `pages/index/index.vue` into feature components:
-  - BMI screen component
-  - Calories screen component
-  - Guidance screen component
-  - Records screen component
-  - Settings screen component
-  - Shared card/input/result/nav components if useful
-- Add numeric validation:
-  - Height range
-  - Weight range
-  - Age range
-  - Empty input handling
-- Replace static records chart with data-driven chart rendering.
-- Add dedicated Privacy Policy and Disclaimer pages.
-- Add route/page entries in `pages.json` for policy pages.
+  - `components/BmiScreen.vue`
+  - `components/CaloriesScreen.vue`
+  - `components/GuidanceScreen.vue`
+  - `components/RecordsScreen.vue`
+  - `components/SettingsScreen.vue`
+
+Remaining deliverables:
+
+- Refine numeric validation on Android App base:
+  - Keyboard behavior
+  - Edge-case copy
+  - Empty input timing
+- Add route-level smoke tests for policy navigation and Records deletion.
 - Add Android App base smoke checklist.
 
 Acceptance criteria:

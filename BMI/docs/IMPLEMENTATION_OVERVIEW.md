@@ -23,6 +23,12 @@ The current implementation is not only a static mockup. It includes a runnable m
 Files:
 
 - `FitCal-Uniapp/pages/index/index.vue`
+- `FitCal-Uniapp/pages/policy/policy.vue`
+- `FitCal-Uniapp/components/BmiScreen.vue`
+- `FitCal-Uniapp/components/CaloriesScreen.vue`
+- `FitCal-Uniapp/components/GuidanceScreen.vue`
+- `FitCal-Uniapp/components/RecordsScreen.vue`
+- `FitCal-Uniapp/components/SettingsScreen.vue`
 - `FitCal-Uniapp/App.vue`
 - `FitCal-Uniapp/pages.json`
 
@@ -32,12 +38,14 @@ Implemented:
 - Custom top bar
 - Fixed bottom navigation
 - Five tabs: BMI, Calories, Guidance, Records, Settings
+- Five feature screen components with shared state retained in the index page
+- Dedicated policy route for Privacy Policy and Disclaimer
 - FitCal visual style: light surface, teal accents, coral CTA, compact cards
 - SVG icon assets under `FitCal-Uniapp/static/icons`
 
 Current limitation:
 
-- The five tabs are implemented inside one page, not separate route pages.
+- Shared state and calculator event wiring still live in the index page.
 
 ### TypeScript Structure
 
@@ -54,7 +62,7 @@ Implemented:
 - TypeScript app entrypoint
 - TypeScript Vite config
 - Shared domain types for units, tabs, goals, records, activity, and results
-- Basic uni API declarations for the currently used storage/modal calls
+- Basic uni API declarations for the currently used storage, modal, and navigation calls
 
 Current limitation:
 
@@ -106,6 +114,7 @@ Implemented:
 
 - Unit preference loading/saving
 - Record list loading/saving
+- Record retention setting loading/saving
 - Local record clearing
 
 Current limitation:
@@ -121,12 +130,13 @@ File:
 
 Implemented:
 
-- Privacy Policy modal text
-- Disclaimer modal text
+- Structured Privacy Policy content
+- Structured Disclaimer content
+- Reusable policy page content lookup
 
 Current limitation:
 
-- Dedicated policy/disclaimer pages are not implemented yet.
+- Production ad SDK privacy wording must be revisited before launch.
 
 ## Implemented User Flows
 
@@ -136,14 +146,15 @@ Implemented:
 
 - Metric/imperial switch
 - Height and weight inputs
+- Height and weight range validation
 - BMI calculation
+- Successful BMI calculation saves a local record
 - BMI category badge
 - Healthy range
 - Wellness disclaimer
 
 Partial:
 
-- Input validation is minimal.
 - Category explanation text is not expanded yet.
 
 ### Calories
@@ -151,6 +162,7 @@ Partial:
 Implemented:
 
 - Sex, age, activity, goal inputs
+- Age validation
 - BMR, TDEE, and daily target output
 - Result-page ad placeholder
 
@@ -181,15 +193,19 @@ Implemented:
 
 - Current weight
 - Current BMI
-- Static visual trend chart
+- Current/BMI summary cards use the latest saved record
+- Data-driven weight/BMI trend chart rendered on canvas
 - Add Record action
+- Delete individual record action
+- Configurable saved-record limit
+- Configurable chart-sample limit
 - Recent local records
 - Clear local data from Settings
 
 Partial:
 
-- Trend chart is visual-only and not bound to record data yet.
-- Record editing/deleting individual entries is not implemented.
+- Record editing is not implemented.
+- HBuilder App base should be rechecked after the canvas chart fix.
 
 ### Settings
 
@@ -197,15 +213,16 @@ Implemented:
 
 - Unit switch
 - Language placeholder
-- Privacy Policy modal
-- Disclaimer modal
+- Max saved records setting
+- Chart samples setting
+- Dedicated Privacy Policy page link
+- Dedicated Disclaimer page link
 - Clear local data
 - App version display
 
 Partial:
 
 - Language switching is only a placeholder.
-- Privacy and disclaimer are modal content, not dedicated pages.
 
 ## Verification Commands
 
@@ -226,10 +243,8 @@ Latest verified:
 
 ## Known Technical Debt
 
-- Split tab screens into route-level pages or feature components when the page grows further.
-- Replace static Records chart with data-driven rendering.
-- Add validation and error states for impossible height/weight/age values.
-- Add dedicated Privacy Policy and Disclaimer pages.
+- Decide later whether tab screens need route-level pages or a shared store.
+- Refine validation behavior on Android App base keyboards.
 - Add i18n dictionary structure before real language switching.
 - Create ad abstraction before integrating any real ad SDK.
 - Run Android App base smoke testing after each major UI/layout change.

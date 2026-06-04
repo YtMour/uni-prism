@@ -10,7 +10,7 @@ Last updated: 2026-06-04
 
 ## 1. BMI Calculator
 
-Status: done, with validation hardening planned
+Status: done, with validation UX refinement planned
 
 Purpose:
 
@@ -24,6 +24,8 @@ Current implementation:
 - BMI calculation
 - BMI category badge
 - Healthy weight range
+- Empty input and range validation
+- Calculate BMI saves a local BMI/weight snapshot
 - Short wellness disclaimer
 
 Current files:
@@ -47,10 +49,8 @@ Categories:
 
 Planned improvements:
 
-- Empty input state
-- Min/max range validation
 - Better category explanation
-- Optional record snapshot after calculation
+- Android App base keyboard and validation copy refinement
 
 ## 2. Calorie Calculator
 
@@ -66,6 +66,7 @@ Current implementation:
 - Age input
 - Activity level selection: Light, Moderate, Active
 - Goal selection: Maintain, Lose, Gain
+- Age validation
 - BMR output
 - TDEE output
 - Daily target output
@@ -143,10 +144,17 @@ Current implementation:
 
 - Local record list
 - Add Record action
+- Individual record delete action
 - Current weight display
 - Current BMI display
 - Local data only note
 - Clear local data from Settings
+- Data-driven weight/BMI trend chart
+- Trend chart title, latest value, range, Y-axis labels, and start/end date labels
+- Configurable maximum saved records
+- Configurable chart sample limit
+- Current and BMI summary cards read from the latest record
+- Current and BMI summary cards are read-only summaries, not editable inputs
 
 Current files:
 
@@ -160,17 +168,23 @@ Stored locally:
 - Weight
 - BMI
 
+Record rules:
+
+- BMI screen `Calculate BMI` writes a new local record after successful validation.
+- Records screen `Add Record` uses the same current BMI snapshot behavior.
+- The list keeps the newest records up to the configured saved-record limit.
+- The chart uses the newest records up to the configured chart-sample limit.
+- The chart-sample limit cannot exceed the saved-record limit.
+- The Records summary cards always reflect the newest saved record, falling back to current BMI inputs only when no record exists.
+
 Current limitation:
 
-- Trend chart is visual/static and not generated from records.
-- No individual record delete/edit.
+- No individual record edit.
 - No schema versioning or migration.
 
 Planned improvements:
 
-- Data-driven weight trend chart
-- BMI trend chart
-- Individual record management
+- Individual record editing if needed after retention testing
 - Record timestamp normalization
 - Optional calorie snapshot per record
 
@@ -186,26 +200,26 @@ Current implementation:
 
 - Unit system switch
 - Language placeholder
-- Privacy Policy modal
-- Disclaimer modal
+- Max saved records setting
+- Chart samples setting
+- Dedicated Privacy Policy page link
+- Dedicated Disclaimer page link
 - Clear local data
 - App version display
 
 Current files:
 
 - UI: `FitCal-Uniapp/pages/index/index.vue`
+- Policy pages: `FitCal-Uniapp/pages/policy/policy.vue`
 - Policy text: `FitCal-Uniapp/services/policy.ts`
 - Storage: `FitCal-Uniapp/services/storage.ts`
 
 Current limitation:
 
 - Language setting does not change app language.
-- Privacy and disclaimer are modal text, not dedicated pages.
 
 Planned improvements:
 
-- Dedicated Privacy Policy page
-- Dedicated Disclaimer page
 - i18n dictionary and runtime language selection
 - Clear data confirmation flow
 
