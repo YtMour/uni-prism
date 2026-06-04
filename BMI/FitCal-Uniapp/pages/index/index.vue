@@ -239,10 +239,42 @@
 	</view>
 </template>
 
-<script>
-	const STORAGE_KEYS = {
-		records: 'fitcal_records',
-		units: 'fitcal_units'
+<script lang="ts">
+	import type { ActivityKey, BmiCategory, Goal, Sex, TabKey, TrendMode, Units, WeightRecord } from '../../types/fitcal'
+	import { ACTIVITY_OPTIONS, MEALS, TABS } from '../../data/appData'
+	import {
+		bmiMarkerLeft,
+		calculateBmi as calculateBmiResult,
+		calculateCalories as calculateCaloriesResult,
+		convertMeasurements,
+		goalTitle,
+		healthyRange,
+		heightUnit,
+		unitsLabel,
+		weightUnit
+	} from '../../services/calculators'
+	import { clearRecords, loadRecords, loadUnits, saveRecords, saveUnits } from '../../services/storage'
+	import { policyContent } from '../../services/policy'
+
+	interface FitCalState {
+		activeTab: TabKey
+		units: Units
+		height: string
+		weight: string
+		sex: Sex
+		age: string
+		activity: ActivityKey
+		goal: Goal
+		trendMode: TrendMode
+		bmiValue: string
+		bmiCategory: BmiCategory
+		bmr: string
+		tdee: string
+		calorieTarget: string
+		records: WeightRecord[]
+		tabs: typeof TABS
+		activityOptions: typeof ACTIVITY_OPTIONS
+		meals: typeof MEALS
 	}
 
 	export default {
@@ -262,29 +294,11 @@
 				bmr: '1,420',
 				tdee: '2,200',
 				calorieTarget: '2,050',
-				records: [
-					{ id: 1, weight: '65.0', bmi: '22.5', date: 'Today' },
-					{ id: 2, weight: '65.6', bmi: '22.7', date: 'Jun 01' },
-					{ id: 3, weight: '66.1', bmi: '22.9', date: 'May 28' }
-				],
-				tabs: [
-					{ key: 'bmi', label: 'BMI', icon: '/static/icons/calculator.svg', activeIcon: '/static/icons/calculator-active.svg' },
-					{ key: 'calories', label: 'Calories', icon: '/static/icons/flame.svg', activeIcon: '/static/icons/flame-active.svg' },
-					{ key: 'guidance', label: 'Guidance', icon: '/static/icons/compass.svg', activeIcon: '/static/icons/compass-active.svg' },
-					{ key: 'records', label: 'Records', icon: '/static/icons/bars.svg', activeIcon: '/static/icons/bars-active.svg' },
-					{ key: 'settings', label: 'Settings', icon: '/static/icons/settings.svg', activeIcon: '/static/icons/settings-active.svg' }
-				],
-				activityOptions: [
-					{ key: 'light', label: 'Light', factor: 1.375 },
-					{ key: 'moderate', label: 'Moderate', factor: 1.55 },
-					{ key: 'active', label: 'Active', factor: 1.725 }
-				],
-				meals: [
-					{ key: 'B', title: 'Breakfast', copy: 'Protein, fruit, slow carbs.' },
-					{ key: 'L', title: 'Lunch', copy: 'Lean protein and vegetables.' },
-					{ key: 'D', title: 'Dinner', copy: 'Light carbs, balanced fats.' }
-				]
-			}
+				records: loadRecords(),
+				tabs: TABS,
+				activityOptions: ACTIVITY_OPTIONS,
+				meals: MEALS
+			} as FitCalState
 		},
 		computed: {
 			currentContext() {
@@ -298,37 +312,25 @@
 				return labels[this.activeTab]
 			},
 			unitsLabel() {
-				return this.units === 'metric' ? 'Metric' : 'Imperial'
+				return unitsLabel(this.units)
 			},
 			heightUnit() {
-				return this.units === 'metric' ? 'cm' : 'in'
+				return heightUnit(this.units)
 			},
 			weightUnit() {
-				return this.units === 'metric' ? 'kg' : 'lb'
+				return weightUnit(this.units)
 			},
 			currentWeight() {
 				return this.records.length ? this.records[0].weight : this.weight
 			},
 			healthyRange() {
-				const height = Number(this.height)
-				if (!height) return this.units === 'metric' ? '56.7-76.3 kg' : '125-168 lb'
-				const meters = this.units === 'metric' ? height / 100 : height * 0.0254
-				const min = 18.5 * meters * meters
-				const max = 24.9 * meters * meters
-				if (this.units === 'metric') return `${min.toFixed(1)}-${max.toFixed(1)} kg`
-				return `${Math.round(min * 2.20462)}-${Math.round(max * 2.20462)} lb`
+				return healthyRange(this.height, this.units)
 			},
 			bmiMarkerLeft() {
-				const value = Number(this.bmiValue)
-				const min = 14
-				const max = 36
-				const clamped = Math.max(min, Math.min(max, value))
-				return `${((clamped - min) / (max - min) * 100).toFixed(0)}%`
+				return bmiMarkerLeft(this.bmiValue)
 			},
 			goalTitle() {
-				if (this.goal === 'gain') return 'Lean Gain Plan'
-				if (this.goal === 'maintain') return 'Maintenance Plan'
-				return 'Weight Loss Plan'
+				return goalTitle(this.goal)
 			}
 		},
 		onLoad() {
@@ -338,56 +340,42 @@
 		},
 		methods: {
 			restoreLocalData() {
-				const storedUnits = uni.getStorageSync(STORAGE_KEYS.units)
-				const storedRecords = uni.getStorageSync(STORAGE_KEYS.records)
-				if (storedUnits) this.units = storedUnits
-				if (Array.isArray(storedRecords) && storedRecords.length) this.records = storedRecords
+				this.units = loadUnits()
+				this.records = loadRecords()
 			},
-			setUnits(nextUnits) {
+			setUnits(nextUnits: Units) {
 				if (this.units === nextUnits) return
-				const height = Number(this.height)
-				const weight = Number(this.weight)
-				if (nextUnits === 'imperial') {
-					this.height = height ? String(Math.round(height / 2.54)) : ''
-					this.weight = weight ? String(Math.round(weight * 2.20462)) : ''
-				} else {
-					this.height = height ? String(Math.round(height * 2.54)) : ''
-					this.weight = weight ? String(Math.round(weight / 2.20462)) : ''
-				}
+				const converted = convertMeasurements(nextUnits, this.units, {
+					height: this.height,
+					weight: this.weight
+				})
+				this.height = converted.height
+				this.weight = converted.weight
 				this.units = nextUnits
-				uni.setStorageSync(STORAGE_KEYS.units, nextUnits)
+				saveUnits(nextUnits)
 				this.calculateBmi()
 				this.calculateCalories()
 			},
 			calculateBmi() {
-				const height = Number(this.height)
-				const weight = Number(this.weight)
-				if (!height || !weight) return
-				const meters = this.units === 'metric' ? height / 100 : height * 0.0254
-				const kilograms = this.units === 'metric' ? weight : weight * 0.453592
-				const bmi = kilograms / (meters * meters)
-				this.bmiValue = bmi.toFixed(1)
-				if (bmi < 18.5) this.bmiCategory = 'Underweight'
-				else if (bmi < 25) this.bmiCategory = 'Normal weight'
-				else if (bmi < 30) this.bmiCategory = 'Overweight'
-				else this.bmiCategory = 'Obesity'
+				const result = calculateBmiResult(this.height, this.weight, this.units)
+				if (!result) return
+				this.bmiValue = result.value
+				this.bmiCategory = result.category
 			},
 			calculateCalories() {
-				const age = Number(this.age)
-				const height = Number(this.height)
-				const weight = Number(this.weight)
-				if (!age || !height || !weight) return
-				const centimeters = this.units === 'metric' ? height : height * 2.54
-				const kilograms = this.units === 'metric' ? weight : weight * 0.453592
-				const base = this.sex === 'male'
-					? 10 * kilograms + 6.25 * centimeters - 5 * age + 5
-					: 10 * kilograms + 6.25 * centimeters - 5 * age - 161
-				const activity = this.activityOptions.find(item => item.key === this.activity) || this.activityOptions[1]
-				const tdee = base * activity.factor
-				const offset = this.goal === 'lose' ? -150 : this.goal === 'gain' ? 200 : 0
-				this.bmr = this.formatNumber(base)
-				this.tdee = this.formatNumber(tdee)
-				this.calorieTarget = this.formatNumber(tdee + offset)
+				const result = calculateCaloriesResult({
+					age: this.age,
+					height: this.height,
+					weight: this.weight,
+					units: this.units,
+					sex: this.sex,
+					activity: this.activity,
+					goal: this.goal
+				})
+				if (!result) return
+				this.bmr = result.bmr
+				this.tdee = result.tdee
+				this.calorieTarget = result.calorieTarget
 			},
 			addRecord() {
 				this.calculateBmi()
@@ -398,24 +386,19 @@
 					date: 'Today'
 				}
 				this.records = [record, ...this.records].slice(0, 5)
-				uni.setStorageSync(STORAGE_KEYS.records, this.records)
+				saveRecords(this.records)
 			},
 			clearLocalData() {
-				uni.removeStorageSync(STORAGE_KEYS.records)
+				clearRecords()
 				this.records = []
 			},
-			openPolicy(title) {
+			openPolicy(title: string) {
 				uni.showModal({
 					title,
-					content: title === 'Privacy Policy'
-						? 'FitCal stores records locally on your device and does not require an account for MVP use.'
-						: 'FitCal provides general wellness estimates only and is not medical advice.',
+					content: policyContent(title),
 					showCancel: false,
 					confirmColor: '#0F9F8F'
 				})
-			},
-			formatNumber(value) {
-				return Math.max(0, Math.round(value)).toLocaleString('en-US')
 			}
 		}
 	}

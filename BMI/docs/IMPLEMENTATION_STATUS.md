@@ -24,6 +24,8 @@ FitCal now has a uni-app offline MVP scaffold under `FitCal-Uniapp`. The default
 - Privacy policy and disclaimer modal entry points
 - Ad slot visual placeholders after useful results
 - H5 build verification
+- TypeScript entrypoint and page script migration
+- Modular calculator, storage, policy, static data, and shared type files
 
 ## Remaining
 
@@ -37,6 +39,7 @@ FitCal now has a uni-app offline MVP scaffold under `FitCal-Uniapp`. The default
 
 ## Latest Verification
 
+- `npm run typecheck` passed in `FitCal-Uniapp` on 2026-06-04.
 - `npm run build:h5` passed in `FitCal-Uniapp` on 2026-06-04.
 
 ## Next Build Step
