@@ -118,7 +118,7 @@ function caloriesScreen() {
       <div class="metric-row"><span>TDEE</span><strong>2,200</strong></div>
       <div class="metric-row"><span>Daily target</span><strong>2,050 kcal</strong></div>
     </section>
-    <div class="ad-slot">AD SLOT - RESULT PAGE</div>
+    <div class="ad-slot">Ad placeholder - result page</div>
     <div class="spacer"></div>
     ${nav('calories')}
   </article>`;
@@ -142,7 +142,7 @@ function guidanceScreen() {
         <div class="metric-row"><span>Fat</span><strong>30%</strong></div>
       </div>
     </section>
-    <div class="ad-slot">AD SLOT - GUIDANCE</div>
+    <div class="ad-slot">Ad placeholder - guidance</div>
     <section class="plain-card meals">
       <div class="label">Meal focus</div>
       <div class="meal"><b>B</b><div><strong>Breakfast</strong><span>Protein, fruit, slow carbs.</span></div></div>

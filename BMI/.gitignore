@@ -5,3 +5,9 @@
 *.pfx
 *.password
 *.secret
+
+# Build outputs
+FitCal-Backend/*.exe
+FitCal-Backend/data/
+FitCal-Admin/dist/
+FitCal-Admin/node_modules/

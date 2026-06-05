@@ -7,6 +7,8 @@ FitCal should use an ad-supported model first, with optional premium features la
 Current MVP decision:
 
 - Use ad placeholders only.
+- Use fake ad placeholder mode only for local layout and close-flow testing.
+- View fake ad placeholder metrics in the internal admin dashboard, not in user-facing Settings.
 - Do not integrate a production ad SDK yet.
 - Do not add rewarded video behavior yet.
 - Keep all calculator, guidance, and record flows independent from ad loading.
@@ -94,6 +96,16 @@ uni-app can reserve ad components through an abstraction layer so each platform 
 
 The MVP should use placeholder ad containers during development. Production ad SDK integration is explicitly deferred until H5 smoke, Android App-base smoke, and compliance wording are stable.
 
+Current fake ad placeholder mode:
+
+- Shows local placeholder creative only.
+- Supports close-flow testing.
+- Stores local impression and dismissal counters.
+- Exposes internal smoke metrics through the Go backend and React admin dashboard.
+- The same internal dashboard also tracks anonymous test activity and retention indicators.
+- Does not load network ads.
+- Does not require an ad SDK, permission, or consent flow.
+
 ## Metrics to Track Later
 
 - Daily active users
@@ -117,16 +129,19 @@ The MVP should use placeholder ad containers during development. Production ad S
 
 Version 1.0:
 
-- Result page native/banner ad
-- Guidance page native/banner ad
+- Result page visual ad placeholder only
+- Guidance page visual ad placeholder only
+- Internal admin dashboard for placeholder metrics
+- No production ad SDK
+- No rewarded video
 - No opening ad
 - No forced interstitial
 
 Version 1.1:
 
-- Add rewarded video for extended guidance
-- Add frequency-controlled interstitial only if retention is stable
+- Re-evaluate whether to add real banner/native ads after Android package smoke, compliance copy, and store review preparation are stable
+- Keep rewarded video deferred unless optional content, frequency control, and compliance wording are all finalized
 
 Version 1.2:
 
-- Test ad-free premium option
+- Consider rewarded video or ad-free premium only after real-ad integration has a proven stable baseline

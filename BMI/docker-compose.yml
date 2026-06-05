@@ -1,0 +1,20 @@
+services:
+  fitcal-backend:
+    build:
+      context: ./FitCal-Backend
+    environment:
+      FITCAL_API_PORT: "48791"
+      FITCAL_ENV: "docker-local"
+      FITCAL_DATA_PATH: "/app/data/metrics.json"
+    volumes:
+      - ./FitCal-Backend/data:/app/data
+    ports:
+      - "0.0.0.0:48791:48791"
+
+  fitcal-admin:
+    build:
+      context: ./FitCal-Admin
+    ports:
+      - "0.0.0.0:48792:48792"
+    depends_on:
+      - fitcal-backend

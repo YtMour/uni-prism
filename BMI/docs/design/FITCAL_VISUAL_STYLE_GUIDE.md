@@ -281,7 +281,7 @@ Primary goal:
 Must show:
 
 - Units
-- Language placeholder
+- Runtime language selector
 - Privacy Policy
 - Disclaimer
 - Clear local data

@@ -1,6 +1,6 @@
 # Android App-base Smoke Guide
 
-Last updated: 2026-06-04
+Last updated: 2026-06-05
 
 ## What This Means
 
@@ -27,6 +27,7 @@ Local verification should pass first:
 ```bash
 cd FitCal-Uniapp
 npm run typecheck
+npm run audit:i18n
 npm run build:h5
 npm run smoke:h5
 ```
@@ -37,6 +38,11 @@ Current MVP permission baseline:
 - The app is local-first.
 - Ads are placeholders only.
 - No production ad SDK is integrated.
+- Startup image uses validated `.9.png` files and has already been confirmed not stretched in a rebuilt custom base.
+
+Record the actual device run in:
+
+- `docs/ANDROID_APP_BASE_SMOKE_RESULT.md`
 
 ## Device Smoke Steps
 
@@ -47,8 +53,10 @@ Open the app on an Android device through HBuilderX / uni-app App-base.
 Expected:
 
 - FitCal opens without a template logo page.
+- Startup image is not stretched or compressed.
 - BMI tab is the first screen.
 - Bottom navigation is visible and not covered by the system safe area.
+- Top announcement appears only when the backend test-announcement switch is enabled; H5 version, release note, Android base status, and App-base smoke status do not appear in the user app.
 
 ### 2. BMI
 
@@ -143,6 +151,8 @@ Expected:
 
 - Android permissions remain empty for this MVP.
 - The app does not request camera, account, phone state, WiFi management, log access, or system settings permissions.
+- Push / UniPush / GtPush is not enabled in `manifest.json`.
+- Custom-base startup images use validated `.9.png` files.
 
 ## Pass / Fail Rule
 
@@ -160,6 +170,7 @@ Fail:
 - Native Back traps the user.
 - Local records/settings are lost after restart.
 - Any sensitive Android permission appears without a feature requiring it.
+- `[GtPush] register fail` appears after rebuilding a custom base from the current manifest.
 
 ## If Issues Are Found
 

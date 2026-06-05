@@ -44,6 +44,7 @@ The app should be positioned as a wellness and fitness utility, not as a medical
 - [Store Launch Prep](docs/STORE_LAUNCH_PREP.md)
 - [Brand Assets](docs/BRAND_ASSETS.md)
 - [Android Keystore](ANDROID_KEYSTORE.md)
+- [Admin Deployment](ADMIN_DEPLOYMENT.md)
 
 ## Current Stage
 
@@ -64,3 +65,27 @@ npm run typecheck
 npm run build:h5
 npm run dev:h5
 ```
+
+## Internal Admin
+
+The project now includes a separated internal admin stack:
+
+- Go backend: `FitCal-Backend`
+- React admin: `FitCal-Admin`
+- Docker one-command startup from the project root
+- Backend port: `48791`
+- Admin port: `48792`
+
+Start both services:
+
+```bash
+docker compose up -d --build
+```
+
+Open the admin dashboard:
+
+```text
+http://localhost:48792/
+```
+
+For LAN access, replace `localhost` with this machine's LAN IP. The admin frontend uses a same-origin `/api` nginx proxy, so LAN devices can load backend data through the admin port.

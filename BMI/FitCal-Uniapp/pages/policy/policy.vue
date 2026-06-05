@@ -1,7 +1,7 @@
 <template>
 	<view class="policy-shell">
 		<view class="topbar">
-			<text class="back-button" @tap="goBack">Back</text>
+			<text class="back-button" @tap="goBack">{{ copy('policy.back') }}</text>
 			<text class="brand">FitCal</text>
 		</view>
 
@@ -19,18 +19,22 @@
 
 <script lang="ts">
 	import { getPolicyPage, type PolicyPageContent, type PolicyType } from '../../services/policy'
+	import { loadAppLanguage } from '../../services/storage'
+	import { t } from '../../services/i18n'
+	import type { AppLanguage } from '../../types/fitcal'
 
 	declare function getCurrentPages(): Array<{ options?: { type?: string } }>
 
 	export default {
 		data() {
 			return {
-				pageType: 'privacy' as PolicyType
+				pageType: 'privacy' as PolicyType,
+				appLanguage: 'en' as AppLanguage
 			}
 		},
 		computed: {
 			page(): PolicyPageContent {
-				return getPolicyPage(this.pageType)
+				return getPolicyPage(this.pageType, this.appLanguage)
 			}
 		},
 		onLoad(options?: { type?: string }) {
@@ -40,8 +44,12 @@
 			const pages = getCurrentPages()
 			const currentPage = pages[pages.length - 1]
 			this.setPageType(currentPage?.options?.type)
+			this.appLanguage = loadAppLanguage()
 		},
 		methods: {
+			copy(key: string) {
+				return t(this.appLanguage, key)
+			},
 			setPageType(type?: string) {
 				this.pageType = type === 'disclaimer' ? 'disclaimer' : 'privacy'
 			},

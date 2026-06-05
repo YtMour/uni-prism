@@ -1,12 +1,12 @@
 # FitCal Project Status and Plan
 
-Last updated: 2026-06-04
+Last updated: 2026-06-05
 
 ## Current Stage
 
 FitCal is now a runnable local-first uni-app MVP for H5 and Android App-base validation.
 
-The MVP has moved past static planning. It includes calculator logic, local records, settings, dedicated policy pages, componentized screens, canvas-based trend rendering, and documented smoke checks.
+The MVP has moved past static planning. It includes calculator logic, local records, settings, dedicated policy pages, componentized screens, canvas-based trend rendering, documented smoke checks, and a separated internal admin stack for operational checks.
 
 ## Completed
 
@@ -17,6 +17,11 @@ The MVP has moved past static planning. It includes calculator logic, local reco
 - Product positioning: overseas wellness calculator, not a medical diagnosis tool
 - Product plan, monetization plan, compliance notes, feature spec, roadmap, and visual style guide
 - Five-screen visual direction and rendered design PNGs
+- App icon and Android splash assets generated under `FitCal-Uniapp/static/brand/`
+- Android `.9.png` splash assets configured in `manifest.json`
+- Android custom base smoke confirmed the splash no longer stretches
+- Android signing keystore generated for custom base / test packaging
+- Internal admin deployment guide added in `ADMIN_DEPLOYMENT.md`
 
 ### App Foundation
 
@@ -50,11 +55,14 @@ The MVP has moved past static planning. It includes calculator logic, local reco
 - BMR, TDEE, and daily target calculation
 - Age validation
 - Result-page ad placeholder after useful result
+- Fake ad placeholder mode for close-flow and layout testing
 
 ### Guidance Flow
 
 - Goal-based title and daily target
 - Macro split visual
+- Goal checkpoint reads target progress
+- Recent movement reads local record progress summary
 - Meal focus suggestions
 - Guidance ad placeholder after useful content
 - Optional 7-day guide CTA placeholder
@@ -63,9 +71,14 @@ The MVP has moved past static planning. It includes calculator logic, local reco
 
 - Local records list
 - Add Record and individual Delete
+- Individual record edit for weight and BMI
 - BMI Calculate and Add Record share the same snapshot behavior
 - Current/BMI summary cards read from the latest saved record
 - Clear local data persists an empty state
+- Target weight setting persists locally
+- Target progress shows target, remaining difference, and direction
+- Progress summary shows saved count, weight change, direction, and period
+- Record filters: All, Last 5, BMI 25+
 - Configurable saved-record limit: 5, 10, 20, 50
 - Configurable chart sample limit: 5, 10, 20
 - Chart sample limit is constrained by saved-record limit
@@ -75,12 +88,23 @@ The MVP has moved past static planning. It includes calculator logic, local reco
 ### Settings and Compliance
 
 - Unit preference setting
+- Unit preference restores valid converted height and weight inputs after reload
+- Target weight converts with metric/imperial unit changes
+- Reminder rhythm setting: Off, Weekly, Monthly
+- Ad placeholder test mode with internal impression/dismissal counters
+- User-facing Settings no longer exposes internal fake ad counters
+- Internal fake ad metrics moved to the separated admin dashboard
+- Anonymous activity events feed the admin dashboard for DAU, MAU, test retention, sessions, calculations, record writes, and ad engagements
 - Record retention and chart sampling settings
 - Dedicated Privacy Policy page
 - Dedicated Disclaimer page
 - Local-first privacy wording
+- Android manifest permissions remain empty
+- Push / UniPush / GtPush disabled in manifest
 - Clear local data action
-- Language placeholder
+- Runtime language selector with persisted mainstream-language preference
+- Full Simplified Chinese coverage for the main app, policy/disclaimer pages, dynamic guide copy, BMI category labels, records, settings, and feedback toasts
+- Core UI coverage for English, Traditional Chinese fallback, Spanish, French, German, Japanese, Korean, Portuguese, Indonesian, Thai, and Vietnamese
 
 ### Verification
 
@@ -89,8 +113,26 @@ Latest verified commands:
 ```bash
 cd FitCal-Uniapp
 npm run typecheck
+npm run audit:i18n
 npm run build:h5
+npm run smoke:h5
 ```
+
+Latest admin/backend verification target:
+
+- Go backend under `FitCal-Backend`
+- React admin under `FitCal-Admin`
+- Docker Compose starts backend on `0.0.0.0:48791` and admin on `0.0.0.0:48792`
+- Admin uses same-origin `/api` nginx proxy for LAN-safe backend access
+- Backend exposes `GET /api/health`, `GET /api/admin/summary`, and `POST /api/admin/ad-event`
+- Backend also exposes `POST /api/admin/activity-event` for anonymous test activity events
+- Backend persists test metrics to `FitCal-Backend/data/metrics.json`
+- Admin shows a 7-day test activity trend and can reset test metrics
+- Admin can save test operations config for ad placeholder visibility, App-base smoke status, and test announcement
+- User app reads `GET /api/app/config` to control ad placeholder visibility
+- User app polls backend config about every 10 seconds and shows test announcements under the top bar
+- Admin can manage H5 version, Android base status, and release note for internal tracking
+- User app only displays the independent test announcement when the announcement switch is enabled; H5 version and release note stay admin-only
 
 Latest verification refresh on 2026-06-04:
 
@@ -105,37 +147,52 @@ Latest H5 checks:
 
 - Five tabs render
 - BMI calculation creates linked Records entries
+- Unit persistence restores valid matching inputs after reload
 - Records list respects configured saved-record limit
+- Records deletion works
+- Records trend mode switches between Weight and BMI
+- Target weight saves locally and appears in Records target progress
+- Records progress summary shows saved count and total weight change
+- Records filters update the list and progress summary
+- Records edit saves weight/BMI changes locally
+- Guidance shows target checkpoint and recent movement
+- Guidance shows reminder rhythm without requesting notification permission
+- Fake ad placeholder can be shown, closed, disabled, and counted locally
 - Chart sample setting controls trend sample size
+- Clear local data persists empty Records after refresh
 - Canvas trend chart stays inside the chart card
 - Trend labels are visible
 - Privacy and Disclaimer routes render
 - Browser console has no runtime errors during checked flows
 
+Latest Android custom base feedback on 2026-06-05:
+
+- Custom base rebuilt and launched successfully.
+- `.9.png` startup image no longer stretches or compresses the center icon.
+- Previous Push/GtPush configuration was removed from `manifest.json`.
+- Device smoke result tracking added in `docs/ANDROID_APP_BASE_SMOKE_RESULT.md`.
+
 ## Partial / Needs Hardening
 
-- Android App-base visual and interaction smoke is still pending final confirmation.
+- Android App-base full functional smoke is still pending final confirmation.
 - Numeric keyboard behavior needs App-base verification.
 - Records canvas chart was changed after App-base feedback and should be rechecked on device.
-- Guidance remains simple and static.
-- Language setting is a placeholder; no i18n dictionary exists yet.
+- Runtime i18n is implemented, but long-form guide and policy copy for non-Chinese languages still needs deeper native review.
 - Ad slots are visual placeholders by decision; production ad SDK integration is deferred.
+- Backend fake ad counters are in-memory only and reset on restart.
+- Admin activity and retention metrics are stored in a local ignored JSON file for test persistence.
+- Operations config is stored in the same ignored local JSON file and is for test/admin use only.
+- App-base smoke status is intentionally backend/admin-only; user-visible app reactions come from ad placeholder visibility and test announcement.
+- Android base status, App-base smoke status, H5 version, and release note are backend/admin-only.
 - Shared state still lives in `pages/index/index.vue`; this is acceptable for MVP but may need a store if the app expands.
-- Record editing is not implemented; only add/delete exists.
 
 ## Not Started
 
-- i18n dictionary and runtime language switching
 - Real ad slot abstraction
 - Production ad SDK integration
 - Rewarded video unlock flow
-- Target weight setting
-- Progress summary
-- Record filters
-- Optional reminders
-- App icon and splash assets
+- Native notification reminders
 - Store listing screenshots and copy
-- App icon and splash asset candidates generated under `FitCal-Uniapp/static/brand/`
 - Android package build verification
 - iOS validation
 
@@ -145,17 +202,18 @@ Detailed execution plan: `docs/MVP_HARDENING_PLAN.md`.
 
 ### P0: Finish MVP Smoke Hardening
 
-1. Run Android App-base smoke with `docs/SMOKE_CHECKLIST.md`.
-2. Confirm Records canvas chart renders correctly on device.
-3. Confirm numeric keyboard behavior for height, weight, and age.
-4. Confirm local storage survives App restart:
+1. Finish Android App-base functional smoke with `docs/ANDROID_APP_BASE_SMOKE.md`.
+2. Record the run in `docs/ANDROID_APP_BASE_SMOKE_RESULT.md`.
+3. Confirm Records canvas chart renders correctly on device.
+4. Confirm numeric keyboard behavior for height, weight, and age.
+5. Confirm local storage survives App restart:
    - units
    - records
    - saved-record limit
    - chart sample limit
-5. Confirm policy page navigation and Back behavior in App-base.
-6. Refine validation copy or input behavior only if App-base smoke exposes issues.
-7. Add automated H5 route and interaction smoke coverage for home, policy routes, BMI-to-record, and Records deletion.
+6. Confirm policy page navigation and Back behavior in App-base.
+7. Refine validation copy or input behavior only if App-base smoke exposes issues.
+8. Capture Android screenshots after device smoke passes.
 
 ### P1: Compliance and Trust
 
@@ -163,27 +221,36 @@ Detailed execution plan: `docs/MVP_HARDENING_PLAN.md`.
 2. Confirm Privacy Policy text matches actual local-only behavior.
 3. Confirm Disclaimer avoids medical claims.
 4. Prepare store-safe short and long descriptions.
-5. Decide whether language switching is required before first release.
+5. Review non-Chinese long-form translations before first release screenshots.
 
 ### P2: Placeholder-Only Monetization Surface
 
-1. Create an ad slot component abstraction.
-2. Keep H5/dev placeholder mode.
+1. Keep fake ad placeholder mode available for layout and close-flow testing.
+2. Keep internal placeholder metrics in the admin dashboard, not user Settings.
 3. Do not add production ad SDK dependencies yet.
 4. Preserve the rule that ads appear only after useful calculation results.
 5. Defer rewarded guide unlock state until MVP smoke and compliance copy are stable.
 
 ### P3: Retention
 
-1. Add target weight setting.
-2. Add simple progress summary.
-3. Add record filters if history grows beyond MVP usage.
-4. Consider reminders only after core flows are stable on Android.
+1. Consider native notification reminders only after Android package smoke and permission review.
+2. Expand target progress only after real user testing shows what summary is useful.
+3. Add richer record editing fields only if weight/BMI editing is not enough in testing.
+4. Consider a lightweight streak/check-in counter that does not require notification permission.
+5. Consider CSV export/import for local-first trust and user portability.
+
+### P3.5: UX and Internationalization Polish
+
+1. Complete native-quality long-form translations for Spanish, French, German, Japanese, Korean, Portuguese, Indonesian, Thai, and Vietnamese.
+2. Extend the current `npm run audit:i18n` checks into a missing-key audit so new UI text cannot ship as hard-coded English.
+3. Review text fit on narrow Android screens for long translated labels.
+4. Add screenshots for English and Simplified Chinese as the first store-ready language set.
+5. Keep unit abbreviations and health formulas language-neutral unless a locale-specific format is required.
 
 ### P4: Store Launch
 
-1. Prepare app icon and splash assets.
-2. Generate store screenshots from current UI.
+1. Generate store screenshots from current UI.
+2. Prepare final store screenshot captions if needed.
 3. Build Android package.
 4. Install and smoke test package.
 5. Finalize store listing copy and data safety notes.
@@ -203,3 +270,4 @@ Detailed execution plan: `docs/MVP_HARDENING_PLAN.md`.
 - Android App-base smoke guide: `docs/ANDROID_APP_BASE_SMOKE.md`
 - Store launch prep: `docs/STORE_LAUNCH_PREP.md`
 - Brand assets: `docs/BRAND_ASSETS.md`
+- Admin deployment: `ADMIN_DEPLOYMENT.md`

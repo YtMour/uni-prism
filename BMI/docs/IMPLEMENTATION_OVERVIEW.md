@@ -204,7 +204,6 @@ Implemented:
 
 Partial:
 
-- Record editing is not implemented.
 - HBuilder App base should be rechecked after the canvas chart fix.
 
 ### Settings
@@ -212,7 +211,7 @@ Partial:
 Implemented:
 
 - Unit switch
-- Language placeholder
+- Runtime language selector
 - Max saved records setting
 - Chart samples setting
 - Dedicated Privacy Policy page link
@@ -222,7 +221,7 @@ Implemented:
 
 Partial:
 
-- Language switching is only a placeholder.
+- Non-Chinese long-form translation quality still needs review before store screenshots.
 
 ## Verification Commands
 

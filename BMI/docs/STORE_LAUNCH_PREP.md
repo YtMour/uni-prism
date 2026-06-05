@@ -1,6 +1,6 @@
 # FitCal Store Launch Prep
 
-Last updated: 2026-06-04
+Last updated: 2026-06-05
 
 ## Current Release Posture
 
@@ -13,6 +13,8 @@ Current build assumptions:
 - No production ad SDK.
 - Ad placements are placeholders only.
 - Android manifest permissions are empty.
+- App icon, Android splash assets, and Android test keystore are generated.
+- Android custom base confirmed startup image is not stretched.
 - Records and settings are stored locally on the device.
 
 This document prepares store copy and data-safety answers for the current MVP only. Revisit it before adding analytics, real ads, cloud sync, purchases, reminders, or AI-generated guidance.
@@ -230,15 +232,14 @@ Do not prepare a release candidate until these are done:
 - `npm run typecheck` passes.
 - `npm run build:h5` passes.
 - `npm run smoke:h5` passes.
-- Android App-base smoke passes on a real device.
+- Android App-base functional smoke passes on a real device.
 - Android manifest permissions remain empty or every added permission has a documented reason.
 - App icon and splash assets are created under `FitCal-Uniapp/static/brand/`.
 - Store screenshots are generated from the current UI.
 
 ## Next Store-Prep Tasks
 
-1. Run Android App-base smoke with `docs/ANDROID_APP_BASE_SMOKE.md`.
+1. Finish Android App-base functional smoke with `docs/ANDROID_APP_BASE_SMOKE.md`.
 2. Capture Android screenshots after device smoke passes.
-3. Create app icon and splash assets.
-4. Decide whether to publish with English-only UI or add i18n before release.
-5. Re-check privacy/data-safety copy immediately before packaging.
+3. Decide whether to publish with English-only UI or add i18n before release.
+4. Re-check privacy/data-safety copy immediately before packaging.

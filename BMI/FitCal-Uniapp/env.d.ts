@@ -10,11 +10,24 @@ declare const uni: {
     showCancel?: boolean
     confirmColor?: string
   }): void
+  showToast(options: {
+    title: string
+    icon?: 'success' | 'loading' | 'none' | 'error'
+    duration?: number
+  }): void
   navigateTo(options: {
     url: string
   }): void
   navigateBack(options?: {
     delta?: number
+  }): void
+  request(options: {
+    url: string
+    method?: string
+    header?: Record<string, string>
+    data?: unknown
+    success?: (result: unknown) => void
+    fail?: (error: unknown) => void
   }): void
 }
 

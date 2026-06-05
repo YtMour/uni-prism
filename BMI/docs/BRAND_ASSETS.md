@@ -1,6 +1,6 @@
 # FitCal Brand Assets
 
-Last updated: 2026-06-04
+Last updated: 2026-06-05
 
 ## Generated Assets
 
@@ -18,16 +18,25 @@ Files:
   - Background: transparent
 - `fitcal-splash-480x762.9.png`
   - Size: 480 x 762
-  - Use: Android splash / startup image candidate
-  - Format: nine-patch PNG with 1px transparent border and black stretch/content markers
+  - Use: Android nine-patch splash candidate only
+  - Format: nine-patch PNG with 1px transparent border and split stretch/content markers
 - `fitcal-splash-720x1242.9.png`
   - Size: 720 x 1242
-  - Use: Android splash / startup image candidate
-  - Format: nine-patch PNG with 1px transparent border and black stretch/content markers
+  - Use: Android nine-patch splash candidate only
+  - Format: nine-patch PNG with 1px transparent border and split stretch/content markers
 - `fitcal-splash-1080x1882.9.png`
   - Size: 1080 x 1882
-  - Use: Android splash / startup image candidate
-  - Format: nine-patch PNG with 1px transparent border and black stretch/content markers
+  - Use: Android nine-patch splash candidate only
+  - Format: nine-patch PNG with 1px transparent border and split stretch/content markers
+- `fitcal-splash-480x762.png`
+  - Size: 480 x 762
+  - Use: normal HBuilderX startup image candidate if the field does not explicitly require `.9.png`
+- `fitcal-splash-720x1242.png`
+  - Size: 720 x 1242
+  - Use: normal HBuilderX startup image candidate if the field does not explicitly require `.9.png`
+- `fitcal-splash-1080x1882.png`
+  - Size: 1080 x 1882
+  - Use: normal HBuilderX startup image candidate if the field does not explicitly require `.9.png`
 - `fitcal-splash-480x762.preview.png`
   - Size: 478 x 760
   - Use: visual preview only, without the nine-patch border
@@ -40,6 +49,9 @@ Files:
 - `fitcal-brand-source.png`
   - Size: source image copy for traceability
   - Use: regenerate derived assets if needed
+- `fitcal-splash-source-image2.png`
+  - Size: generated splash background source
+  - Use: regenerate splash variants if needed
 
 ## Style Notes
 
@@ -49,6 +61,10 @@ The assets follow the current FitCal visual direction:
 - teal primary accents
 - coral calorie accent
 - soft rounded app utility style
+- image-generated soft abstract wellness background
+- no hard top/bottom color split
+- upper and lower decorative elements so the splash does not feel empty
+- no local-script UI card blocks, hard color blocks, dark blocks, or jagged line art
 - no text
 - no medical cross
 - no real-person imagery
@@ -58,6 +74,18 @@ The assets follow the current FitCal visual direction:
 
 These files are generated for manual setup in HBuilderX / uni-app configuration.
 
-The `.9.png` splash files include a real 1px nine-patch border marker while preserving the requested total image dimensions. Stretch markers are placed on background-only bands so the center icon is not stretched.
+The `.9.png` splash files include a real 1px nine-patch border marker while preserving the requested total image dimensions. Stretch markers are split into side/top background-only bands so the center icon and decorative bars are not stretched.
 
-If HBuilderX expects non-nine-patch startup images for a specific field, use the same visual source to export normal PNG variants without the `.9.png` border.
+Current `FitCal-Uniapp/manifest.json` uses the official recommended `.9.png` startup images:
+
+- `static/brand/fitcal-splash-480x762.9.png`
+- `static/brand/fitcal-splash-720x1242.9.png`
+- `static/brand/fitcal-splash-1080x1882.9.png`
+
+The `.9.png` files were compiled successfully with Android SDK `aapt2`, and their stretch markers avoid the center icon region.
+
+Android custom base feedback:
+
+- Rebuilt custom base confirmed the startup image no longer stretches or compresses the center icon.
+
+The normal PNG files remain available as visual references or fallback assets, but the current manifest is configured for `.9.png`.

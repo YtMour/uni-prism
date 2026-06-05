@@ -38,9 +38,13 @@ Results are estimates for general wellness reference only.
 MVP data strategy:
 
 - Store records locally on the user's device.
+- Store reminder rhythm locally only.
 - Do not require login.
 - Do not upload height, weight, BMI, calorie targets, or diet goals.
+- Do not request notification permission while reminder rhythm is only a local preference.
 - Provide a clear local data deletion option.
+- Do not expose internal fake ad counters or App-base smoke details in user-facing Settings.
+- Anonymous admin activity events must not include height, weight, BMI, calorie target, diet goal, or other body metric payloads.
 
 Privacy policy must match the actual implementation.
 
@@ -62,6 +66,13 @@ If analytics or ads are integrated later, disclose:
 Rules:
 
 - Current MVP uses ad placeholders only; no real ad SDK is integrated.
+- Fake ad placeholder mode is local UI testing only; it must not make network ad requests or trigger an ad consent flow.
+- Fake ad smoke metrics belong in the internal admin dashboard.
+- Current activity and retention metrics are anonymous local test metrics, not production analytics.
+- Local backend metric files must stay git-ignored and must not include body metric payloads.
+- User-facing app config responses must not include internal-only smoke notes beyond safe display switches or short test announcements.
+- App-base smoke status remains backend/admin-only and should not be sent in the user-facing config response.
+- Release notes shown in the app must be safe operational copy and must not mention internal errors, secrets, SDK keys, or test device details.
 - Do not target ads based on sensitive health conditions.
 - Do not imply medical endorsement.
 - Do not hide required content behind ads.

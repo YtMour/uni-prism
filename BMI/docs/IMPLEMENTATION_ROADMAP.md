@@ -1,6 +1,6 @@
 # Implementation Roadmap
 
-Last updated: 2026-06-04
+Last updated: 2026-06-05
 
 ## Roadmap Summary
 
@@ -52,6 +52,9 @@ Delivered:
 - Height, weight, and age validation states
 - Unit preference storage
 - Dedicated Privacy Policy and Disclaimer pages
+- Runtime language selector and i18n service
+- Simplified Chinese UI coverage for main flows, policy/disclaimer pages, dynamic guide copy, BMI category labels, and feedback toasts
+- Core mainstream-language coverage for navigation, settings, records, and primary actions
 - Ad placeholder slots
 - H5 typecheck and build verification
 - Feature screen component split
@@ -101,6 +104,8 @@ Remaining deliverables:
   - Empty input timing
 - Add route-level smoke tests for policy navigation and Records deletion.
 - Add Android App base smoke checklist.
+- Add i18n hard-coded text audit.
+- Review translated text fit on Android App base.
 
 Acceptance criteria:
 
@@ -155,12 +160,15 @@ Deliverables:
 - Goal progress summary
 - Record filtering
 - Daily or weekly reminder setting
+- Optional check-in/streak summary without notification permissions
+- Local CSV export/import for record portability
 
 Acceptance criteria:
 
 - User can see weight/BMI trend from local records.
 - User can set a target and track progress.
 - Reminder setting is optional and user-controlled.
+- Export/import does not require login or network.
 
 ## Phase 4: Store Launch
 
@@ -194,7 +202,7 @@ Status: future
 
 Possible additions:
 
-- Multi-language support
+- Native-quality long-form translations for all selected mainstream languages
 - Imperial unit refinement
 - Macro calculator
 - Ideal weight calculator
@@ -203,6 +211,21 @@ Possible additions:
 - Meal template packs
 - Premium ad-free purchase
 - Cloud backup only if usage justifies it
+
+## Phase 6: Internal Operations Maturity
+
+Status: future
+
+Possible additions:
+
+- Admin App-base smoke result form with structured pass/fail fields
+- i18n coverage report in CI/local smoke
+- Operations config history for release-note and announcement edits
+- Safer local metrics retention and export from the backend
+
+Expansion rule:
+
+Operational tools should stay out of the user-facing app and should not add Android permissions.
 
 Expansion rule:
 

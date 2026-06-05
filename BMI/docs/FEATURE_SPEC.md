@@ -98,7 +98,7 @@ Planned improvements:
 
 ## 3. Diet Guidance
 
-Status: partial
+Status: implemented, needs translation depth review
 
 Purpose:
 
@@ -199,7 +199,7 @@ Provide trust, unit control, privacy access, and data control.
 Current implementation:
 
 - Unit system switch
-- Language placeholder
+- Runtime language selector with persisted app-language switching
 - Max saved records setting
 - Chart samples setting
 - Dedicated Privacy Policy page link
@@ -216,12 +216,12 @@ Current files:
 
 Current limitation:
 
-- Language setting does not change app language.
+- Simplified Chinese coverage is complete for current MVP screens; other mainstream languages cover core UI but still need native review for long-form guidance copy.
 
 Planned improvements:
 
-- i18n dictionary and runtime language selection
 - Clear data confirmation flow
+- Hard-coded UI text audit script
 
 ## 6. Advertising
 

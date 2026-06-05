@@ -10,11 +10,32 @@ export type Goal = 'maintain' | 'lose' | 'gain'
 
 export type TrendMode = 'weight' | 'bmi'
 
+export type RecordFilter = 'all' | 'last5' | 'highBmi'
+
+export type ReminderSetting = 'off' | 'weekly' | 'monthly'
+
+export type AppLanguage = 'en' | 'zh-Hans' | 'zh-Hant' | 'es' | 'fr' | 'de' | 'ja' | 'ko' | 'pt' | 'id' | 'th' | 'vi'
+
+export interface AdTestState {
+  enabled: boolean
+  impressions: number
+  dismissals: number
+}
+
+export interface OpsConfig {
+  adPlaceholderEnabled: boolean
+  h5Version: string
+  releaseNote: string
+  testAnnouncement: string
+  showTestAnnouncement: boolean
+  updatedAt: string
+}
+
 export type BmiCategory = 'Underweight' | 'Normal weight' | 'Overweight' | 'Obesity'
 
 export interface TabItem {
   key: TabKey
-  label: string
+  labelKey: string
   icon: string
   activeIcon: string
 }
@@ -27,8 +48,20 @@ export interface ActivityOption {
 
 export interface MealFocus {
   key: string
+  titleKey: string
+  copyKey: string
+}
+
+export interface LanguageOption {
+  key: AppLanguage
+  label: string
+}
+
+export interface SevenDayGuideItem {
+  day: string
   title: string
-  copy: string
+  focus: string
+  action: string
 }
 
 export interface WeightRecord {
@@ -41,6 +74,20 @@ export interface WeightRecord {
 export interface RecordSettings {
   maxSavedRecords: number
   chartSampleLimit: number
+}
+
+export interface TargetProgress {
+  hasTarget: boolean
+  targetText: string
+  differenceText: string
+  statusText: string
+}
+
+export interface RecordProgressSummary {
+  recordCountText: string
+  changeText: string
+  directionText: string
+  periodText: string
 }
 
 export interface BmiResult {

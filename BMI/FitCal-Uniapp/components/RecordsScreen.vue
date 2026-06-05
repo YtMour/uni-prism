@@ -1,11 +1,8 @@
 <template>
 	<view class="screen">
-		<text class="screen-title">Records</text>
-		<text class="screen-subtitle">Track weight and BMI trends locally.</text>
-
 		<view class="input-grid">
 			<view class="result-panel mini-panel">
-				<text class="section-label">Current</text>
+				<text class="section-label">{{ copy('records.current') }}</text>
 				<text class="mini-number">{{ currentWeight }} {{ weightUnit }}</text>
 			</view>
 			<view class="result-panel mini-panel">
@@ -14,18 +11,55 @@
 			</view>
 		</view>
 
-		<view class="segmented compact">
-			<text :class="['segmented-item', trendMode === 'weight' ? 'active' : '']" @tap="$emit('update:trendMode', 'weight')">Weight Trend</text>
-			<text :class="['segmented-item', trendMode === 'bmi' ? 'active' : '']" @tap="$emit('update:trendMode', 'bmi')">BMI Trend</text>
+		<button class="primary-button" hover-class="button-press" hover-start-time="0" hover-stay-time="120" @tap="$emit('add-record')">{{ copy('records.add') }}</button>
+
+		<view class="plain-card">
+			<text class="field-label">{{ copy('records.targetProgress') }}</text>
+			<view class="metric-row">
+				<text>{{ copy('records.target') }}</text>
+				<text class="metric-value">{{ targetProgress.targetText }}</text>
+			</view>
+			<view class="metric-row">
+				<text>{{ targetProgress.statusText }}</text>
+				<text class="metric-value">{{ targetProgress.differenceText }}</text>
+			</view>
+			<text class="note">{{ targetProgress.hasTarget ? copy('records.targetSetNote') : copy('records.targetMissingNote') }}</text>
+			<view class="input-row setting-input-row">
+				<input class="field-input target-weight-input" type="digit" v-model="targetWeightModel" />
+				<text class="unit-label">{{ weightUnit }}</text>
+			</view>
+			<text v-if="targetWeightError" class="error-text">{{ targetWeightError }}</text>
+			<button class="secondary-button" hover-class="secondary-button-press" hover-start-time="0" hover-stay-time="120" @tap="$emit('save-target-weight')">{{ copy('records.saveTarget') }}</button>
+		</view>
+
+		<view class="plain-card">
+			<text class="field-label">{{ copy('records.progressSummary') }}</text>
+			<view class="metric-row">
+				<text>{{ copy('records.saved') }}</text>
+				<text class="metric-value">{{ recordProgressSummary.recordCountText }}</text>
+			</view>
+			<view class="metric-row">
+				<text>{{ recordProgressSummary.directionText }}</text>
+				<text class="metric-value">{{ recordProgressSummary.changeText }}</text>
+			</view>
+			<text class="note">{{ recordProgressSummary.periodText }}</text>
+		</view>
+
+		<view class="plain-card">
+			<view class="setting-row">
+				<text class="field-label no-margin">{{ copy('records.recent') }}</text>
+				<text class="setting-value">{{ records.length }}/{{ totalRecordCount }}</text>
+			</view>
+			<text class="note">{{ copy('records.settingsNote') }}</text>
 		</view>
 
 		<view class="trend-summary">
 			<view>
 				<text class="trend-title">{{ trendSummary.title }}</text>
-				<text class="trend-range">Range {{ trendSummary.rangeText }}</text>
+				<text class="trend-range">{{ copy('records.range', { value: trendSummary.rangeText }) }}</text>
 			</view>
 			<view class="trend-latest">
-				<text class="trend-latest-label">Latest</text>
+				<text class="trend-latest-label">{{ copy('records.latest') }}</text>
 				<text class="trend-latest-value">{{ trendSummary.latestValue }}</text>
 			</view>
 		</view>
@@ -40,41 +74,58 @@
 				<text>{{ trendSummary.endLabel }}</text>
 			</view>
 			<view v-if="!trendPoints.length" class="empty-trend">
-				<text>Add a record to start the trend.</text>
+				<text>{{ copy('records.emptyTrend') }}</text>
 			</view>
 		</view>
 
-		<button class="primary-button" @tap="$emit('add-record')">Add Record</button>
-
 		<view class="plain-card">
-			<text class="field-label">Recent records</text>
+			<text class="field-label">{{ copy('records.visible') }}</text>
 			<view class="record-row" v-for="record in records" :key="record.id">
 				<view class="record-info">
 					<text class="record-weight">{{ record.weight }} {{ weightUnit }}</text>
 					<text class="record-meta">{{ record.date }} · BMI {{ record.bmi }}</text>
 				</view>
-				<text class="record-delete" @tap="$emit('delete-record', record.id)">Delete</text>
 			</view>
-			<text v-if="!records.length" class="empty-copy">No records yet.</text>
+			<text v-if="!records.length" class="empty-copy">{{ emptyRecordCopy }}</text>
 		</view>
-		<text class="note">Local data only</text>
+		<text class="note">{{ copy('records.localOnly') }}</text>
 	</view>
 </template>
 
 <script lang="ts">
-	import type { TrendMode, TrendPoint, TrendSummary, WeightRecord } from '../types/fitcal'
+	import { t } from '../services/i18n'
+	import type { AppLanguage, RecordProgressSummary, TargetProgress, TrendMode, TrendPoint, TrendSummary, WeightRecord } from '../types/fitcal'
 
 	export default {
 		props: {
 			currentWeight: { type: String, required: true },
 			weightUnit: { type: String, required: true },
 			displayBmiValue: { type: String, required: true },
+			appLanguage: { type: String as () => AppLanguage, required: true },
+			targetProgress: { type: Object as () => TargetProgress, required: true },
+			targetWeight: { type: String, required: true },
+			targetWeightError: { type: String, required: true },
+			recordProgressSummary: { type: Object as () => RecordProgressSummary, required: true },
+			totalRecordCount: { type: Number, required: true },
 			trendMode: { type: String as () => TrendMode, required: true },
 			trendPoints: { type: Array as () => TrendPoint[], required: true },
 			trendSummary: { type: Object as () => TrendSummary, required: true },
 			records: { type: Array as () => WeightRecord[], required: true }
 		},
-		emits: ['update:trendMode', 'add-record', 'delete-record'],
+		emits: ['update:targetWeight', 'save-target-weight', 'add-record'],
+		computed: {
+			targetWeightModel: {
+				get(): string {
+					return this.targetWeight
+				},
+				set(value: string) {
+					this.$emit('update:targetWeight', value)
+				}
+			},
+			emptyRecordCopy() {
+				return this.totalRecordCount ? this.copy('records.emptyFiltered') : this.copy('records.empty')
+			}
+		},
 		watch: {
 			trendPoints: {
 				handler() {
@@ -90,6 +141,9 @@
 			this.drawTrend()
 		},
 		methods: {
+			copy(key: string, params?: Record<string, string | number>) {
+				return t(this.appLanguage, key, params)
+			},
 			drawTrend() {
 				this.$nextTick(() => {
 					const uniApi = uni as unknown as {
