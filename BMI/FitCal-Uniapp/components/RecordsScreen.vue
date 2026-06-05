@@ -50,7 +50,6 @@
 				<text class="field-label no-margin">{{ copy('records.recent') }}</text>
 				<text class="setting-value">{{ records.length }}/{{ totalRecordCount }}</text>
 			</view>
-			<text class="note">{{ copy('records.settingsNote') }}</text>
 		</view>
 
 		<view class="trend-summary">
@@ -81,13 +80,29 @@
 		<view class="plain-card">
 			<text class="field-label">{{ copy('records.visible') }}</text>
 			<view class="record-row" v-for="record in records" :key="record.id">
-				<view class="record-info">
+				<view v-if="editingRecordId === record.id" class="record-edit">
+					<view class="record-edit-row">
+						<input class="record-edit-input" type="digit" v-model="editWeight" />
+						<input class="record-edit-input" type="digit" v-model="editBmi" />
+					</view>
+					<text class="record-meta">{{ record.date }}</text>
+				</view>
+				<view v-else class="record-info">
 					<text class="record-weight">{{ record.weight }} {{ weightUnit }}</text>
 					<text class="record-meta">{{ record.date }} · BMI {{ record.bmi }}</text>
+				</view>
+				<view v-if="editingRecordId === record.id" class="record-actions">
+					<text class="record-action" @tap="saveRecord(record)">{{ copy('action.save') }}</text>
+					<text class="record-delete" @tap="cancelEdit">{{ copy('action.cancel') }}</text>
+				</view>
+				<view v-else class="record-actions">
+					<text class="record-action" @tap="startEdit(record)">{{ copy('action.edit') }}</text>
+					<text class="record-delete" @tap="$emit('delete-record', record.id)">{{ copy('action.delete') }}</text>
 				</view>
 			</view>
 			<text v-if="!records.length" class="empty-copy">{{ emptyRecordCopy }}</text>
 		</view>
+
 		<text class="note">{{ copy('records.localOnly') }}</text>
 	</view>
 </template>
@@ -112,7 +127,20 @@
 			trendSummary: { type: Object as () => TrendSummary, required: true },
 			records: { type: Array as () => WeightRecord[], required: true }
 		},
-		emits: ['update:targetWeight', 'save-target-weight', 'add-record'],
+		data() {
+			return {
+				editingRecordId: null as number | null,
+				editWeight: '',
+				editBmi: ''
+			}
+		},
+		emits: {
+			'update:targetWeight': (_value: string) => true,
+			'save-target-weight': () => true,
+			'add-record': () => true,
+			'delete-record': (_recordId: number) => true,
+			'update-record': (_record: WeightRecord) => true
+		},
 		computed: {
 			targetWeightModel: {
 				get(): string {
@@ -143,6 +171,24 @@
 		methods: {
 			copy(key: string, params?: Record<string, string | number>) {
 				return t(this.appLanguage, key, params)
+			},
+			startEdit(record: WeightRecord) {
+				this.editingRecordId = record.id
+				this.editWeight = record.weight
+				this.editBmi = record.bmi
+			},
+			cancelEdit() {
+				this.editingRecordId = null
+				this.editWeight = ''
+				this.editBmi = ''
+			},
+			saveRecord(record: WeightRecord) {
+				this.$emit('update-record', {
+					...record,
+					weight: this.editWeight,
+					bmi: this.editBmi
+				})
+				this.cancelEdit()
 			},
 			drawTrend() {
 				this.$nextTick(() => {

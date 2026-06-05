@@ -134,7 +134,7 @@ Planned improvements:
 
 ## 4. Record History
 
-Status: partial
+Status: implemented, with Android App-base hardening pending
 
 Purpose:
 
@@ -149,6 +149,9 @@ Current implementation:
 - Current BMI display
 - Local data only note
 - Clear local data from Settings
+- Edit and delete records from Records
+- Copy local records as CSV from Settings local-data card
+- Import local records from pasted CSV in Settings local-data card
 - Data-driven weight/BMI trend chart
 - Trend chart title, latest value, range, Y-axis labels, and start/end date labels
 - Configurable maximum saved records
@@ -176,15 +179,16 @@ Record rules:
 - The chart uses the newest records up to the configured chart-sample limit.
 - The chart-sample limit cannot exceed the saved-record limit.
 - The Records summary cards always reflect the newest saved record, falling back to current BMI inputs only when no record exists.
+- CSV export copies date, weight, and BMI rows to the clipboard and does not use network or login.
+- CSV import reads date, weight, and BMI rows from the Settings local-data paste box, rejects invalid input, trims to the configured saved-record limit, and stays local-only.
 
 Current limitation:
 
-- No individual record edit.
 - No schema versioning or migration.
 
 Planned improvements:
 
-- Individual record editing if needed after retention testing
+- Optional file picker import if clipboard import is not enough after device testing
 - Record timestamp normalization
 - Optional calorie snapshot per record
 
@@ -204,6 +208,7 @@ Current implementation:
 - Chart samples setting
 - Dedicated Privacy Policy page link
 - Dedicated Disclaimer page link
+- Local data card for CSV export/import
 - Clear local data
 - App version display
 
@@ -221,7 +226,7 @@ Current limitation:
 Planned improvements:
 
 - Clear data confirmation flow
-- Hard-coded UI text audit script
+- Native review for long-form non-Chinese translations
 
 ## 6. Advertising
 

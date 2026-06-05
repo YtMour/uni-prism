@@ -109,7 +109,26 @@ Avoid:
 
 ## Screenshot Plan
 
-Use screenshots from the current UI only after H5 and Android App-base smoke pass.
+H5 reference screenshots are generated from the current UI under `docs/store-screenshots/`.
+
+Current generated set:
+
+- `01-bmi-en.png`
+- `02-calories-en.png`
+- `03-guidance-en.png`
+- `04-records-en.png`
+- `05-settings-en.png`
+- `06-bmi-zh-Hans.png`
+- `07-settings-zh-Hans.png`
+
+Generate or refresh them with:
+
+```bash
+cd FitCal-Uniapp
+npm run capture:store
+```
+
+Use Android screenshots for final store upload only after device smoke passes. H5 screenshots are suitable for copy/layout review and pre-launch planning.
 
 Recommended sequence:
 
@@ -122,7 +141,7 @@ Recommended sequence:
 4. Records
    - Show weight/BMI trend and recent records.
 5. Settings
-   - Show units, record limits, privacy, disclaimer, and clear local data.
+   - Show units, record limits, local-data CSV controls, privacy, disclaimer, and clear local data.
 
 Screenshot copy overlays, if used, should avoid medical promises. Use simple labels such as:
 
@@ -232,6 +251,7 @@ Do not prepare a release candidate until these are done:
 - `npm run typecheck` passes.
 - `npm run build:h5` passes.
 - `npm run smoke:h5` passes.
+- `npm run audit:layout:h5` passes.
 - Android App-base functional smoke passes on a real device.
 - Android manifest permissions remain empty or every added permission has a documented reason.
 - App icon and splash assets are created under `FitCal-Uniapp/static/brand/`.
@@ -239,7 +259,9 @@ Do not prepare a release candidate until these are done:
 
 ## Next Store-Prep Tasks
 
-1. Finish Android App-base functional smoke with `docs/ANDROID_APP_BASE_SMOKE.md`.
-2. Capture Android screenshots after device smoke passes.
-3. Decide whether to publish with English-only UI or add i18n before release.
-4. Re-check privacy/data-safety copy immediately before packaging.
+Current scope skips Android package verification and production ad SDK integration.
+
+1. Use the generated H5 screenshots to review store copy and visual order.
+2. Keep `npm run audit:layout:h5` passing for narrow English, Simplified Chinese, Spanish, German, and Japanese checks.
+3. Capture Android screenshots later only after App-base device smoke passes.
+4. Re-check privacy/data-safety copy immediately before any packaging or store upload.

@@ -99,6 +99,95 @@ export function clearRecords(): void {
   uni.setStorageSync(STORAGE_KEYS.records, [])
 }
 
+export function recordsToCsv(records: WeightRecord[], weightUnit: string): string {
+  const rows = [
+    ['date', `weight_${weightUnit}`, 'bmi'],
+    ...records.map((record) => [record.date, record.weight, record.bmi])
+  ]
+  return rows.map((row) => row.map(escapeCsvCell).join(',')).join('\n')
+}
+
+export function recordsFromCsv(csv: string): WeightRecord[] {
+  const rows = parseCsv(csv).filter((row) => row.some((cell) => cell.trim()))
+  if (rows.length < 2) return []
+  const header = rows[0].map((cell) => cell.trim().toLowerCase())
+  const dateIndex = header.indexOf('date')
+  const bmiIndex = header.indexOf('bmi')
+  const weightIndex = header.findIndex((cell) => cell === 'weight' || cell.startsWith('weight_'))
+  if (dateIndex < 0 || weightIndex < 0 || bmiIndex < 0) return []
+
+  return rows.slice(1).map((row, index) => {
+    const date = normalizeCsvText(row[dateIndex])
+    const weight = Number(row[weightIndex])
+    const bmi = Number(row[bmiIndex])
+    if (!date || !Number.isFinite(weight) || weight <= 0 || !Number.isFinite(bmi) || bmi <= 0) {
+      return null
+    }
+    return {
+      id: Date.now() + index,
+      date,
+      weight: weight.toFixed(1),
+      bmi: bmi.toFixed(1)
+    }
+  }).filter((record): record is WeightRecord => Boolean(record))
+}
+
+function escapeCsvCell(value: string): string {
+  if (!/[",\n\r]/.test(value)) return value
+  return `"${value.replace(/"/g, '""')}"`
+}
+
+function parseCsv(csv: string): string[][] {
+  const rows: string[][] = []
+  let row: string[] = []
+  let cell = ''
+  let quoted = false
+
+  for (let index = 0; index < csv.length; index += 1) {
+    const char = csv[index]
+    const nextChar = csv[index + 1]
+    if (quoted) {
+      if (char === '"' && nextChar === '"') {
+        cell += '"'
+        index += 1
+        continue
+      }
+      if (char === '"') {
+        quoted = false
+        continue
+      }
+      cell += char
+      continue
+    }
+    if (char === '"') {
+      quoted = true
+      continue
+    }
+    if (char === ',') {
+      row.push(cell)
+      cell = ''
+      continue
+    }
+    if (char === '\n') {
+      row.push(cell)
+      rows.push(row)
+      row = []
+      cell = ''
+      continue
+    }
+    if (char !== '\r') {
+      cell += char
+    }
+  }
+  row.push(cell)
+  rows.push(row)
+  return rows
+}
+
+function normalizeCsvText(value: string | undefined): string {
+  return typeof value === 'string' ? value.trim().slice(0, 32) : ''
+}
+
 function normalizeOption<T extends readonly number[]>(value: unknown, options: T | number[], fallback: number): number {
   return typeof value === 'number' && options.includes(value) ? value : fallback
 }

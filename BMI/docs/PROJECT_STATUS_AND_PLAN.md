@@ -4,7 +4,7 @@ Last updated: 2026-06-05
 
 ## Current Stage
 
-FitCal is now a runnable local-first uni-app MVP for H5 and Android App-base validation.
+FitCal is now a runnable local-first uni-app MVP for H5 validation and future Android App-base validation.
 
 The MVP has moved past static planning. It includes calculator logic, local records, settings, dedicated policy pages, componentized screens, canvas-based trend rendering, documented smoke checks, and a separated internal admin stack for operational checks.
 
@@ -20,6 +20,7 @@ The MVP has moved past static planning. It includes calculator logic, local reco
 - App icon and Android splash assets generated under `FitCal-Uniapp/static/brand/`
 - Android `.9.png` splash assets configured in `manifest.json`
 - Android custom base smoke confirmed the splash no longer stretches
+- H5 store-review screenshots generated under `docs/store-screenshots/`
 - Android signing keystore generated for custom base / test packaging
 - Internal admin deployment guide added in `ADMIN_DEPLOYMENT.md`
 
@@ -72,6 +73,8 @@ The MVP has moved past static planning. It includes calculator logic, local reco
 - Local records list
 - Add Record and individual Delete
 - Individual record edit for weight and BMI
+- Copy local records as CSV from Settings local-data card
+- Import local records from pasted CSV in Settings local-data card
 - BMI Calculate and Add Record share the same snapshot behavior
 - Current/BMI summary cards read from the latest saved record
 - Clear local data persists an empty state
@@ -102,6 +105,8 @@ The MVP has moved past static planning. It includes calculator logic, local reco
 - Android manifest permissions remain empty
 - Push / UniPush / GtPush disabled in manifest
 - Clear local data action
+- Settings local-data CSV export action
+- Settings local-data CSV import action
 - Runtime language selector with persisted mainstream-language preference
 - Full Simplified Chinese coverage for the main app, policy/disclaimer pages, dynamic guide copy, BMI category labels, records, settings, and feedback toasts
 - Core UI coverage for English, Traditional Chinese fallback, Spanish, French, German, Japanese, Korean, Portuguese, Indonesian, Thai, and Vietnamese
@@ -114,6 +119,7 @@ Latest verified commands:
 cd FitCal-Uniapp
 npm run typecheck
 npm run audit:i18n
+npm run audit:layout:h5
 npm run build:h5
 npm run smoke:h5
 ```
@@ -127,11 +133,14 @@ Latest admin/backend verification target:
 - Backend exposes `GET /api/health`, `GET /api/admin/summary`, and `POST /api/admin/ad-event`
 - Backend also exposes `POST /api/admin/activity-event` for anonymous test activity events
 - Backend persists test metrics to `FitCal-Backend/data/metrics.json`
+- Backend persists capped operations config history in `FitCal-Backend/data/metrics.json`
 - Admin shows a 7-day test activity trend and can reset test metrics
 - Admin can save test operations config for ad placeholder visibility, App-base smoke status, and test announcement
 - User app reads `GET /api/app/config` to control ad placeholder visibility
 - User app polls backend config about every 10 seconds and shows test announcements under the top bar
 - Admin can manage H5 version, Android base status, and release note for internal tracking
+- Admin can record structured Android App-base smoke checklist status and per-item notes
+- Admin can show operations config history and export local smoke/test metrics as JSON
 - User app only displays the independent test announcement when the announcement switch is enabled; H5 version and release note stay admin-only
 
 Latest verification refresh on 2026-06-04:
@@ -155,6 +164,8 @@ Latest H5 checks:
 - Records progress summary shows saved count and total weight change
 - Records filters update the list and progress summary
 - Records edit saves weight/BMI changes locally
+- Settings local-data CSV export copies local history and shows empty-state feedback when no records exist
+- Settings local-data CSV import rejects invalid pasted content and imports valid date/weight/BMI rows locally
 - Guidance shows target checkpoint and recent movement
 - Guidance shows reminder rhythm without requesting notification permission
 - Fake ad placeholder can be shown, closed, disabled, and counted locally
@@ -164,6 +175,8 @@ Latest H5 checks:
 - Trend labels are visible
 - Privacy and Disclaimer routes render
 - Browser console has no runtime errors during checked flows
+- Narrow H5 layout audit passes for English, Simplified Chinese, Spanish, German, and Japanese Settings/Records/Guidance screens, including CSV ownership and stacked Settings local-data button layout
+- H5 store screenshot capture produces seven reference screenshots for English and Simplified Chinese review
 
 Latest Android custom base feedback on 2026-06-05:
 
@@ -183,37 +196,37 @@ Latest Android custom base feedback on 2026-06-05:
 - Admin activity and retention metrics are stored in a local ignored JSON file for test persistence.
 - Operations config is stored in the same ignored local JSON file and is for test/admin use only.
 - App-base smoke status is intentionally backend/admin-only; user-visible app reactions come from ad placeholder visibility and test announcement.
+- App-base smoke checklist status and notes are intentionally backend/admin-only.
 - Android base status, App-base smoke status, H5 version, and release note are backend/admin-only.
 - Shared state still lives in `pages/index/index.vue`; this is acceptable for MVP but may need a store if the app expands.
 
-## Not Started
+## Deferred / Future Scope
 
 - Real ad slot abstraction
 - Production ad SDK integration
 - Rewarded video unlock flow
 - Native notification reminders
-- Store listing screenshots and copy
+- Final store listing copy and Android-device screenshots
 - Android package build verification
 - iOS validation
 
 ## Immediate Next Plan
 
-Detailed execution plan: `docs/MVP_HARDENING_PLAN.md`.
+### P0: Keep Current H5 MVP Stable
 
-### P0: Finish MVP Smoke Hardening
+1. Keep `npm run typecheck` passing.
+2. Keep `npm run audit:i18n` passing.
+3. Keep `npm run audit:layout:h5` passing.
+4. Keep `npm run build:h5` passing.
+5. Keep `npm run smoke:h5` passing.
+6. Refresh `npm run capture:store` after UI or copy changes.
+7. Use `docs/DOCUMENTATION_INDEX.md` as the documentation map.
 
-1. Finish Android App-base functional smoke with `docs/ANDROID_APP_BASE_SMOKE.md`.
-2. Record the run in `docs/ANDROID_APP_BASE_SMOKE_RESULT.md`.
-3. Confirm Records canvas chart renders correctly on device.
-4. Confirm numeric keyboard behavior for height, weight, and age.
-5. Confirm local storage survives App restart:
-   - units
-   - records
-   - saved-record limit
-   - chart sample limit
-6. Confirm policy page navigation and Back behavior in App-base.
-7. Refine validation copy or input behavior only if App-base smoke exposes issues.
-8. Capture Android screenshots after device smoke passes.
+Current scope note:
+
+- Android package verification is intentionally skipped.
+- Production ad SDK integration is intentionally skipped.
+- H5 screenshots and H5 layout audit can continue independently.
 
 ### P1: Compliance and Trust
 
@@ -237,22 +250,22 @@ Detailed execution plan: `docs/MVP_HARDENING_PLAN.md`.
 2. Expand target progress only after real user testing shows what summary is useful.
 3. Add richer record editing fields only if weight/BMI editing is not enough in testing.
 4. Consider a lightweight streak/check-in counter that does not require notification permission.
-5. Consider CSV export/import for local-first trust and user portability.
+5. Consider a file-picker import only if clipboard CSV import is not enough after portability testing.
 
 ### P3.5: UX and Internationalization Polish
 
 1. Complete native-quality long-form translations for Spanish, French, German, Japanese, Korean, Portuguese, Indonesian, Thai, and Vietnamese.
-2. Extend the current `npm run audit:i18n` checks into a missing-key audit so new UI text cannot ship as hard-coded English.
+2. Keep the expanded `npm run audit:i18n` missing-key audit passing so new UI text cannot ship as hard-coded English.
 3. Review text fit on narrow Android screens for long translated labels.
 4. Add screenshots for English and Simplified Chinese as the first store-ready language set.
 5. Keep unit abbreviations and health formulas language-neutral unless a locale-specific format is required.
 
 ### P4: Store Launch
 
-1. Generate store screenshots from current UI.
+1. Review generated H5 store screenshots from current UI.
 2. Prepare final store screenshot captions if needed.
-3. Build Android package.
-4. Install and smoke test package.
+3. Build Android package only after Android package verification resumes.
+4. Install and smoke test package after package verification resumes.
 5. Finalize store listing copy and data safety notes.
 6. Use `docs/STORE_LAUNCH_PREP.md` as the current copy and data-safety draft.
 

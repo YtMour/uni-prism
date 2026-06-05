@@ -66,8 +66,10 @@ Internal operations data has been separated from the user app. A Go backend and 
 - Meal focus suggestions
 - Local record list
 - Add Record action
-- Individual record delete action from Settings record management
-- Individual record edit for weight and BMI from Settings record management
+- Individual record delete action from Records
+- Individual record edit for weight and BMI from Records
+- Copy local records as CSV from Settings local-data card for local-first portability
+- Import local records from pasted CSV in Settings local-data card with validation and saved-record trimming
 - Configurable saved-record limit in Settings
 - Configurable chart-sample limit in Settings
 - Records Current/BMI summary linked to the latest saved record
@@ -78,8 +80,8 @@ Internal operations data has been separated from the user app. A Go backend and 
 - Data-driven weight/BMI trend chart rendered with canvas for H5/App-base stability
 - Trend chart labels for title, latest value, value range, Y-axis marks, and start/end dates
 - Clear local data action with persistent empty state
-- Settings page shell for global preferences, record display/management controls, privacy, and local-data controls
-- Records page focuses on current record summary, target weight, progress summary, trend display, add record, and visible records
+- Settings page shell for global preferences, record display controls, privacy, and local-data controls including CSV import/export
+- Records page focuses on current record summary, target weight, progress summary, trend display, add/edit/delete, and visible records
 - Records control for target weight
 - Guidance control for reminder rhythm without notification permission
 - Settings language selector stores mainstream language selection locally and switches the app interface at runtime, including full Simplified Chinese coverage and mainstream-language coverage for core navigation, settings, records, and primary actions
@@ -99,15 +101,21 @@ Internal operations data has been separated from the user app. A Go backend and 
 - Go backend exposes anonymous activity event tracking for DAU, MAU, sessions, test retention, calculations, record writes, and ad engagements
 - React admin dashboard has been localized to Chinese
 - Backend persists admin test metrics to an ignored local JSON file
+- Backend persists a capped operations config history to the ignored local JSON file
 - React admin shows a 7-day test activity trend and a reset-test-data action
 - React admin includes an operations config panel for ad placeholder visibility, App-base smoke status, and test announcement
+- React admin includes a structured Android App-base smoke result form for per-check pending/pass/block notes
+- React admin shows recent operations config history and can export local smoke/test metrics as JSON
 - User app reads backend app config to decide whether fake ad placeholders should render
 - User app shows the backend test announcement only when the independent announcement visibility switch is enabled
 - Ad placeholder visibility and test announcement visibility are separate controls
 - H5 resolves the backend config endpoint from the current browser host, while Android App-base uses the LAN backend default `http://192.168.1.128:48791`
 - Admin operations config now tracks H5 version, Android base status, and release note for internal status recording.
 - User app only renders the independent test announcement switch/text; release note and H5 version remain admin-only and are not rendered in the App header.
-- Lightweight i18n audit script added as `npm run audit:i18n` to catch known hard-coded English UI regressions before adding more screens.
+- Lightweight i18n audit script added as `npm run audit:i18n` to catch known hard-coded English UI regressions and English / Simplified Chinese missing-key drift before adding more screens.
+- Narrow H5 layout audit script added as `npm run audit:layout:h5` for English, Simplified Chinese, Spanish, German, and Japanese Settings/Records/Guidance checks.
+- H5 store screenshot capture script added as `npm run capture:store`, writing reference screenshots to `docs/store-screenshots/`.
+- Narrow layout audit now also guards CSV ownership and layout: CSV import/export must stay in the Settings local-data card, must not appear on the Records page, and must stack without overlapping the CSV input on narrow H5 screens.
 - Docker Compose starts backend and admin on LAN-accessible high ports
 - Fixed bottom navigation and improved icon rendering
 
@@ -122,16 +130,15 @@ Internal operations data has been separated from the user app. A Go backend and 
 - Five tabs are split into feature screen components, while shared state remains in `pages/index/index.vue`.
 - App-base/Android smoke testing is in progress via user device checking; startup image custom-base smoke passed, but full functional package smoke is still pending.
 
-## Not Started
+## Deferred / Future Scope
 
 - Real ad component abstraction
 - Production ad SDK integration
 - Rewarded video unlock flow
 - Native notification reminders
-- Store listing screenshots and copy
+- Final store listing copy and Android-device screenshots
 - Android package build verification
 - iOS validation
-- Final store launch copy and screenshots
 
 ## Verification
 
@@ -140,6 +147,7 @@ Latest verified in `FitCal-Uniapp`:
 ```bash
 npm run typecheck
 npm run audit:i18n
+npm run audit:layout:h5
 npm run build:h5
 npm run smoke:h5
 ```
@@ -149,25 +157,32 @@ Runtime checked:
 - H5 app opened at `http://localhost:5179/`
 - Five bottom tabs rendered
 - BMI screen rendered after TypeScript migration
-- Automated H5 smoke covers BMI-to-Records creation, Settings-based record deletion, Settings-based record editing, Settings-based record filters, Settings-based trend-mode switching, unit persistence, language preference persistence, target weight persistence, reminder rhythm persistence, guidance target checkpoint, local 7-day guide open/hide persistence, progress summary, fake ad placeholder close/toggle behavior, max-record trimming, clear-data persistence, ad placeholders, and policy routes.
+- Automated H5 smoke covers BMI-to-Records creation, Records-based record deletion, Records-based record editing, Settings-based record filters, Settings-based trend-mode switching, unit persistence, language preference persistence, target weight persistence, reminder rhythm persistence, guidance target checkpoint, local 7-day guide open/hide persistence, progress summary, fake ad placeholder close/toggle behavior, max-record trimming, clear-data persistence, ad placeholders, and policy routes.
+- Automated H5 smoke also covers Settings local-data CSV export success, empty-state feedback, invalid CSV import feedback, and valid CSV import.
+- Browser verification confirmed Records exposes edit/delete record actions without CSV controls, while Settings exposes the local-data CSV import/export card with stacked non-overlapping buttons.
 - Browser verification confirmed release notes and H5 version do not render in the user app, while the independent test announcement remains the only App header announcement path.
 - Records trend chart renders inside its card with canvas and does not overflow in H5
 - Records trend chart shows title, latest value, range, Y-axis labels, and start/end date labels
 - Browser console showed no runtime errors during verification
+- H5 store screenshots generated for English core screens and Simplified Chinese BMI/Settings screens.
+- Narrow H5 layout audit passed for selected launch-review languages.
 
 Latest admin/backend verification target:
 
 - Backend health: `http://127.0.0.1:48791/api/health`
 - Backend summary: `http://127.0.0.1:48791/api/admin/summary`
+- Backend export: `http://127.0.0.1:48791/api/admin/export`
 - Admin dashboard: `http://127.0.0.1:48792/`
 - Admin same-origin API proxy: `http://127.0.0.1:48792/api/admin/summary`
 - Docker ports bind to `0.0.0.0` for LAN access.
 - User app reports anonymous test events to `POST /api/admin/activity-event`.
 - Admin can clear backend metrics with `POST /api/admin/reset`.
 - Admin can update operations config with `POST /api/admin/config`.
+- Admin can export local smoke/test metrics with `GET /api/admin/export`.
 - User app reads safe runtime config from `GET /api/app/config`.
 - User app hides test announcements when `showTestAnnouncement=false`, even if announcement text is stored in the admin config.
 - App-base smoke status is not exposed to the user app.
+- App-base smoke checklist items are persisted in backend config for admin-only tracking.
 - Android base status, App-base smoke status, H5 version, and release note are not exposed in the user app.
 
 App-base feedback:
@@ -176,7 +191,7 @@ App-base feedback:
 - The Records chart has been changed to canvas rendering to avoid App WebView percentage/transform drift.
 - Custom base startup image was rebuilt and confirmed not stretched on device after `.9.png` regeneration.
 - HBuilder App base still needs a full functional check for numeric keyboard, Records canvas chart, Back navigation, and persistence.
-- App-base smoke result tracking is prepared in `docs/ANDROID_APP_BASE_SMOKE_RESULT.md`.
+- App-base smoke result tracking is prepared in `docs/ANDROID_APP_BASE_SMOKE_RESULT.md` and the admin dashboard.
 
 Known build notes:
 
@@ -185,10 +200,9 @@ Known build notes:
 
 ## Current Source Of Truth
 
-- Implementation overview: `docs/IMPLEMENTATION_OVERVIEW.md`
+- Documentation index: `docs/DOCUMENTATION_INDEX.md`
 - Project status and plan: `docs/PROJECT_STATUS_AND_PLAN.md`
 - Current status: this file
-- Next implementation sequence: `docs/IMPLEMENTATION_ROADMAP.md`
 - Feature behavior target: `docs/FEATURE_SPEC.md`
 - Smoke checklist: `docs/SMOKE_CHECKLIST.md`
 - Visual target: `docs/design/FITCAL_VISUAL_STYLE_GUIDE.md`
@@ -196,14 +210,12 @@ Known build notes:
 
 ## Immediate Next Step
 
-1. Finish Android App-base functional smoke using `docs/ANDROID_APP_BASE_SMOKE.md`.
-2. Record the result in `docs/ANDROID_APP_BASE_SMOKE_RESULT.md`.
-3. Capture Android screenshots for store-prep if functional smoke passes.
-4. Check translated text fit in Android App-base, especially Settings and Records.
-5. Keep `npm run audit:i18n` passing before adding more screens or long-form copy.
-6. Refine validation UX only if Android keyboard testing exposes issues.
-7. Keep real ad SDK integration deferred.
-8. Keep fake ad metrics in the internal admin surface.
+1. Keep H5 verification passing: typecheck, i18n audit, layout audit, build, smoke, and screenshot capture.
+2. Use generated H5 screenshots for store copy and layout review while Android package verification is intentionally skipped.
+3. Keep CSV import/export in Settings local data and record edit/delete in Records.
+4. Keep internal metrics, release notes, App-base smoke status, and config history in the admin/backend stack only.
+5. Keep Android package verification and real ad SDK integration deferred by current scope.
+6. Refine validation UX only if future device smoke exposes issues.
 
 ## Decision Log
 

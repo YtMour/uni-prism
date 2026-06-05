@@ -53,7 +53,9 @@ docker compose down
 - `FitCal-Backend/data/` 已加入 git 忽略，不应提交测试统计数据。
 - 后台提供“重置测试数据”按钮，用于清空当前统计。
 - 后台提供运营配置面板，用于下发广告占位开关、App-base smoke 状态和测试公告。
+- 后台提供 App-base smoke 结构化检查表，用于记录每项设备检查的待测、通过、阻塞状态和备注。
 - 后台提供版本发布配置，用于记录 H5 版本、Android 基座状态和发布备注；这些发布备注默认只在后台保留，不下发到用户端公告。
+- 后台展示最近 20 次运营配置保存历史，并可导出本地 smoke / 测试指标 JSON。
 - 用户端只读取广告占位开关和测试公告；App-base smoke 状态只用于后台内部展示。
 - 用户端会约每 10 秒刷新一次配置，所以广告占位开关和测试公告无需重启页面即可生效。
 - 用户端只上报事件类型、匿名 visitorId、sessionId，不上传身高、体重、BMI、热量目标等身体数据。
@@ -71,6 +73,7 @@ docker compose down
 - `POST /api/admin/reset`
 - `GET /api/admin/config`
 - `POST /api/admin/config`
+- `GET /api/admin/export`
 - `GET /api/app/config`
 
 支持的匿名活跃事件：
@@ -88,6 +91,7 @@ docker compose down
 
 - `adPlaceholderEnabled`: 是否显示广告占位
 - `appBaseSmokeStatus`: `pending` / `passed` / `blocked`
+- `appBaseSmokeChecks`: App-base 实机检查项数组，每项包含 `id`、`label`、`status`、`note`、`updatedAt`
 - `testAnnouncement`: 内部测试公告，最多 240 字符
 - `h5Version`: 当前 H5 测试版本
 - `androidBaseStatus`: `not-started` / `custom-base-testing` / `passed` / `blocked`

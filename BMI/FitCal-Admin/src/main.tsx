@@ -40,6 +40,7 @@ type Summary = {
   adMetrics: AdMetrics
   activityMetrics: ActivityMetrics
   config: OpsConfig
+  configHistory: ConfigHistoryEntry[]
   permissions: string[]
   notes: string[]
   serverTime: string
@@ -49,6 +50,7 @@ type Summary = {
 type OpsConfig = {
   adPlaceholderEnabled: boolean
   appBaseSmokeStatus: 'pending' | 'passed' | 'blocked'
+  appBaseSmokeChecks: SmokeCheck[]
   h5Version: string
   androidBaseStatus: 'not-started' | 'custom-base-testing' | 'passed' | 'blocked'
   releaseNote: string
@@ -56,6 +58,26 @@ type OpsConfig = {
   testAnnouncement: string
   showTestAnnouncement: boolean
   updatedAt: string
+}
+
+type SmokeCheck = {
+  id: string
+  label: string
+  status: 'pending' | 'passed' | 'blocked'
+  note: string
+  updatedAt: string
+}
+
+type ConfigHistoryEntry = {
+  updatedAt: string
+  adPlaceholderEnabled: boolean
+  appBaseSmokeStatus: OpsConfig['appBaseSmokeStatus']
+  h5Version: string
+  androidBaseStatus: OpsConfig['androidBaseStatus']
+  showTestAnnouncement: boolean
+  testAnnouncementLength: number
+  passedSmokeChecks: number
+  blockedSmokeChecks: number
 }
 
 const apiBase = import.meta.env.VITE_FITCAL_API_BASE || ''
@@ -124,6 +146,10 @@ function App() {
     }
   }
 
+  function exportAdminData() {
+    window.open(`${apiBase}/api/admin/export`, '_blank', 'noopener,noreferrer')
+  }
+
   function updateConfigDraft(nextConfig: OpsConfig) {
     configDirtyRef.current = true
     setConfigDraft(nextConfig)
@@ -156,6 +182,9 @@ function App() {
           <h1>内部运营看板</h1>
         </div>
         <div className="actions">
+          <button className="refresh secondary" onClick={exportAdminData}>
+            导出测试数据
+          </button>
           <button className="refresh secondary" onClick={resetMetrics} disabled={resetting}>
             {resetting ? '重置中...' : '重置测试数据'}
           </button>
@@ -230,14 +259,15 @@ function App() {
                   <span>App-base smoke</span>
                   <select
                     aria-label="App-base smoke"
-                    value={smokeEnabled(configDraft.appBaseSmokeStatus) ? 'on' : 'off'}
+                    value={configDraft.appBaseSmokeStatus}
                     onChange={(event) => updateConfigDraft({
                       ...configDraft,
-                      appBaseSmokeStatus: event.target.value === 'on' ? 'passed' : 'blocked'
+                      appBaseSmokeStatus: event.target.value as OpsConfig['appBaseSmokeStatus']
                     })}
                   >
-                    <option value="on">开启</option>
-                    <option value="off">关闭</option>
+                    <option value="pending">待测</option>
+                    <option value="passed">通过</option>
+                    <option value="blocked">阻塞</option>
                   </select>
                 </label>
                 <label className="config-card">
@@ -295,6 +325,53 @@ function App() {
                   })}
                 />
               </label>
+              <div className="smoke-checks">
+                <div className="smoke-checks-head">
+                  <div>
+                    <p className="eyebrow">App-base 实机 smoke</p>
+                    <h3>结构化检查记录</h3>
+                  </div>
+                  <span className="pill">{smokeProgress(configDraft.appBaseSmokeChecks)}</span>
+                </div>
+                {configDraft.appBaseSmokeChecks.map((check) => (
+                  <div className="smoke-check" key={check.id}>
+                    <div>
+                      <strong>{check.label}</strong>
+                      <span>更新：{formatTime(check.updatedAt)}</span>
+                    </div>
+                    <select
+                      aria-label={`${check.label} 状态`}
+                      value={check.status}
+                      onChange={(event) => updateConfigDraft({
+                        ...configDraft,
+                        appBaseSmokeChecks: configDraft.appBaseSmokeChecks.map((item) => (
+                          item.id === check.id
+                            ? { ...item, status: event.target.value as SmokeCheck['status'], updatedAt: new Date().toISOString() }
+                            : item
+                        ))
+                      })}
+                    >
+                      <option value="pending">待测</option>
+                      <option value="passed">通过</option>
+                      <option value="blocked">阻塞</option>
+                    </select>
+                    <input
+                      aria-label={`${check.label} 备注`}
+                      value={check.note}
+                      maxLength={80}
+                      placeholder="设备现象或阻塞原因"
+                      onChange={(event) => updateConfigDraft({
+                        ...configDraft,
+                        appBaseSmokeChecks: configDraft.appBaseSmokeChecks.map((item) => (
+                          item.id === check.id
+                            ? { ...item, note: event.target.value, updatedAt: new Date().toISOString() }
+                            : item
+                        ))
+                      })}
+                    />
+                  </div>
+                ))}
+              </div>
               <div className="config-footer">
                 <span>最后更新：{formatTime(summary.config.updatedAt)}</span>
                 <button className="refresh" onClick={saveConfig} disabled={savingConfig}>
@@ -336,6 +413,32 @@ function App() {
               {activity.dailyTrend.map((item) => (
                 <TrendRow key={item.date} item={item} maxEvents={maxTrendEvents(activity.dailyTrend)} />
               ))}
+            </div>
+          </section>
+
+          <section className="panel">
+            <div className="panel-head">
+              <div>
+                <p className="eyebrow">配置历史</p>
+                <h2>最近 20 次运营配置保存</h2>
+              </div>
+              <span className="pill">{summary.configHistory.length} 条</span>
+            </div>
+            <div className="history-list">
+              {summary.configHistory.length ? summary.configHistory.map((item) => (
+                <div className="history-row" key={`${item.updatedAt}-${item.h5Version}`}>
+                  <div>
+                    <strong>{formatTime(item.updatedAt)}</strong>
+                    <span>H5 {item.h5Version || '--'} / Android {statusLabel(item.androidBaseStatus)}</span>
+                  </div>
+                  <div className="history-tags">
+                    <span>{item.adPlaceholderEnabled ? '广告占位开' : '广告占位关'}</span>
+                    <span>Smoke {statusLabel(item.appBaseSmokeStatus)}</span>
+                    <span>{item.passedSmokeChecks} 通过 / {item.blockedSmokeChecks} 阻塞</span>
+                    <span>{item.showTestAnnouncement ? `公告 ${item.testAnnouncementLength} 字` : '公告关闭'}</span>
+                  </div>
+                </div>
+              )) : <div className="empty-state">还没有保存过运营配置。</div>}
             </div>
           </section>
 
@@ -454,6 +557,12 @@ function formatPercent(value: number) {
   return `${Math.round(value * 100)}%`
 }
 
+function smokeProgress(checks: SmokeCheck[]) {
+  const passed = checks.filter((check) => check.status === 'passed').length
+  const blocked = checks.filter((check) => check.status === 'blocked').length
+  return blocked ? `${blocked} 项阻塞` : `${passed}/${checks.length} 通过`
+}
+
 function eventLabel(value: string) {
   const labels: Record<string, string> = {
     app_open: '打开应用',
@@ -466,6 +575,17 @@ function eventLabel(value: string) {
     records_clear: '清空记录',
     ad_impression: '广告展示',
     ad_dismissal: '广告关闭'
+  }
+  return labels[value] || value
+}
+
+function statusLabel(value: string) {
+  const labels: Record<string, string> = {
+    pending: '待测',
+    passed: '通过',
+    blocked: '阻塞',
+    'not-started': '未开始',
+    'custom-base-testing': '基座测试中'
   }
   return labels[value] || value
 }

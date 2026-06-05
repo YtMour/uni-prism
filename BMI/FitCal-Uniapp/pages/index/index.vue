@@ -96,6 +96,8 @@
 				@update:targetWeight="targetWeight = $event"
 				@save-target-weight="saveTargetWeightSetting"
 				@add-record="addRecord"
+				@delete-record="deleteRecord"
+				@update-record="updateRecord"
 			/>
 
 			<SettingsScreen
@@ -108,8 +110,6 @@
 				:trend-mode="trendMode"
 				:max-saved-records="recordSettings.maxSavedRecords"
 				:chart-sample-limit="recordSettings.chartSampleLimit"
-				:records="visibleRecords"
-				:weight-unit="weightUnit"
 				:total-record-count="records.length"
 				:visible-record-count="visibleRecords.length"
 				@set-units="setUnits"
@@ -118,9 +118,9 @@
 				@update:trendMode="trendMode = $event"
 				@set-max-saved-records="setMaxSavedRecords"
 				@set-chart-sample-limit="setChartSampleLimit"
-				@delete-record="deleteRecord"
-				@update-record="updateRecord"
 				@open-policy="openPolicy"
+				@export-records="exportRecords"
+				@import-records="importRecords"
 				@clear-local-data="clearLocalData"
 			/>
 		</scroll-view>
@@ -156,7 +156,7 @@
 		unitsLabel,
 		weightUnit
 	} from '../../services/calculators'
-	import { clearRecords, loadAdTestState, loadAnalyticsVisitorId, loadAppLanguage, loadGuideUnlocked, loadRecordSettings, loadRecords, loadReminderSetting, loadTargetWeight, loadUnits, saveAdTestState, saveAppLanguage, saveGuideUnlocked, saveRecordSettings, saveRecords, saveReminderSetting, saveTargetWeight, saveUnits } from '../../services/storage'
+	import { clearRecords, loadAdTestState, loadAnalyticsVisitorId, loadAppLanguage, loadGuideUnlocked, loadRecordSettings, loadRecords, loadReminderSetting, loadTargetWeight, loadUnits, recordsFromCsv, recordsToCsv, saveAdTestState, saveAppLanguage, saveGuideUnlocked, saveRecordSettings, saveRecords, saveReminderSetting, saveTargetWeight, saveUnits } from '../../services/storage'
 	import type { PolicyType } from '../../services/policy'
 	import { t } from '../../services/i18n'
 
@@ -807,6 +807,33 @@
 				this.records = []
 				this.reportActivityEvent('records_clear')
 				this.showToast(this.copy('toast.recordsCleared'))
+			},
+			exportRecords() {
+				if (!this.records.length) {
+					this.showToast(this.copy('toast.noRecordsToExport'))
+					return
+				}
+				const csv = recordsToCsv(this.records, this.weightUnit)
+				uni.setClipboardData({
+					data: csv,
+					success: () => {
+						this.showToast(this.copy('toast.recordsExported'))
+					},
+					fail: () => {
+						this.showToast(this.copy('toast.recordsExportFailed'))
+					}
+				})
+			},
+			importRecords(csv: string) {
+				const importedRecords = recordsFromCsv(csv)
+				if (!importedRecords.length) {
+					this.showToast(this.copy('toast.recordsImportFailed'))
+					return
+				}
+				this.records = this.trimRecords(importedRecords, this.recordSettings.maxSavedRecords)
+				saveRecords(this.records)
+				this.reportActivityEvent('record_write')
+				this.showToast(this.copy('toast.recordsImported', { value: this.records.length }))
 			},
 			openPolicy(type: PolicyType) {
 				uni.navigateTo({

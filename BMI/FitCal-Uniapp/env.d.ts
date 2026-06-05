@@ -15,6 +15,11 @@ declare const uni: {
     icon?: 'success' | 'loading' | 'none' | 'error'
     duration?: number
   }): void
+  setClipboardData(options: {
+    data: string
+    success?: () => void
+    fail?: (error: unknown) => void
+  }): void
   navigateTo(options: {
     url: string
   }): void

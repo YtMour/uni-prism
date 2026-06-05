@@ -69,35 +69,6 @@
 		</view>
 
 		<view class="plain-card">
-			<view class="setting-row">
-				<view class="setting-title"><image class="line-icon" src="/static/icons/bars.svg" mode="aspectFit"></image><text>{{ copy('settings.recordManagement') }}</text></view>
-				<text class="setting-value">{{ records.length }}</text>
-			</view>
-			<view class="record-row" v-for="record in records" :key="record.id">
-				<view v-if="editingRecordId === record.id" class="record-edit">
-					<view class="record-edit-row">
-						<input class="record-edit-input" type="digit" v-model="editWeight" />
-						<input class="record-edit-input" type="digit" v-model="editBmi" />
-					</view>
-					<text class="record-meta">{{ record.date }}</text>
-				</view>
-				<view v-else class="record-info">
-					<text class="record-weight">{{ record.weight }} {{ weightUnit }}</text>
-					<text class="record-meta">{{ record.date }} · BMI {{ record.bmi }}</text>
-				</view>
-				<view v-if="editingRecordId === record.id" class="record-actions">
-					<text class="record-action" @tap="saveRecord(record)">{{ copy('action.save') }}</text>
-					<text class="record-delete" @tap="cancelEdit">{{ copy('action.cancel') }}</text>
-				</view>
-				<view v-else class="record-actions">
-					<text class="record-action" @tap="startEdit(record)">{{ copy('action.edit') }}</text>
-					<text class="record-delete" @tap="$emit('delete-record', record.id)">{{ copy('action.delete') }}</text>
-				</view>
-			</view>
-			<text v-if="!records.length" class="empty-copy">{{ copy('records.empty') }}</text>
-		</view>
-
-		<view class="plain-card">
 			<view class="link-row" @tap="$emit('open-policy', 'privacy')">
 				<view class="setting-title"><image class="line-icon" src="/static/icons/shield.svg" mode="aspectFit"></image><text>{{ copy('settings.privacy') }}</text></view>
 				<text class="setting-value">{{ copy('action.view') }}</text>
@@ -106,6 +77,19 @@
 				<view class="setting-title"><image class="line-icon" src="/static/icons/shield.svg" mode="aspectFit"></image><text>{{ copy('settings.disclaimer') }}</text></view>
 				<text class="setting-value">{{ copy('action.view') }}</text>
 			</view>
+		</view>
+
+		<view class="plain-card data-card">
+			<view class="setting-row">
+				<view class="setting-title"><image class="line-icon" src="/static/icons/bars.svg" mode="aspectFit"></image><text>{{ copy('settings.localData') }}</text></view>
+				<text class="setting-value">CSV</text>
+			</view>
+			<view class="data-action-row">
+				<button class="secondary-button inline data-button" hover-class="secondary-button-press" hover-start-time="0" hover-stay-time="120" @tap="$emit('export-records')">{{ copy('settings.exportRecords') }}</button>
+				<button class="secondary-button inline data-button" hover-class="secondary-button-press" hover-start-time="0" hover-stay-time="120" @tap="importRecords">{{ copy('settings.importRecords') }}</button>
+			</view>
+			<textarea class="csv-input" v-model="importCsvText" maxlength="2000" :placeholder="copy('settings.importRecordsPlaceholder')" />
+			<text class="note">{{ copy('settings.localStorageNote') }}</text>
 		</view>
 
 		<button class="danger-button" hover-class="danger-button-press" hover-start-time="0" hover-stay-time="120" @tap="$emit('clear-local-data')"><image class="line-icon" src="/static/icons/trash.svg" mode="aspectFit"></image> {{ copy('settings.clearData') }}</button>
@@ -121,7 +105,7 @@
 	import { CHART_SAMPLE_OPTIONS, LANGUAGE_OPTIONS, RECORD_LIMIT_OPTIONS } from '../data/appData'
 	import { t } from '../services/i18n'
 	import type { PolicyType } from '../services/policy'
-	import type { AppLanguage, RecordFilter, TrendMode, Units, WeightRecord } from '../types/fitcal'
+	import type { AppLanguage, RecordFilter, TrendMode, Units } from '../types/fitcal'
 
 	export default {
 		props: {
@@ -133,17 +117,8 @@
 			trendMode: { type: String as () => TrendMode, required: true },
 			maxSavedRecords: { type: Number, required: true },
 			chartSampleLimit: { type: Number, required: true },
-			records: { type: Array as () => WeightRecord[], required: true },
-			weightUnit: { type: String, required: true },
 			totalRecordCount: { type: Number, required: true },
 			visibleRecordCount: { type: Number, required: true }
-		},
-		data() {
-			return {
-				editingRecordId: null as number | null,
-				editWeight: '',
-				editBmi: ''
-			}
 		},
 		computed: {
 			languageOptions() {
@@ -163,6 +138,11 @@
 				return CHART_SAMPLE_OPTIONS.filter((limit) => limit <= this.maxSavedRecords)
 			}
 		},
+		data() {
+			return {
+				importCsvText: ''
+			}
+		},
 		emits: {
 			'set-units': (_units: Units) => true,
 			'set-language': (_language: AppLanguage) => true,
@@ -170,9 +150,9 @@
 			'update:trendMode': (_mode: TrendMode) => true,
 			'set-max-saved-records': (_limit: number) => true,
 			'set-chart-sample-limit': (_limit: number) => true,
-			'delete-record': (_recordId: number) => true,
-			'update-record': (_record: WeightRecord) => true,
 			'open-policy': (_type: PolicyType) => true,
+			'export-records': () => true,
+			'import-records': (_csv: string) => true,
 			'clear-local-data': () => true
 		},
 		methods: {
@@ -185,23 +165,8 @@
 			copy(key: string) {
 				return t(this.appLanguage, key)
 			},
-			startEdit(record: WeightRecord) {
-				this.editingRecordId = record.id
-				this.editWeight = record.weight
-				this.editBmi = record.bmi
-			},
-			cancelEdit() {
-				this.editingRecordId = null
-				this.editWeight = ''
-				this.editBmi = ''
-			},
-			saveRecord(record: WeightRecord) {
-				this.$emit('update-record', {
-					...record,
-					weight: this.editWeight,
-					bmi: this.editBmi
-				})
-				this.cancelEdit()
+			importRecords() {
+				this.$emit('import-records', this.importCsvText)
 			}
 		}
 	}

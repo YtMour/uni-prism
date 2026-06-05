@@ -43,39 +43,62 @@ type dailyMetric struct {
 }
 
 type snapshot struct {
-	AppName         string          `json:"appName"`
-	Environment     string          `json:"environment"`
-	AdMode          string          `json:"adMode"`
-	AdMetrics       adMetrics       `json:"adMetrics"`
-	ActivityMetrics activityMetrics `json:"activityMetrics"`
-	Config          opsConfig       `json:"config"`
-	Permissions     []string        `json:"permissions"`
-	Notes           []string        `json:"notes"`
-	ServerTime      string          `json:"serverTime"`
-	AppBasePending  bool            `json:"appBasePending"`
+	AppName         string               `json:"appName"`
+	Environment     string               `json:"environment"`
+	AdMode          string               `json:"adMode"`
+	AdMetrics       adMetrics            `json:"adMetrics"`
+	ActivityMetrics activityMetrics      `json:"activityMetrics"`
+	Config          opsConfig            `json:"config"`
+	ConfigHistory   []configHistoryEntry `json:"configHistory"`
+	Permissions     []string             `json:"permissions"`
+	Notes           []string             `json:"notes"`
+	ServerTime      string               `json:"serverTime"`
+	AppBasePending  bool                 `json:"appBasePending"`
 }
 
 type opsConfig struct {
-	AdPlaceholderEnabled bool   `json:"adPlaceholderEnabled"`
-	AppBaseSmokeStatus   string `json:"appBaseSmokeStatus"`
-	H5Version            string `json:"h5Version"`
-	AndroidBaseStatus    string `json:"androidBaseStatus"`
-	ReleaseNote          string `json:"releaseNote"`
-	ShowReleaseNote      bool   `json:"showReleaseNote"`
-	TestAnnouncement     string `json:"testAnnouncement"`
-	ShowTestAnnouncement bool   `json:"showTestAnnouncement"`
-	UpdatedAt            string `json:"updatedAt"`
+	AdPlaceholderEnabled bool         `json:"adPlaceholderEnabled"`
+	AppBaseSmokeStatus   string       `json:"appBaseSmokeStatus"`
+	AppBaseSmokeChecks   []smokeCheck `json:"appBaseSmokeChecks"`
+	H5Version            string       `json:"h5Version"`
+	AndroidBaseStatus    string       `json:"androidBaseStatus"`
+	ReleaseNote          string       `json:"releaseNote"`
+	ShowReleaseNote      bool         `json:"showReleaseNote"`
+	TestAnnouncement     string       `json:"testAnnouncement"`
+	ShowTestAnnouncement bool         `json:"showTestAnnouncement"`
+	UpdatedAt            string       `json:"updatedAt"`
 }
 
 type configRequest struct {
-	AdPlaceholderEnabled *bool  `json:"adPlaceholderEnabled"`
-	AppBaseSmokeStatus   string `json:"appBaseSmokeStatus"`
-	H5Version            string `json:"h5Version"`
-	AndroidBaseStatus    string `json:"androidBaseStatus"`
-	ReleaseNote          string `json:"releaseNote"`
-	ShowReleaseNote      *bool  `json:"showReleaseNote"`
-	TestAnnouncement     string `json:"testAnnouncement"`
-	ShowTestAnnouncement *bool  `json:"showTestAnnouncement"`
+	AdPlaceholderEnabled *bool        `json:"adPlaceholderEnabled"`
+	AppBaseSmokeStatus   string       `json:"appBaseSmokeStatus"`
+	AppBaseSmokeChecks   []smokeCheck `json:"appBaseSmokeChecks"`
+	H5Version            string       `json:"h5Version"`
+	AndroidBaseStatus    string       `json:"androidBaseStatus"`
+	ReleaseNote          string       `json:"releaseNote"`
+	ShowReleaseNote      *bool        `json:"showReleaseNote"`
+	TestAnnouncement     string       `json:"testAnnouncement"`
+	ShowTestAnnouncement *bool        `json:"showTestAnnouncement"`
+}
+
+type smokeCheck struct {
+	ID        string `json:"id"`
+	Label     string `json:"label"`
+	Status    string `json:"status"`
+	Note      string `json:"note"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type configHistoryEntry struct {
+	UpdatedAt              string `json:"updatedAt"`
+	AdPlaceholderEnabled   bool   `json:"adPlaceholderEnabled"`
+	AppBaseSmokeStatus     string `json:"appBaseSmokeStatus"`
+	H5Version              string `json:"h5Version"`
+	AndroidBaseStatus      string `json:"androidBaseStatus"`
+	ShowTestAnnouncement   bool   `json:"showTestAnnouncement"`
+	TestAnnouncementLength int    `json:"testAnnouncementLength"`
+	PassedSmokeChecks      int    `json:"passedSmokeChecks"`
+	BlockedSmokeChecks     int    `json:"blockedSmokeChecks"`
 }
 
 type adEventRequest struct {
@@ -103,6 +126,7 @@ type visitorStats struct {
 type persistState struct {
 	Metrics         adMetrics                  `json:"metrics"`
 	Config          opsConfig                  `json:"config"`
+	ConfigHistory   []configHistoryEntry       `json:"configHistory"`
 	Visitors        map[string]*visitorStats   `json:"visitors"`
 	Sessions        map[string]time.Time       `json:"sessions"`
 	EventBreakdown  map[string]int             `json:"eventBreakdown"`
@@ -125,6 +149,7 @@ type store struct {
 	lastActivityAt  string
 	activityUpdated string
 	config          opsConfig
+	configHistory   []configHistoryEntry
 	dataPath        string
 }
 
@@ -155,6 +180,7 @@ func main() {
 	mux.HandleFunc("/api/admin/activity-event", withCors(state.activityEventHandler))
 	mux.HandleFunc("/api/admin/reset", withCors(state.resetHandler))
 	mux.HandleFunc("/api/admin/config", withCors(state.configHandler))
+	mux.HandleFunc("/api/admin/export", withCors(state.exportHandler))
 	mux.HandleFunc("/api/app/config", withCors(state.appConfigHandler))
 
 	addr := "0.0.0.0:" + port
@@ -181,6 +207,7 @@ func (s *store) summaryHandler(w http.ResponseWriter, r *http.Request) {
 	metrics := s.metrics
 	activity := s.activitySnapshotLocked()
 	config := s.config
+	history := append([]configHistoryEntry(nil), s.configHistory...)
 	s.mu.RUnlock()
 
 	writeJSON(w, http.StatusOK, snapshot{
@@ -190,6 +217,7 @@ func (s *store) summaryHandler(w http.ResponseWriter, r *http.Request) {
 		AdMetrics:       metrics,
 		ActivityMetrics: activity,
 		Config:          config,
+		ConfigHistory:   history,
 		Permissions:     []string{},
 		Notes: []string{
 			"当前仅使用广告占位，不接入真实广告 SDK。",
@@ -233,6 +261,7 @@ func (s *store) configHandler(w http.ResponseWriter, r *http.Request) {
 
 	s.mu.Lock()
 	s.config = nextConfig
+	s.appendConfigHistoryLocked(nextConfig)
 	if err := s.saveLocked(); err != nil {
 		log.Printf("save config failed: %v", err)
 	}
@@ -240,6 +269,32 @@ func (s *store) configHandler(w http.ResponseWriter, r *http.Request) {
 	s.mu.Unlock()
 
 	writeJSON(w, http.StatusOK, config)
+}
+
+func (s *store) exportHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
+		return
+	}
+
+	s.mu.RLock()
+	metrics := s.metrics
+	activity := s.activitySnapshotLocked()
+	config := s.config
+	history := append([]configHistoryEntry(nil), s.configHistory...)
+	s.mu.RUnlock()
+
+	w.Header().Set("Content-Disposition", "attachment; filename=fitcal-admin-export.json")
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"exportedAt":       now(),
+		"appName":          "FitCal",
+		"environment":      env("FITCAL_ENV", "local"),
+		"adMetrics":        metrics,
+		"activityMetrics":  activity,
+		"config":           config,
+		"configHistory":    history,
+		"productionNotice": "Local smoke/testing export only. No user body measurements are collected by the backend.",
+	})
 }
 
 func (s *store) appConfigHandler(w http.ResponseWriter, r *http.Request) {
@@ -392,6 +447,7 @@ func defaultConfig() opsConfig {
 	return opsConfig{
 		AdPlaceholderEnabled: true,
 		AppBaseSmokeStatus:   "pending",
+		AppBaseSmokeChecks:   defaultSmokeChecks(),
 		H5Version:            "1.0.1",
 		AndroidBaseStatus:    "custom-base-testing",
 		ReleaseNote:          "MVP smoke hardening in progress.",
@@ -419,6 +475,10 @@ func normalizeConfig(body configRequest, updatedAt string) (opsConfig, error) {
 	if status != "pending" && status != "passed" && status != "blocked" {
 		return opsConfig{}, errors.New("appBaseSmokeStatus must be pending, passed, or blocked")
 	}
+	smokeChecks := normalizeSmokeChecks(body.AppBaseSmokeChecks, updatedAt)
+	if status == "passed" && !allSmokeChecksPassed(smokeChecks) {
+		return opsConfig{}, errors.New("all appBaseSmokeChecks must pass before appBaseSmokeStatus can be passed")
+	}
 	androidStatus := body.AndroidBaseStatus
 	if androidStatus == "" {
 		androidStatus = "custom-base-testing"
@@ -437,6 +497,7 @@ func normalizeConfig(body configRequest, updatedAt string) (opsConfig, error) {
 	return opsConfig{
 		AdPlaceholderEnabled: *body.AdPlaceholderEnabled,
 		AppBaseSmokeStatus:   status,
+		AppBaseSmokeChecks:   smokeChecks,
 		H5Version:            normalizeText(body.H5Version, "1.0.1"),
 		AndroidBaseStatus:    androidStatus,
 		ReleaseNote:          releaseNote,
@@ -445,6 +506,60 @@ func normalizeConfig(body configRequest, updatedAt string) (opsConfig, error) {
 		ShowTestAnnouncement: *body.ShowTestAnnouncement,
 		UpdatedAt:            updatedAt,
 	}, nil
+}
+
+func defaultSmokeChecks() []smokeCheck {
+	return []smokeCheck{
+		{ID: "bmi-flow", Label: "BMI 数值键盘、计算和记录写入", Status: "pending"},
+		{ID: "calories-flow", Label: "热量计算控件、结果卡和广告占位", Status: "pending"},
+		{ID: "guidance-flow", Label: "指南、宏量视觉和 7 日指南 CTA", Status: "pending"},
+		{ID: "records-flow", Label: "记录增删、趋势切换和图表边界", Status: "pending"},
+		{ID: "settings-policy", Label: "设置持久化、政策页面和原生返回", Status: "pending"},
+		{ID: "restart-persistence", Label: "重启后单位、记录和图表设置持久化", Status: "pending"},
+		{ID: "manifest-permissions", Label: "无异常权限弹窗、无 Push/GtPush 回归", Status: "pending"},
+	}
+}
+
+func normalizeSmokeChecks(input []smokeCheck, updatedAt string) []smokeCheck {
+	defaults := defaultSmokeChecks()
+	byID := map[string]smokeCheck{}
+	for _, item := range input {
+		byID[item.ID] = item
+	}
+	result := make([]smokeCheck, 0, len(defaults))
+	for _, item := range defaults {
+		if saved, exists := byID[item.ID]; exists {
+			item.Status = normalizeSmokeStatus(saved.Status)
+			item.Note = normalizeText(saved.Note, "")
+			if saved.UpdatedAt != "" {
+				item.UpdatedAt = saved.UpdatedAt
+			}
+			if item.UpdatedAt == "" || saved.Status != item.Status || saved.Note != item.Note {
+				item.UpdatedAt = updatedAt
+			}
+		}
+		result = append(result, item)
+	}
+	return result
+}
+
+func normalizeSmokeStatus(value string) string {
+	if value == "passed" || value == "blocked" {
+		return value
+	}
+	return "pending"
+}
+
+func allSmokeChecksPassed(checks []smokeCheck) bool {
+	if len(checks) == 0 {
+		return false
+	}
+	for _, check := range checks {
+		if check.Status != "passed" {
+			return false
+		}
+	}
+	return true
 }
 
 func visibleText(value string, visible bool) string {
@@ -586,6 +701,7 @@ func (s *store) load() error {
 	if state.Config.UpdatedAt != "" {
 		s.config = mergeConfigDefaults(state.Config)
 	}
+	s.configHistory = normalizeConfigHistory(state.ConfigHistory)
 	s.visitors = ensureVisitors(state.Visitors)
 	s.sessions = ensureSessions(state.Sessions)
 	s.eventBreakdown = ensureCounters(state.EventBreakdown)
@@ -606,6 +722,7 @@ func (s *store) saveLocked() error {
 	state := persistState{
 		Metrics:         s.metrics,
 		Config:          s.config,
+		ConfigHistory:   s.configHistory,
 		Visitors:        s.visitors,
 		Sessions:        s.sessions,
 		EventBreakdown:  s.eventBreakdown,
@@ -620,6 +737,52 @@ func (s *store) saveLocked() error {
 		return err
 	}
 	return os.WriteFile(s.dataPath, content, 0600)
+}
+
+func (s *store) appendConfigHistoryLocked(config opsConfig) {
+	s.configHistory = append([]configHistoryEntry{configHistoryEntryFrom(config)}, s.configHistory...)
+	if len(s.configHistory) > 20 {
+		s.configHistory = s.configHistory[:20]
+	}
+}
+
+func configHistoryEntryFrom(config opsConfig) configHistoryEntry {
+	passed, blocked := smokeCheckCounts(config.AppBaseSmokeChecks)
+	return configHistoryEntry{
+		UpdatedAt:              config.UpdatedAt,
+		AdPlaceholderEnabled:   config.AdPlaceholderEnabled,
+		AppBaseSmokeStatus:     config.AppBaseSmokeStatus,
+		H5Version:              config.H5Version,
+		AndroidBaseStatus:      config.AndroidBaseStatus,
+		ShowTestAnnouncement:   config.ShowTestAnnouncement,
+		TestAnnouncementLength: len(config.TestAnnouncement),
+		PassedSmokeChecks:      passed,
+		BlockedSmokeChecks:     blocked,
+	}
+}
+
+func smokeCheckCounts(checks []smokeCheck) (int, int) {
+	passed := 0
+	blocked := 0
+	for _, check := range checks {
+		if check.Status == "passed" {
+			passed++
+		}
+		if check.Status == "blocked" {
+			blocked++
+		}
+	}
+	return passed, blocked
+}
+
+func normalizeConfigHistory(history []configHistoryEntry) []configHistoryEntry {
+	if len(history) > 20 {
+		return history[:20]
+	}
+	if history == nil {
+		return []configHistoryEntry{}
+	}
+	return history
 }
 
 func (s *store) resetLocked() {
@@ -678,6 +841,7 @@ func ensureDailySessions(value map[string]map[string]bool) map[string]map[string
 
 func mergeConfigDefaults(config opsConfig) opsConfig {
 	defaults := defaultConfig()
+	config.AppBaseSmokeChecks = normalizeSmokeChecks(config.AppBaseSmokeChecks, now())
 	if config.H5Version == "" {
 		config.H5Version = defaults.H5Version
 	}

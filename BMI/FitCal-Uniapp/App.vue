@@ -193,6 +193,50 @@
 		transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
 	}
 
+	.secondary-button.inline {
+		margin-top: 16rpx;
+	}
+
+	.secondary-button.inline.half {
+		flex: 1;
+		min-width: 0;
+		margin-top: 0;
+		font-size: 24rpx;
+	}
+
+	.secondary-button.inline.data-button {
+		width: 100%;
+		margin-top: 0;
+		font-size: 26rpx;
+		line-height: 88rpx;
+	}
+
+	.data-card {
+		overflow: hidden;
+	}
+
+	.data-action-row {
+		display: flex;
+		flex-direction: column;
+		gap: 14rpx;
+		margin-top: 18rpx;
+	}
+
+	.csv-input {
+		width: 100%;
+		min-height: 150rpx;
+		margin-top: 18rpx;
+		padding: 18rpx;
+		border: 2rpx solid #D8E6E5;
+		border-radius: 16rpx;
+		background: #FFFFFF;
+		color: #172326;
+		font-size: 24rpx;
+		font-weight: 700;
+		line-height: 1.35;
+		box-sizing: border-box;
+	}
+
 	.button-press,
 	.primary-button:active {
 		transform: translateY(3rpx) scale(0.985);

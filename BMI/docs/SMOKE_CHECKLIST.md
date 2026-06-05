@@ -71,6 +71,7 @@ Records:
 - Trend dots and line update after add/delete.
 - Trend chart line and dots stay inside the chart card on H5.
 - Trend chart shows title, latest value, value range, Y-axis labels, and start/end date labels.
+- Records has edit/delete controls for individual records and does not show CSV import/export controls.
 - Clear local data empties the list and stays empty after refresh.
 
 Settings:
@@ -82,8 +83,9 @@ Settings:
 - Trend mode controls Weight Trend and BMI Trend display.
 - Saved-record limit is controlled in Settings, and lowering it trims older records immediately.
 - Chart sample setting is controlled in Settings and changes how many newest records feed the trend chart.
-- Record management in Settings can edit weight/BMI and delete records.
+- Record management in Records can edit weight/BMI and delete records.
 - Target weight remains a direct Records-page input.
+- Local-data CSV export/import controls remain in Settings and do not overlap the CSV input on narrow screens.
 - Reminder rhythm remains a direct Guidance-page input.
 - Privacy Policy opens the dedicated privacy page.
 - Disclaimer opens the dedicated disclaimer page.

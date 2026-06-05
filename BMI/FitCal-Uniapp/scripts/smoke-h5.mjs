@@ -72,6 +72,13 @@ async function fillSettingInput(page, settingLabel, value) {
 	await card.locator('input').fill(value, { timeout })
 }
 
+async function clickButtonText(page, text) {
+	const button = page.locator('button, uni-button').filter({ hasText: text })
+	const count = await button.count()
+	assert(count === 1, `Expected one button "${text}", got ${count}`)
+	await button.click({ timeout })
+}
+
 async function selectLanguage(page, label) {
 	const pickerRow = page.locator('.picker-row')
 	const select = pickerRow.locator('select')
@@ -134,10 +141,11 @@ async function setOpsConfig(page, config) {
 
 async function main() {
 	const browser = await chromium.launch({ headless: true })
-	const page = await browser.newPage({
+	const context = await browser.newContext({
 		viewport: { width: 390, height: 844 },
 		deviceScaleFactor: 2
 	})
+	const page = await context.newPage()
 
 	const consoleIssues = []
 	page.on('console', (message) => {
@@ -174,10 +182,11 @@ async function main() {
 		const recordsAfterCalculate = await countRecords(page)
 		assert(recordsAfterCalculate > 0, 'BMI calculation did not create a Records entry')
 
-		await clickTab(page, 'Settings')
+		await clickTab(page, 'Records')
 		await page.locator('.record-delete').first().click({ timeout })
 		const recordsAfterDelete = await countRecords(page)
 		assert(recordsAfterDelete === recordsAfterCalculate - 1, 'Records delete did not remove one entry')
+		await clickTab(page, 'Settings')
 		assert(await exactTextVisible(page, 'Weight trend'), 'Missing Weight trend control')
 		await clickText(page, 'BMI trend')
 		await clickTab(page, 'Records')
@@ -244,12 +253,12 @@ async function main() {
 		assert(await exactTextVisible(page, '进度摘要'), 'Progress summary panel did not render')
 		assert(await exactTextVisible(page, '5 条记录'), 'Progress summary record count did not render')
 		assert(await exactTextVisible(page, '无变化'), 'Progress summary direction did not render')
-		await clickTab(page, '设置')
+		await clickTab(page, '记录')
 		await editFirstRecord(page, '150', '26')
 		assert(await anyExactTextVisible(page, '150.0 lb'), 'Edited record weight did not render')
 		assert(await textVisible(page, 'BMI 26.0'), 'Edited record BMI did not render')
-		await clickTab(page, '记录')
 		assert(await exactTextVisible(page, '10.0 lb'), 'Edited record did not update target progress')
+		assert(!(await page.getByText('导入记录 CSV', { exact: true }).isVisible({ timeout: 1000 }).catch(() => false)), 'Records page should not own CSV import controls')
 		await clickTab(page, '设置')
 		assert(await exactTextVisible(page, '记录筛选'), 'Record filter panel did not render')
 		await clickText(page, '最近 5 条')
@@ -272,6 +281,8 @@ async function main() {
 		assert(await anyExactTextVisible(page, '150.0 lb'), 'Edited record did not persist after reload')
 		await clickTab(page, '设置')
 		assert(await exactTextVisible(page, '记录筛选'), 'Record filter did not render after reload')
+		await clickText(page, '复制记录 CSV')
+		assert(await anyExactTextVisible(page, '记录 CSV 已复制') || await anyExactTextVisible(page, 'CSV 复制失败'), 'Settings CSV export feedback did not render')
 
 		await clickTab(page, '设置')
 		await clickText(page, '清除本地数据')
@@ -281,6 +292,22 @@ async function main() {
 		await reloadApp(page)
 		await clickTab(page, '记录')
 		await assertRecordCount(page, 0, 'Cleared Records list did not persist after reload')
+		await clickTab(page, '设置')
+		await clickText(page, '复制记录 CSV')
+		assert(await anyExactTextVisible(page, '暂无记录可导出'), 'Empty Settings CSV export feedback did not render')
+		const csvInput = page.getByRole('textbox').last()
+		await csvInput.click({ timeout })
+		await csvInput.fill('not,a,fitcal,csv', { timeout })
+		await clickButtonText(page, '导入记录 CSV')
+		assert(await anyExactTextVisible(page, 'CSV 输入中没有有效记录'), 'Invalid Settings CSV import feedback did not render')
+		await csvInput.click({ timeout })
+		await csvInput.fill('', { timeout })
+		await csvInput.type('date,weight_kg,bmi\n2026-06-05,70.2,23.1\n2026-06-04,70.6,23.3', { timeout })
+		await clickButtonText(page, '导入记录 CSV')
+		assert(await anyExactTextVisible(page, '已导入 2 条记录'), 'Settings CSV import success feedback did not render')
+		await clickTab(page, '记录')
+		await assertRecordCount(page, 2, 'Settings CSV import did not replace local records')
+		assert(await pageIncludes(page, '70.2'), 'Imported record weight did not render')
 
 		await assertRouteIncludes(browser, `${baseUrl}#/pages/policy/policy?type=privacy`, '隐私政策', 'zh-Hans')
 		await assertRouteIncludes(browser, `${baseUrl}#/pages/policy/policy?type=disclaimer`, '免责声明', 'zh-Hans')
@@ -312,3 +339,4 @@ main().catch((error) => {
 	console.error(error.message)
 	process.exit(1)
 })
+

@@ -18,27 +18,25 @@ The app should be positioned as a wellness and fitness utility, not as a medical
 - Goal-based diet guidance
 - Weight and BMI history
 - Local-first records
-- Ad-supported monetization
+- Local-data CSV import/export
+- Placeholder-only ad layout for future monetization review
 
 ## Target Platforms
 
-- Android App first
+- H5 preview during current development and verification
+- Android App later after package verification resumes
 - iOS App later after product validation
-- H5 preview during development
 - Mini program adaptation only after the app flow is stable
 
 ## Documentation
 
+- [Documentation Index](docs/DOCUMENTATION_INDEX.md)
+- [Project Status and Plan](docs/PROJECT_STATUS_AND_PLAN.md)
+- [Implementation Status](docs/IMPLEMENTATION_STATUS.md)
 - [Product Plan](docs/PRODUCT_PLAN.md)
 - [Feature Specification](docs/FEATURE_SPEC.md)
-- [Implementation Overview](docs/IMPLEMENTATION_OVERVIEW.md)
-- [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md)
-- [Next Steps](docs/NEXT_STEPS.md)
 - [Monetization Plan](docs/MONETIZATION_PLAN.md)
 - [Compliance Notes](docs/COMPLIANCE_NOTES.md)
-- [Implementation Status](docs/IMPLEMENTATION_STATUS.md)
-- [Project Status and Plan](docs/PROJECT_STATUS_AND_PLAN.md)
-- [MVP Hardening Plan](docs/MVP_HARDENING_PLAN.md)
 - [Smoke Checklist](docs/SMOKE_CHECKLIST.md)
 - [Android App-base Smoke Guide](docs/ANDROID_APP_BASE_SMOKE.md)
 - [Store Launch Prep](docs/STORE_LAUNCH_PREP.md)
@@ -46,23 +44,38 @@ The app should be positioned as a wellness and fitness utility, not as a medical
 - [Android Keystore](ANDROID_KEYSTORE.md)
 - [Admin Deployment](ADMIN_DEPLOYMENT.md)
 
+Archived pointers kept for old links:
+
+- [Implementation Overview](docs/IMPLEMENTATION_OVERVIEW.md)
+- [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md)
+- [Next Steps](docs/NEXT_STEPS.md)
+- [MVP Hardening Plan](docs/MVP_HARDENING_PLAN.md)
+
 ## Current Stage
 
-The uni-app offline MVP has been scaffolded under `FitCal-Uniapp` and now includes:
+The uni-app MVP under `FitCal-Uniapp` is runnable and currently includes:
 
 1. BMI calculator
 2. Calorie calculator
-3. Diet guidance
-4. Local history
-5. Settings, privacy, and disclaimer entry points
-6. TypeScript entrypoints and modular calculator/storage/data services
+3. Goal-based guidance
+4. Local Records with add/edit/delete, target progress, and trend chart
+5. Settings with units, language, record display controls, CSV local-data import/export, privacy, disclaimer, and clear local data
+6. TypeScript entrypoints and modular calculator/storage/policy/data services
+7. H5 smoke, i18n audit, narrow layout audit, and store screenshot capture scripts
+8. Separated Go backend and React admin for internal testing metrics and operations config
 
-Run the H5 verification build from `FitCal-Uniapp`:
+Current scope intentionally skips Android package verification and production ad SDK integration.
+
+Run H5 verification from `FitCal-Uniapp`:
 
 ```bash
 npm install
 npm run typecheck
+npm run audit:i18n
+npm run audit:layout:h5
 npm run build:h5
+npm run smoke:h5
+npm run capture:store
 npm run dev:h5
 ```
 
