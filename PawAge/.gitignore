@@ -1,0 +1,10 @@
+node_modules/
+dist/
+
+PawAge-Uniapp/node_modules/
+PawAge-Uniapp/dist/
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
