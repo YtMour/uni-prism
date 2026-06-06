@@ -77,7 +77,7 @@ export function calculatePetAge(profile: Pick<PetProfile, 'species' | 'birthday'
   const months = totalMonths % 12
   const days = Math.max(0, Math.round(totalDays - Math.floor(totalMonths * 30.4375)))
   const stage = resolveStage(profile.species, totalMonths)
-  const nextStage = resolveNextStage(profile.species, totalMonths, birthday)
+  const nextStage = resolveNextStage(profile.species, totalMonths, birthday, now)
 
   return {
     actualAge: {
@@ -114,13 +114,13 @@ function resolveStage(species: PetSpecies, totalMonths: number): LifeStage {
   }, 'puppy_kitten')
 }
 
-function resolveNextStage(species: PetSpecies, totalMonths: number, birthday: Date): { label: string; days: number } | null {
+function resolveNextStage(species: PetSpecies, totalMonths: number, birthday: Date, now: Date): { label: string; days: number } | null {
   const next = STAGE_THRESHOLDS[species].find((item) => item.months > totalMonths)
 
   if (!next) return null
 
   const nextDate = addMonths(birthday, next.months)
-  const days = Math.max(0, Math.ceil((nextDate.getTime() - startOfDay(new Date()).getTime()) / DAY_MS))
+  const days = Math.max(0, Math.ceil((nextDate.getTime() - startOfDay(now).getTime()) / DAY_MS))
 
   return {
     label: STAGE_ADVICE[next.stage].label,

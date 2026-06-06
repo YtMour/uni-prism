@@ -2,18 +2,18 @@
   <view class="app-shell">
     <scroll-view class="page" scroll-y>
       <view class="top-bar">
-        <button class="round-action" @click="activeTab = 'home'">
+        <button class="round-action" @click="setActiveTab('home')">
           <image class="round-icon" :src="assets.timelinePaw" mode="aspectFit" />
         </button>
         <view class="pet-switcher">
-          <view class="switcher-avatar active">
+          <button class="switcher-avatar active" @click="setActiveTab('profile')">
             <image :src="currentSpeciesIcon" mode="aspectFit" />
-          </view>
-          <view class="switcher-avatar">
+          </button>
+          <button class="switcher-avatar" @click="setActiveTab('profile')">
             <image :src="secondarySpeciesIcon" mode="aspectFit" />
-          </view>
+          </button>
         </view>
-        <button class="round-action add" @click="activeTab = 'profile'">+</button>
+        <button class="round-action add" @click="setActiveTab('profile')">+</button>
       </view>
 
       <view v-if="activeTab === 'home'" class="tab-view">
@@ -21,7 +21,7 @@
           <view class="pet-hero">
             <view class="pet-art-wrap">
               <image class="pet-art" :src="currentSpeciesIcon" mode="aspectFit" />
-              <button class="camera-dot">◎</button>
+              <button class="camera-dot" @click="setActiveTab('profile')">Edit</button>
             </view>
             <view class="age-summary">
               <text class="muted-label">Human age estimate</text>
@@ -58,14 +58,14 @@
         </view>
 
         <view class="advice-list">
-          <view v-for="item in adviceItems" :key="item.title" class="advice-row" :class="item.tone">
+          <button v-for="item in adviceItems" :key="item.title" class="advice-row" :class="item.tone" @click="openAdvice(item.title)">
             <image class="advice-icon" :src="item.icon" mode="aspectFit" />
             <view class="advice-copy">
               <text class="advice-title">{{ item.title }}</text>
               <text class="body-text">{{ item.text }}</text>
             </view>
             <text class="row-arrow">›</text>
-          </view>
+          </button>
         </view>
       </view>
 
@@ -81,11 +81,17 @@
         <view class="avatar-strip">
           <view class="avatar-large">
             <image :src="currentSpeciesIcon" mode="aspectFit" />
-            <view class="camera-badge">◎</view>
+            <button class="camera-badge" @click="chooseAvatar('custom')">+</button>
           </view>
-          <image class="avatar-option active" :src="assets.dogAdult" mode="aspectFit" />
-          <image class="avatar-option" :src="assets.catAdult" mode="aspectFit" />
-          <image class="avatar-option" :src="assets.lifecyclePuppy" mode="aspectFit" />
+          <button
+            v-for="option in avatarOptions"
+            :key="option.value"
+            class="avatar-option"
+            :class="{ active: selectedAvatar === option.value }"
+            @click="chooseAvatar(option.value)"
+          >
+            <image :src="option.src" mode="aspectFit" />
+          </button>
         </view>
 
         <view class="form-card">
@@ -147,14 +153,14 @@
         </view>
 
         <view class="advice-list">
-          <view v-for="item in adviceItems" :key="item.title" class="advice-row" :class="item.tone">
+          <button v-for="item in adviceItems" :key="item.title" class="advice-row" :class="item.tone" @click="openAdvice(item.title)">
             <image class="advice-icon" :src="item.icon" mode="aspectFit" />
             <view class="advice-copy">
               <text class="advice-title">{{ item.title }}</text>
               <text class="body-text">{{ item.text }}</text>
             </view>
             <text class="row-arrow">›</text>
-          </view>
+          </button>
         </view>
       </view>
 
@@ -162,46 +168,146 @@
         <view class="share-builder">
           <view class="share-card">
             <image class="share-bg" :src="assets.shareCardBackground" mode="aspectFill" />
-            <view class="share-overlay">
+            <view class="share-overlay" :class="[selectedShareTemplate, selectedShareSwatch]">
               <text class="share-name">{{ pet.name }}</text>
               <text class="share-age">{{ ageResult.humanAge }}</text>
               <text class="share-stage">{{ ageResult.stage.label }}</text>
             </view>
           </view>
 
+          <text class="control-label">Template</text>
           <view class="template-strip">
-            <view class="template-thumb active" />
-            <view class="template-thumb peach" />
-            <view class="template-thumb sage" />
-            <view class="template-thumb sky" />
+            <button
+              v-for="template in shareTemplates"
+              :key="template.value"
+              class="template-thumb"
+              :class="[template.tone, { active: selectedShareTemplate === template.value }]"
+              @click="selectedShareTemplate = template.value"
+            />
           </view>
 
+          <text class="control-label">Accent color</text>
           <view class="swatch-row">
-            <view class="swatch cream active" />
-            <view class="swatch peach" />
-            <view class="swatch sage" />
-            <view class="swatch sky" />
-            <view class="swatch brown" />
+            <button
+              v-for="swatch in shareSwatches"
+              :key="swatch.value"
+              class="swatch"
+              :class="[swatch.value, { active: selectedShareSwatch === swatch.value }]"
+              @click="selectedShareSwatch = swatch.value"
+            />
           </view>
 
           <button class="share-button" @click="shareMilestone">Share milestone</button>
+          <text v-if="shareStatus" class="share-status">{{ shareStatus }}</text>
         </view>
       </view>
 
       <view v-else class="tab-view">
         <view class="settings-card">
-          <text class="screen-title">Settings</text>
-          <view v-for="item in settingsItems" :key="item.title" class="settings-row">
-            <text class="settings-title">{{ item.title }}</text>
-            <view class="settings-value-wrap">
-              <text class="settings-value">{{ item.value }}</text>
-              <text class="row-arrow">›</text>
+          <view v-if="settingsView === 'home'">
+            <text class="screen-title">{{ t.settings.title }}</text>
+            <button v-for="item in settingsItems" :key="item.key" class="settings-row" @click="openSettingsView(item.key)">
+              <text class="settings-title">{{ item.title }}</text>
+              <view class="settings-value-wrap">
+                <text class="settings-value">{{ item.value }}</text>
+                <text class="row-arrow">›</text>
+              </view>
+            </button>
+            <button class="secondary-button danger" @click="confirmClearLocalData">{{ t.settings.clearLocalData }}</button>
+            <text class="disclaimer">Age results are estimates for general wellness reference only. Always consult a veterinarian for medical concerns.</text>
+          </view>
+
+          <view v-else-if="settingsView === 'language'" class="settings-panel">
+            <button class="back-button" @click="settingsView = 'home'">‹ {{ t.settings.back }}</button>
+            <text class="screen-title">{{ t.settings.language }}</text>
+            <view class="language-list">
+              <button
+                v-for="option in languageOptions"
+                :key="option.code"
+                class="language-option"
+                :class="{ active: appSettings.language === option.code }"
+                @click="setLanguage(option.code)"
+              >
+                <view>
+                  <text class="settings-title">{{ option.label }}</text>
+                  <text class="settings-value">{{ option.nativeLabel }}</text>
+                </view>
+                <text class="check-mark">{{ appSettings.language === option.code ? '✓' : '' }}</text>
+              </button>
             </view>
           </view>
-          <button class="secondary-button" @click="clearLocalData">Clear local data</button>
-          <text class="disclaimer">Age results are estimates for general wellness reference only. Always consult a veterinarian for medical concerns.</text>
+
+          <view v-else-if="settingsView === 'privacy'" class="settings-panel">
+            <button class="back-button" @click="settingsView = 'home'">‹ {{ t.settings.back }}</button>
+            <text class="screen-title">{{ t.settings.privacy }}</text>
+            <view class="policy-block">
+              <text class="policy-title">Privacy-first storage</text>
+              <text class="body-text">PawAge stores pet profile basics on this device. The MVP does not require an account and does not upload pet names, birthdays, species, dog size, or avatar choices to a cloud service.</text>
+            </view>
+            <view class="policy-block">
+              <text class="policy-title">Local controls</text>
+              <text class="body-text">You can reset the local profile from Settings. Future cloud sync, subscriptions, analytics, or reminders must be disclosed before they are enabled.</text>
+            </view>
+          </view>
+
+          <view v-else-if="settingsView === 'disclaimer'" class="settings-panel">
+            <button class="back-button" @click="settingsView = 'home'">‹ {{ t.settings.back }}</button>
+            <text class="screen-title">{{ t.settings.disclaimer }}</text>
+            <view class="policy-block">
+              <text class="policy-title">General wellness reference</text>
+              <text class="body-text">PawAge age results are estimates based on species, birthday, and broad dog size groups. They are not a diagnosis, treatment plan, or substitute for professional veterinary care.</text>
+            </view>
+            <view class="policy-block">
+              <text class="policy-title">Health decisions</text>
+              <text class="body-text">For pain, appetite changes, mobility changes, medication, disease risk, or urgent symptoms, talk to a licensed veterinarian.</text>
+            </view>
+          </view>
+
+          <view v-else-if="settingsView === 'localData'" class="settings-panel">
+            <button class="back-button" @click="settingsView = 'home'">‹ {{ t.settings.back }}</button>
+            <text class="screen-title">{{ t.settings.localData }}</text>
+            <view class="policy-block">
+              <text class="policy-title">What is stored</text>
+              <text class="body-text">PawAge keeps one local pet profile, the selected language, and reminder preference on this device. The pet profile storage is versioned for future migrations.</text>
+            </view>
+            <view class="policy-block">
+              <text class="policy-title">Reset behavior</text>
+              <text class="body-text">Clear local data resets the saved pet profile after confirmation. Language and reminder preferences stay in Settings so the app does not unexpectedly change locale.</text>
+            </view>
+            <button class="secondary-button danger" @click="confirmClearLocalData">{{ t.settings.clearLocalData }}</button>
+          </view>
+
+          <view v-else-if="settingsView === 'reminder'" class="settings-panel">
+            <button class="back-button" @click="settingsView = 'home'">‹ {{ t.settings.back }}</button>
+            <text class="screen-title">{{ t.settings.reminder }}</text>
+            <view class="toggle-card">
+              <view>
+                <text class="policy-title">Lifecycle reminders</text>
+                <text class="body-text">Keep this as an in-app preference for birthday and life-stage prompts. System notifications will require a separate permission step later.</text>
+              </view>
+              <switch :checked="appSettings.remindersEnabled" color="#a3b19b" @change="setReminderPreference" />
+            </view>
+            <view class="policy-block">
+              <text class="policy-title">Current MVP behavior</text>
+              <text class="body-text">This setting is saved locally but does not schedule push notifications yet. It prepares the UI and data model before App permission work begins.</text>
+            </view>
+          </view>
+
+          <view v-else class="settings-panel">
+            <button class="back-button" @click="settingsView = 'home'">‹ {{ t.settings.back }}</button>
+            <text class="screen-title">{{ t.settings.pro }}</text>
+            <view class="pro-preview">
+              <text class="policy-title">Planned Pro value</text>
+              <text class="body-text">PawAge Pro should focus on multi-pet profiles, advanced share templates, custom reminders, and deeper life-stage reports. The free version should keep the core age conversion complete.</text>
+            </view>
+            <view class="policy-block">
+              <text class="policy-title">Not active yet</text>
+              <text class="body-text">No payment, subscription, or account flow is connected in this MVP build.</text>
+            </view>
+          </view>
         </view>
       </view>
+      <view class="bottom-spacer" />
     </scroll-view>
 
     <view class="bottom-nav">
@@ -210,7 +316,7 @@
         :key="item.value"
         class="nav-item"
         :class="{ active: activeTab === item.value }"
-        @click="activeTab = item.value"
+        @click="setActiveTab(item.value)"
       >
         <text class="nav-icon">{{ item.icon }}</text>
         <text class="nav-label">{{ item.label }}</text>
@@ -222,10 +328,13 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
+import { languageOptions, messages } from '../../data/i18n'
 import { dogSizeOptions, speciesOptions } from '../../data/lifeStage'
+import type { LanguageCode } from '../../data/i18n'
 import type { DogSize, PetProfile, PetSpecies } from '../../types/pet'
 import { calculatePetAge } from '../../utils/ageCalculator'
 import { createDefaultPetProfile, loadPetProfiles, savePetProfiles, updatePetProfile } from '../../utils/petStorage'
+import { loadAppSettings, saveAppSettings, updateAppSettings } from '../../utils/settingsStorage'
 import catAdult from '../../static/assets/cat-adult.png'
 import dogAdult from '../../static/assets/dog-adult.png'
 import iconActivityToy from '../../static/assets/icon-activity-toy.png'
@@ -239,6 +348,11 @@ import shareCardBackground from '../../static/assets/share-card-background.png'
 import timelinePaw from '../../static/assets/timeline-paw-marker-transparent.png'
 
 type TabKey = 'home' | 'profile' | 'life' | 'share' | 'settings'
+type SettingsView = 'home' | 'language' | 'privacy' | 'disclaimer' | 'localData' | 'reminder' | 'pro'
+type SettingsItemKey = Exclude<SettingsView, 'home'>
+type AvatarPreset = 'dog' | 'cat' | 'puppy'
+type ShareTemplate = 'classic' | 'peach' | 'sage' | 'sky'
+type ShareSwatch = 'cream' | 'peach' | 'sage' | 'sky' | 'brown'
 
 const tabs: Array<{ value: TabKey; label: string; icon: string }> = [
   { value: 'home', label: 'Home', icon: '⌂' },
@@ -264,10 +378,16 @@ const assets = {
 
 const today = new Date().toISOString().slice(0, 10)
 const activeTab = ref<TabKey>('home')
+const settingsView = ref<SettingsView>('home')
+const selectedShareTemplate = ref<ShareTemplate>('classic')
+const selectedShareSwatch = ref<ShareSwatch>('cream')
+const shareStatus = ref('')
 const pet = reactive<PetProfile>(createDefaultPetProfile())
+const appSettings = reactive(loadAppSettings())
 
 onLoad(() => {
   const saved = loadPetProfiles()[0]
+  Object.assign(appSettings, loadAppSettings())
 
   if (saved) {
     Object.assign(pet, saved)
@@ -328,12 +448,48 @@ const adviceItems = computed(() => [
   }
 ])
 
-const settingsItems = [
-  { title: 'Language', value: 'English' },
-  { title: 'Local data', value: 'Stored on device' },
-  { title: 'Reminder', value: 'Off' },
-  { title: 'PawAge Pro', value: 'Preview' }
+const avatarOptions = computed<Array<{ value: AvatarPreset; src: string }>>(() => [
+  { value: 'dog', src: assets.dogAdult },
+  { value: 'cat', src: assets.catAdult },
+  { value: 'puppy', src: assets.lifecyclePuppy }
+])
+
+const selectedAvatar = computed<AvatarPreset>(() => {
+  if (pet.avatar === 'cat') return 'cat'
+  if (pet.avatar === 'puppy') return 'puppy'
+
+  return 'dog'
+})
+
+const shareTemplates: Array<{ value: ShareTemplate; tone?: string }> = [
+  { value: 'classic' },
+  { value: 'peach', tone: 'peach' },
+  { value: 'sage', tone: 'sage' },
+  { value: 'sky', tone: 'sky' }
 ]
+
+const shareSwatches: Array<{ value: ShareSwatch }> = [
+  { value: 'cream' },
+  { value: 'peach' },
+  { value: 'sage' },
+  { value: 'sky' },
+  { value: 'brown' }
+]
+
+const currentLanguage = computed(() => {
+  return languageOptions.find((option) => option.code === appSettings.language) ?? languageOptions[0]
+})
+
+const t = computed(() => messages[appSettings.language])
+
+const settingsItems = computed<Array<{ key: SettingsItemKey; title: string; value: string }>>(() => [
+  { key: 'language', title: t.value.settings.language, value: currentLanguage.value.label },
+  { key: 'localData', title: t.value.settings.localData, value: t.value.settings.storedOnDevice },
+  { key: 'privacy', title: t.value.settings.privacy, value: t.value.settings.storedOnDevice },
+  { key: 'disclaimer', title: t.value.settings.disclaimer, value: 'Required' },
+  { key: 'reminder', title: t.value.settings.reminder, value: appSettings.remindersEnabled ? 'On' : t.value.settings.off },
+  { key: 'pro', title: t.value.settings.pro, value: t.value.settings.preview }
+])
 
 const timelineProgress = computed(() => {
   const days = ageResult.value.actualAge.totalDays
@@ -376,21 +532,96 @@ function saveProfile(): void {
   })
 }
 
-function shareMilestone(): void {
+function chooseAvatar(avatar: AvatarPreset | 'custom'): void {
+  if (avatar === 'custom') {
+    uni.showToast({
+      title: 'Photo upload is next',
+      icon: 'none'
+    })
+    return
+  }
+
+  Object.assign(pet, updatePetProfile(pet, { avatar }))
+  persistPet()
+}
+
+function openAdvice(title: string): void {
+  setActiveTab('life')
   uni.showToast({
-    title: 'Share export is next',
+    title,
     icon: 'none'
   })
+}
+
+function shareMilestone(): void {
+  const summary = `${pet.name}: ${ageResult.value.humanAge} human years, ${ageResult.value.stage.label}.`
+  shareStatus.value = summary
+
+  uni.setClipboardData({
+    data: summary,
+    success: () => {
+      uni.showToast({
+        title: 'Milestone copied',
+        icon: 'none'
+      })
+    },
+    fail: () => {
+      uni.showToast({
+        title: 'Milestone ready',
+        icon: 'none'
+      })
+    }
+  })
+}
+
+function openSettingsView(key: SettingsItemKey): void {
+  settingsView.value = key
+}
+
+function setLanguage(language: LanguageCode): void {
+  Object.assign(appSettings, updateAppSettings({ language }))
+  uni.showToast({
+    title: currentLanguage.value.label,
+    icon: 'none'
+  })
+}
+
+function confirmClearLocalData(): void {
+  uni.showModal({
+    title: t.value.settings.clearLocalDataTitle,
+    content: t.value.settings.clearLocalDataMessage,
+    confirmText: t.value.settings.clearLocalDataConfirm,
+    confirmColor: '#8e6e53',
+    success: (result) => {
+      if (result.confirm) {
+        clearLocalData()
+      }
+    }
+  })
+}
+
+function setReminderPreference(event: Event): void {
+  const value = Boolean((event as unknown as { detail?: { value?: boolean } }).detail?.value)
+  Object.assign(appSettings, updateAppSettings({ remindersEnabled: value }))
 }
 
 function clearLocalData(): void {
   const fresh = createDefaultPetProfile()
   savePetProfiles([fresh])
+  saveAppSettings({ ...appSettings })
   Object.assign(pet, fresh)
   uni.showToast({
-    title: 'Local data reset',
+    title: t.value.settings.localDataReset,
     icon: 'none'
   })
+}
+
+function setActiveTab(tab: TabKey): void {
+  activeTab.value = tab
+
+  if (tab === 'settings') {
+    settingsView.value = 'home'
+  }
 }
 </script>
 
@@ -415,15 +646,15 @@ function clearLocalData(): void {
 }
 
 .page {
-  height: 100vh;
-  padding-bottom: 230rpx;
+  height: calc(100vh - 260rpx - env(safe-area-inset-bottom));
+  padding-bottom: 48rpx;
 }
 
 .top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 44rpx 40rpx 16rpx;
+  padding: 44rpx 52rpx 16rpx;
 }
 
 .round-action {
@@ -471,6 +702,7 @@ function clearLocalData(): void {
   overflow: hidden;
   background: #fff8ef;
   opacity: 0.82;
+  padding: 0;
 }
 
 .switcher-avatar image {
@@ -486,42 +718,52 @@ function clearLocalData(): void {
 }
 
 .tab-view {
-  padding: 0 34rpx 180rpx;
+  padding: 0 42rpx 96rpx;
+}
+
+.bottom-spacer {
+  display: block;
+  height: 120rpx;
+  flex: 0 0 auto;
 }
 
 .dashboard-card,
 .form-card,
 .detail-card,
 .settings-card {
-  border: 1rpx solid rgba(142, 110, 83, 0.16);
+  border: 1rpx solid rgba(111, 98, 88, 0.22);
   border-radius: 28rpx;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 253, 248, 0.92);
   box-shadow: 0 20rpx 58rpx rgba(142, 110, 83, 0.12);
 }
 
 .dashboard-card {
   overflow: hidden;
-  padding: 30rpx 26rpx;
+  padding: 34rpx 32rpx;
 }
 
 .pet-hero {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 18rpx;
   align-items: center;
-  min-height: 400rpx;
+  min-height: 360rpx;
 }
 
 .pet-art-wrap {
   position: relative;
   overflow: visible;
-  width: 48%;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
 }
 
 .pet-art {
-  width: 390rpx;
-  height: 402rpx;
-  margin-top: -24rpx;
-  margin-left: -58rpx;
+  width: 285rpx;
+  height: 315rpx;
+  margin: 0;
 }
 
 .camera-dot,
@@ -538,16 +780,19 @@ function clearLocalData(): void {
 }
 
 .camera-dot {
-  left: 28rpx;
-  bottom: 20rpx;
-  width: 70rpx;
-  height: 70rpx;
-  font-size: 30rpx;
+  left: 36rpx;
+  bottom: -18rpx;
+  width: 82rpx;
+  height: 58rpx;
+  border-radius: 999rpx;
+  color: #8e6e53;
+  font-size: 21rpx;
+  line-height: 1;
 }
 
 .age-summary {
   display: flex;
-  width: 52%;
+  width: 100%;
   align-items: center;
   flex-direction: column;
 }
@@ -557,15 +802,15 @@ function clearLocalData(): void {
 .field-label {
   display: block;
   margin-bottom: 8rpx;
-  color: #8e6e53;
+  color: #6f6258;
   font-size: 22rpx;
   font-weight: 800;
 }
 
 .age-ring {
   display: flex;
-  width: 238rpx;
-  height: 238rpx;
+  width: 220rpx;
+  height: 220rpx;
   align-items: center;
   justify-content: center;
   margin-top: 22rpx;
@@ -578,7 +823,7 @@ function clearLocalData(): void {
 
 .age-number {
   color: #8e6e53;
-  font-size: 72rpx;
+  font-size: 66rpx;
   font-weight: 900;
   line-height: 1;
 }
@@ -588,7 +833,7 @@ function clearLocalData(): void {
 .body-text,
 .field-value,
 .disclaimer {
-  color: #75685f;
+  color: #5f564f;
   font-size: 25rpx;
   line-height: 1.45;
 }
@@ -617,7 +862,7 @@ function clearLocalData(): void {
 .detail-ribbon {
   position: relative;
   height: 32rpx;
-  margin-top: 32rpx;
+  margin-top: 38rpx;
   border-radius: 999rpx;
   background: linear-gradient(90deg, #a9c7d7, #a3b19b 42%, #f0b28f 70%, #eadfce);
 }
@@ -631,14 +876,16 @@ function clearLocalData(): void {
 .ribbon-paw {
   position: absolute;
   top: 50%;
-  width: 96rpx;
-  height: 96rpx;
+  z-index: 2;
+  width: 70rpx;
+  height: 70rpx;
   transform: translate(-50%, -50%);
 }
 
 .stage-dot {
   position: absolute;
   top: 50%;
+  z-index: 1;
   width: 44rpx;
   height: 44rpx;
   border: 8rpx solid #fffaf1;
@@ -672,9 +919,9 @@ function clearLocalData(): void {
   align-items: center;
   margin-top: 36rpx;
   padding: 20rpx;
-  border: 1rpx solid rgba(142, 110, 83, 0.12);
+  border: 1rpx solid rgba(111, 98, 88, 0.18);
   border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 253, 248, 0.94);
 }
 
 .stage-art {
@@ -711,17 +958,22 @@ function clearLocalData(): void {
   display: grid;
   gap: 14rpx;
   margin-top: 20rpx;
-  padding-bottom: 26rpx;
+  padding-bottom: 160rpx;
 }
 
 .advice-row {
   display: flex;
+  box-sizing: border-box;
+  width: 100%;
   min-height: 132rpx;
   align-items: center;
   padding: 18rpx;
-  border: 1rpx solid rgba(142, 110, 83, 0.12);
+  border: 1rpx solid rgba(111, 98, 88, 0.18);
   border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 253, 248, 0.95);
+  color: inherit;
+  line-height: 1;
+  text-align: left;
 }
 
 .advice-row.sage .advice-icon-wrap,
@@ -766,7 +1018,7 @@ function clearLocalData(): void {
 }
 
 .profile-view {
-  padding-bottom: 260rpx;
+  padding-bottom: 140rpx;
 }
 
 .profile-hero {
@@ -790,9 +1042,9 @@ function clearLocalData(): void {
   gap: 22rpx;
   margin-top: 10rpx;
   padding: 20rpx 24rpx;
-  border: 1rpx solid rgba(142, 110, 83, 0.1);
+  border: 1rpx solid rgba(111, 98, 88, 0.18);
   border-radius: 28rpx;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 253, 248, 0.92);
   box-shadow: 0 16rpx 42rpx rgba(142, 110, 83, 0.1);
 }
 
@@ -815,16 +1067,28 @@ function clearLocalData(): void {
   bottom: 0;
   width: 48rpx;
   height: 48rpx;
+  color: #8e6e53;
+  font-size: 28rpx;
 }
 
 .avatar-option {
+  display: flex;
   box-sizing: border-box;
   width: 90rpx;
   height: 90rpx;
+  align-items: center;
+  justify-content: center;
   border: 4rpx solid transparent;
   border-radius: 50%;
   background: #fff8ef;
   opacity: 0.8;
+  padding: 0;
+  overflow: hidden;
+}
+
+.avatar-option image {
+  width: 100%;
+  height: 100%;
 }
 
 .avatar-option.active {
@@ -842,7 +1106,7 @@ function clearLocalData(): void {
 .date-picker-row {
   padding: 20rpx 22rpx;
   border-radius: 18rpx;
-  background: #fffaf1;
+  background: #fff7ec;
 }
 
 .profile-input {
@@ -876,8 +1140,8 @@ function clearLocalData(): void {
   justify-content: center;
   border: 1rpx solid rgba(142, 110, 83, 0.14);
   border-radius: 22rpx;
-  background: rgba(255, 255, 255, 0.72);
-  color: #6f6258;
+  background: rgba(255, 253, 248, 0.96);
+  color: #5f564f;
   flex-direction: column;
   font-size: 23rpx;
   font-weight: 800;
@@ -954,6 +1218,10 @@ function clearLocalData(): void {
   color: #8e6e53;
 }
 
+.secondary-button.danger {
+  background: #fff2df;
+}
+
 .detail-card {
   padding: 30rpx;
   text-align: center;
@@ -970,7 +1238,7 @@ function clearLocalData(): void {
 }
 
 .share-builder {
-  padding-bottom: 220rpx;
+  padding-bottom: 140rpx;
 }
 
 .share-card {
@@ -997,8 +1265,30 @@ function clearLocalData(): void {
   align-items: center;
   padding: 22rpx 18rpx;
   border-radius: 24rpx;
-  background: rgba(255, 250, 241, 0.66);
+  background: rgba(255, 250, 241, 0.86);
   backdrop-filter: blur(8rpx);
+}
+
+.share-overlay.peach {
+  background: rgba(255, 227, 211, 0.72);
+}
+
+.share-overlay.sage {
+  background: rgba(223, 232, 216, 0.76);
+}
+
+.share-overlay.sky {
+  background: rgba(219, 234, 242, 0.76);
+}
+
+.share-overlay.brown {
+  background: rgba(142, 110, 83, 0.72);
+}
+
+.share-overlay.brown .share-name,
+.share-overlay.brown .share-age,
+.share-overlay.brown .share-stage {
+  color: #fffaf1;
 }
 
 .share-name {
@@ -1017,9 +1307,23 @@ function clearLocalData(): void {
 
 .share-stage {
   display: block;
-  color: #75685f;
+  color: #5f564f;
   font-size: 24rpx;
   font-weight: 800;
+  text-align: center;
+}
+
+.share-status {
+  display: block;
+  margin-top: 18rpx;
+  padding: 18rpx 20rpx;
+  border: 1rpx solid rgba(142, 110, 83, 0.12);
+  border-radius: 20rpx;
+  background: rgba(255, 250, 241, 0.94);
+  color: #5f564f;
+  font-size: 24rpx;
+  font-weight: 800;
+  line-height: 1.4;
   text-align: center;
 }
 
@@ -1030,7 +1334,15 @@ function clearLocalData(): void {
   margin-top: 20rpx;
   padding: 16rpx;
   border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(255, 253, 248, 0.94);
+}
+
+.control-label {
+  display: block;
+  margin-top: 26rpx;
+  color: #6f6258;
+  font-size: 23rpx;
+  font-weight: 900;
 }
 
 .template-thumb {
@@ -1040,6 +1352,7 @@ function clearLocalData(): void {
   border: 3rpx solid transparent;
   border-radius: 18rpx;
   background: #fff2df;
+  padding: 0;
 }
 
 .template-thumb.active {
@@ -1072,6 +1385,7 @@ function clearLocalData(): void {
   height: 68rpx;
   border: 5rpx solid #fff;
   border-radius: 50%;
+  padding: 0;
 }
 
 .swatch.cream {
@@ -1092,10 +1406,16 @@ function clearLocalData(): void {
 
 .settings-row {
   display: flex;
+  box-sizing: border-box;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   min-height: 92rpx;
   border-bottom: 1rpx solid rgba(142, 110, 83, 0.12);
+  border-radius: 0;
+  color: inherit;
+  line-height: 1;
+  text-align: left;
 }
 
 .settings-title {
@@ -1110,8 +1430,103 @@ function clearLocalData(): void {
 }
 
 .settings-value {
-  color: #75685f;
+  display: block;
+  color: #5f564f;
   font-size: 24rpx;
+}
+
+.settings-panel {
+  min-height: 620rpx;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 22rpx;
+  color: #8e6e53;
+  font-size: 26rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.language-list {
+  display: grid;
+  gap: 14rpx;
+  margin-top: 24rpx;
+}
+
+.language-option {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 102rpx;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 20rpx;
+  border: 1rpx solid rgba(142, 110, 83, 0.12);
+  border-radius: 22rpx;
+  background: rgba(255, 250, 241, 0.94);
+  line-height: 1;
+  text-align: left;
+}
+
+.language-option.active {
+  border-color: rgba(95, 109, 82, 0.38);
+  background: #dfe8d8;
+}
+
+.language-option .settings-value {
+  margin-top: 8rpx;
+}
+
+.check-mark {
+  width: 44rpx;
+  color: #5f6d52;
+  font-size: 34rpx;
+  font-weight: 900;
+  text-align: center;
+}
+
+.policy-block {
+  margin-top: 22rpx;
+  padding: 22rpx;
+  border: 1rpx solid rgba(111, 98, 88, 0.18);
+  border-radius: 22rpx;
+  background: rgba(255, 250, 241, 0.94);
+}
+
+.toggle-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-top: 24rpx;
+  padding: 24rpx;
+  border: 1rpx solid rgba(111, 98, 88, 0.18);
+  border-radius: 24rpx;
+  background: rgba(255, 250, 241, 0.94);
+}
+
+.toggle-card > view {
+  min-width: 0;
+  flex: 1;
+}
+
+.pro-preview {
+  margin-top: 24rpx;
+  padding: 28rpx;
+  border: 1rpx solid rgba(95, 109, 82, 0.18);
+  border-radius: 24rpx;
+  background: #dfe8d8;
+}
+
+.policy-title {
+  display: block;
+  margin-bottom: 10rpx;
+  color: #2f2923;
+  font-size: 28rpx;
+  font-weight: 900;
+  line-height: 1.2;
 }
 
 .disclaimer {
@@ -1122,57 +1537,64 @@ function clearLocalData(): void {
 
 .bottom-nav {
   position: fixed;
-  left: 28rpx;
-  right: 28rpx;
-  bottom: 18rpx;
+  left: 20rpx;
+  right: 20rpx;
+  bottom: calc(16rpx + env(safe-area-inset-bottom));
   z-index: 20;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 4rpx;
-  padding: 16rpx 12rpx 14rpx;
-  border: 1rpx solid rgba(142, 110, 83, 0.12);
-  border-radius: 34rpx;
-  background: rgba(255, 250, 241, 0.94);
-  box-shadow: 0 12rpx 44rpx rgba(142, 110, 83, 0.16);
+  gap: 6rpx;
+  padding: 18rpx 14rpx 20rpx;
+  border: 1rpx solid rgba(111, 98, 88, 0.18);
+  border-radius: 36rpx;
+  background: rgba(255, 253, 248, 0.98);
+  box-shadow: 0 14rpx 48rpx rgba(111, 98, 88, 0.2);
 }
 
 .nav-item {
   display: flex;
   box-sizing: border-box;
-  height: 94rpx;
+  width: 100%;
+  min-height: 118rpx;
   align-items: center;
   justify-content: center;
   border-radius: 24rpx;
   background: transparent;
-  color: #8d8177;
+  color: #6f6258;
   flex-direction: column;
-  gap: 8rpx;
+  gap: 10rpx;
+  overflow: visible;
 }
 
 .nav-item.active {
-  color: #8e6e53;
+  background: #fff2df;
+  color: #5f4a3b;
 }
 
 .nav-icon {
   display: flex;
-  width: 54rpx;
-  height: 54rpx;
+  width: 56rpx;
+  height: 56rpx;
   align-items: center;
   justify-content: center;
-  border-radius: 18rpx;
-  background: rgba(255, 255, 255, 0.42);
-  font-size: 32rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 247, 236, 0.86);
+  font-size: 31rpx;
   line-height: 1;
 }
 
 .nav-item.active .nav-icon {
-  background: #fff2df;
-  box-shadow: 0 8rpx 18rpx rgba(142, 110, 83, 0.08);
+  background: #ffffff;
+  box-shadow: 0 8rpx 18rpx rgba(111, 98, 88, 0.12);
 }
 
 .nav-label {
-  font-size: 18rpx;
-  font-weight: 800;
-  line-height: 1;
+  display: block;
+  min-height: 28rpx;
+  color: inherit;
+  font-size: 20rpx;
+  font-weight: 900;
+  line-height: 1.25;
+  overflow: visible;
 }
 </style>

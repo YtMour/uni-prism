@@ -6,7 +6,9 @@
   "scripts": {
     "dev:h5": "vite --host 0.0.0.0 --port 48931",
     "build:h5": "vite build",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test:age": "powershell -NoProfile -Command \"tsc scripts/test-age-calculator.ts utils/ageCalculator.ts --module CommonJS --moduleResolution Node --target ES2020 --skipLibCheck --strict --types node --outDir .tmp/age-tests; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; Set-Content -Path .tmp/age-tests/package.json -Value '{\\\"type\\\":\\\"commonjs\\\"}' -Encoding UTF8; node .tmp/age-tests/scripts/test-age-calculator.js\"",
+    "test:storage": "powershell -NoProfile -Command \"tsc scripts/test-storage.ts scripts/test-globals.d.ts utils/petStorage.ts utils/settingsStorage.ts data/i18n.ts --module CommonJS --moduleResolution Node --target ES2020 --skipLibCheck --strict --types node --outDir .tmp/storage-tests; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; Set-Content -Path .tmp/storage-tests/package.json -Value '{\\\"type\\\":\\\"commonjs\\\"}' -Encoding UTF8; node .tmp/storage-tests/scripts/test-storage.js\""
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-alpha-5010220260604001",

@@ -3,6 +3,7 @@ dist/
 
 PawAge-Uniapp/node_modules/
 PawAge-Uniapp/dist/
+PawAge-Uniapp/.tmp/
 
 *.log
 npm-debug.log*
