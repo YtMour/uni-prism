@@ -1,0 +1,18 @@
+{
+  "name": "signet-preview",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "smoke:renderer": "node scripts/smoke-renderer.mjs",
+    "smoke:shared-renderer": "node ../scripts/smoke-shared-renderer.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,19 @@
+// Signet design tokens.
+
+$signet-paper: #F9F7F2;
+$signet-gallery-gray: #EFEFEF;
+$signet-midnight: #1A2A3A;
+$signet-espresso: #3C2F2F;
+$signet-mist-sage: #E5EAE6;
+$signet-soft-red: #D96B6B;
+
+$uni-color-primary: $signet-midnight;
+$uni-color-success: $signet-mist-sage;
+$uni-color-warning: $signet-espresso;
+$uni-color-error: $signet-soft-red;
+
+$uni-text-color: $signet-midnight;
+$uni-text-color-grey: rgba(26, 42, 58, 0.58);
+$uni-bg-color: $signet-paper;
+$uni-bg-color-grey: $signet-gallery-gray;
+$uni-border-color: rgba(26, 42, 58, 0.12);

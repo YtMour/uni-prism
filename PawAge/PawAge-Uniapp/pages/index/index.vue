@@ -1,6 +1,6 @@
 <template>
   <view class="app-shell">
-    <scroll-view class="page" scroll-y>
+    <scroll-view class="page" scroll-y scroll-with-animation :scroll-top="pageScrollTop">
       <view class="top-bar">
         <button class="round-action" @click="setActiveTab('home')">
           <image class="round-icon" :src="assets.timelinePaw" mode="aspectFit" />
@@ -168,14 +168,17 @@
         <view class="share-builder">
           <view class="share-card">
             <image class="share-bg" :src="assets.shareCardBackground" mode="aspectFill" />
-            <view class="share-overlay" :class="[selectedShareTemplate, selectedShareSwatch]">
-              <text class="share-name">{{ pet.name }}</text>
-              <text class="share-age">{{ ageResult.humanAge }}</text>
-              <text class="share-stage">{{ ageResult.stage.label }}</text>
+            <view class="share-overlay" :class="[shareTemplateClass, shareSwatchClass]">
+              <view class="share-overlay-copy">
+                <text class="share-name">{{ pet.name }}</text>
+                <text class="share-age">{{ ageResult.humanAge }}</text>
+                <text class="share-stage">{{ ageResult.stage.label }}</text>
+              </view>
             </view>
           </view>
 
           <text class="control-label">Template</text>
+          <text class="control-hint">Selected: {{ selectedShareTemplateLabel }}</text>
           <view class="template-strip">
             <button
               v-for="template in shareTemplates"
@@ -183,22 +186,34 @@
               class="template-thumb"
               :class="[template.tone, { active: selectedShareTemplate === template.value }]"
               @click="selectedShareTemplate = template.value"
-            />
+            >
+              <view class="template-preview">
+                <view class="template-preview-panel" />
+              </view>
+              <text>{{ template.label }}</text>
+              <text v-if="selectedShareTemplate === template.value" class="selected-badge">Selected</text>
+            </button>
           </view>
 
           <text class="control-label">Accent color</text>
+          <text class="control-hint">Selected: {{ selectedShareSwatchLabel }}</text>
           <view class="swatch-row">
             <button
               v-for="swatch in shareSwatches"
               :key="swatch.value"
-              class="swatch"
-              :class="[swatch.value, { active: selectedShareSwatch === swatch.value }]"
+              class="swatch-option"
+              :class="{ active: selectedShareSwatch === swatch.value }"
               @click="selectedShareSwatch = swatch.value"
-            />
+            >
+              <view class="swatch" :class="swatch.value">
+                <text v-if="selectedShareSwatch === swatch.value">✓</text>
+              </view>
+              <text class="swatch-label">{{ swatch.label }}</text>
+            </button>
           </view>
 
-          <button class="share-button" @click="shareMilestone">Share milestone</button>
-          <text v-if="shareStatus" class="share-status">{{ shareStatus }}</text>
+          <button class="share-button" :class="shareSwatchClass" @click="shareMilestone">Share milestone</button>
+          <text v-if="shareStatus" class="share-status" :class="shareSwatchClass">{{ shareStatus }}</text>
         </view>
       </view>
 
@@ -326,7 +341,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, nextTick, reactive, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { languageOptions, messages } from '../../data/i18n'
 import { dogSizeOptions, speciesOptions } from '../../data/lifeStage'
@@ -379,6 +394,7 @@ const assets = {
 const today = new Date().toISOString().slice(0, 10)
 const activeTab = ref<TabKey>('home')
 const settingsView = ref<SettingsView>('home')
+const pageScrollTop = ref(0)
 const selectedShareTemplate = ref<ShareTemplate>('classic')
 const selectedShareSwatch = ref<ShareSwatch>('cream')
 const shareStatus = ref('')
@@ -461,20 +477,32 @@ const selectedAvatar = computed<AvatarPreset>(() => {
   return 'dog'
 })
 
-const shareTemplates: Array<{ value: ShareTemplate; tone?: string }> = [
-  { value: 'classic' },
-  { value: 'peach', tone: 'peach' },
-  { value: 'sage', tone: 'sage' },
-  { value: 'sky', tone: 'sky' }
+const shareTemplates: Array<{ value: ShareTemplate; tone?: string; label: string }> = [
+  { value: 'classic', label: 'Classic' },
+  { value: 'peach', tone: 'peach', label: 'Lower' },
+  { value: 'sage', tone: 'sage', label: 'Circle' },
+  { value: 'sky', tone: 'sky', label: 'Banner' }
 ]
 
-const shareSwatches: Array<{ value: ShareSwatch }> = [
-  { value: 'cream' },
-  { value: 'peach' },
-  { value: 'sage' },
-  { value: 'sky' },
-  { value: 'brown' }
+const shareSwatches: Array<{ value: ShareSwatch; label: string }> = [
+  { value: 'cream', label: 'Cream' },
+  { value: 'peach', label: 'Peach' },
+  { value: 'sage', label: 'Sage' },
+  { value: 'sky', label: 'Sky' },
+  { value: 'brown', label: 'Brown' }
 ]
+
+const shareTemplateClass = computed(() => `template-${selectedShareTemplate.value}`)
+
+const shareSwatchClass = computed(() => `accent-${selectedShareSwatch.value}`)
+
+const selectedShareTemplateLabel = computed(() => {
+  return shareTemplates.find((template) => template.value === selectedShareTemplate.value)?.label ?? 'Classic'
+})
+
+const selectedShareSwatchLabel = computed(() => {
+  return shareSwatches.find((swatch) => swatch.value === selectedShareSwatch.value)?.label ?? 'Cream'
+})
 
 const currentLanguage = computed(() => {
   return languageOptions.find((option) => option.code === appSettings.language) ?? languageOptions[0]
@@ -618,10 +646,18 @@ function clearLocalData(): void {
 
 function setActiveTab(tab: TabKey): void {
   activeTab.value = tab
+  resetPageScroll()
 
   if (tab === 'settings') {
     settingsView.value = 'home'
   }
+}
+
+function resetPageScroll(): void {
+  pageScrollTop.value = 1
+  nextTick(() => {
+    pageScrollTop.value = 0
+  })
 }
 </script>
 
@@ -1211,6 +1247,32 @@ function setActiveTab(tab: TabKey): void {
   box-shadow: 0 14rpx 32rpx rgba(95, 109, 82, 0.2);
 }
 
+.share-button.accent-cream {
+  border-color: rgba(111, 84, 66, 0.24);
+  background: #8e6e53;
+  color: #ffffff;
+}
+
+.share-button.accent-peach {
+  background: #c7795e;
+  color: #ffffff;
+}
+
+.share-button.accent-sage {
+  background: #6f8065;
+  color: #ffffff;
+}
+
+.share-button.accent-sky {
+  background: #56798a;
+  color: #ffffff;
+}
+
+.share-button.accent-brown {
+  background: #5f4637;
+  color: #fffaf1;
+}
+
 .secondary-button {
   margin-top: 28rpx;
   border: 1rpx solid rgba(142, 110, 83, 0.18);
@@ -1238,14 +1300,18 @@ function setActiveTab(tab: TabKey): void {
 }
 
 .share-builder {
-  padding-bottom: 140rpx;
+  box-sizing: border-box;
+  width: 100%;
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+  padding-bottom: 280rpx;
 }
 
 .share-card {
   position: relative;
   overflow: hidden;
-  width: 490rpx;
-  height: 710rpx;
+  width: 470rpx;
+  height: 650rpx;
   margin: 0 auto;
   border-radius: 28rpx;
   background: #fff8ef;
@@ -1259,58 +1325,126 @@ function setActiveTab(tab: TabKey): void {
 
 .share-overlay {
   position: absolute;
-  top: 60rpx;
+  top: 48rpx;
   left: 48rpx;
   right: 48rpx;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
   padding: 22rpx 18rpx;
   border-radius: 24rpx;
   background: rgba(255, 250, 241, 0.86);
   backdrop-filter: blur(8rpx);
 }
 
-.share-overlay.peach {
-  background: rgba(255, 227, 211, 0.72);
+.share-overlay.template-peach {
+  top: auto;
+  bottom: 54rpx;
 }
 
-.share-overlay.sage {
-  background: rgba(223, 232, 216, 0.76);
-}
-
-.share-overlay.sky {
-  background: rgba(219, 234, 242, 0.76);
-}
-
-.share-overlay.brown {
-  background: rgba(142, 110, 83, 0.72);
-}
-
-.share-overlay.brown .share-name,
-.share-overlay.brown .share-age,
-.share-overlay.brown .share-stage {
-  color: #fffaf1;
-}
-
-.share-name {
+.share-overlay.template-sage {
+  top: 64rpx;
+  left: 54rpx;
+  right: auto;
+  width: 250rpx;
+  height: 250rpx;
+  min-height: 0;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
   text-align: center;
 }
 
-.share-age {
+.share-overlay.template-sky {
+  top: 44rpx;
+  left: 34rpx;
+  right: 34rpx;
+  border-radius: 999rpx;
+}
+
+.share-overlay.accent-cream {
+  background: rgba(255, 250, 241, 0.9);
+}
+
+.share-overlay.accent-peach {
+  background: rgba(255, 225, 210, 0.9);
+}
+
+.share-overlay.accent-sage {
+  background: rgba(223, 232, 216, 0.92);
+}
+
+.share-overlay.accent-sky {
+  background: rgba(219, 234, 242, 0.92);
+}
+
+.share-overlay.accent-brown {
+  background: rgba(111, 84, 66, 0.86);
+}
+
+.share-overlay.accent-brown .share-name,
+.share-overlay.accent-brown .share-age,
+.share-overlay.accent-brown .share-stage {
+  color: #fffaf1;
+}
+
+.share-overlay-copy {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transform: translateY(2rpx);
+}
+
+.share-overlay.template-sage .share-overlay-copy {
+  width: 78%;
+  transform: translateY(0);
+}
+
+.share-name {
   display: block;
-  margin-top: 4rpx;
-  color: #8e6e53;
-  font-size: 62rpx;
-  font-weight: 900;
+  width: 100%;
   text-align: center;
   line-height: 1;
 }
 
+.share-age {
+  display: block;
+  width: 100%;
+  margin-top: 7rpx;
+  color: #8e6e53;
+  font-size: 62rpx;
+  font-weight: 900;
+  text-align: center;
+  line-height: 0.9;
+}
+
 .share-stage {
   display: block;
+  width: 100%;
+  margin-top: 9rpx;
   color: #5f564f;
   font-size: 24rpx;
   font-weight: 800;
   text-align: center;
+  line-height: 1.05;
+}
+
+.share-overlay.template-sage .share-name {
+  font-size: 32rpx;
+}
+
+.share-overlay.template-sage .share-age {
+  margin-top: 8rpx;
+  font-size: 58rpx;
+  line-height: 0.92;
+}
+
+.share-overlay.template-sage .share-stage {
+  margin-top: 10rpx;
+  font-size: 23rpx;
 }
 
 .share-status {
@@ -1327,37 +1461,135 @@ function setActiveTab(tab: TabKey): void {
   text-align: center;
 }
 
+.share-status.accent-brown {
+  border-color: rgba(111, 84, 66, 0.28);
+  background: #6f5442;
+  color: #fffaf1;
+}
+
 .template-strip,
 .swatch-row {
-  display: flex;
+  display: grid;
   gap: 18rpx;
   margin-top: 20rpx;
-  padding: 16rpx;
-  border-radius: 24rpx;
-  background: rgba(255, 253, 248, 0.94);
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.template-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .control-label {
   display: block;
-  margin-top: 26rpx;
+  margin-top: 24rpx;
+  padding-left: 4rpx;
   color: #6f6258;
   font-size: 23rpx;
   font-weight: 900;
 }
 
+.control-hint {
+  display: block;
+  margin-top: 4rpx;
+  padding-left: 4rpx;
+  color: #8e6e53;
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
 .template-thumb {
+  display: flex;
   box-sizing: border-box;
-  width: 100rpx;
-  height: 132rpx;
-  border: 3rpx solid transparent;
-  border-radius: 18rpx;
-  background: #fff2df;
-  padding: 0;
+  width: 100%;
+  min-height: 150rpx;
+  align-items: center;
+  justify-content: center;
+  border: 3rpx solid rgba(111, 84, 66, 0.2);
+  border-radius: 22rpx;
+  background: #fff3df;
+  flex-direction: column;
+  gap: 10rpx;
+  padding: 10rpx 8rpx;
+  color: #5f4637;
+  font-size: 18rpx;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .template-thumb.active {
   border-color: #8e6e53;
-  box-shadow: 0 8rpx 18rpx rgba(142, 110, 83, 0.12);
+  background: #fff7ec;
+  box-shadow: 0 0 0 5rpx rgba(142, 110, 83, 0.12), 0 12rpx 24rpx rgba(142, 110, 83, 0.18);
+}
+
+.template-preview {
+  position: relative;
+  width: 64rpx;
+  height: 68rpx;
+  border-radius: 14rpx;
+  background: linear-gradient(180deg, #fffaf1, #f4ddc0);
+  box-shadow:
+    inset 0 0 0 2rpx rgba(111, 84, 66, 0.16),
+    0 6rpx 12rpx rgba(111, 84, 66, 0.08);
+}
+
+.template-preview-panel {
+  position: absolute;
+  left: 12rpx;
+  right: 12rpx;
+  top: 14rpx;
+  height: 24rpx;
+  border-radius: 8rpx;
+  background: rgba(111, 84, 66, 0.42);
+}
+
+.template-thumb:not(.peach):not(.sage):not(.sky) {
+  background: linear-gradient(180deg, #fff8ec, #f4ddc0);
+}
+
+.template-thumb.peach .template-preview-panel {
+  top: auto;
+  bottom: 14rpx;
+  background: rgba(199, 121, 94, 0.52);
+}
+
+.template-thumb.sage .template-preview-panel {
+  top: 18rpx;
+  left: 16rpx;
+  right: auto;
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 50%;
+  background: rgba(111, 128, 101, 0.58);
+}
+
+.template-thumb.sky .template-preview-panel {
+  left: 10rpx;
+  right: 10rpx;
+  top: 12rpx;
+  height: 20rpx;
+  border-radius: 999rpx;
+  background: rgba(86, 121, 138, 0.55);
+}
+
+.template-thumb text {
+  display: block;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-badge {
+  padding: 3rpx 7rpx;
+  border-radius: 999rpx;
+  background: #8e6e53;
+  color: #ffffff;
+  font-size: 14rpx;
+  line-height: 1.1;
 }
 
 .template-thumb.peach,
@@ -1376,28 +1608,67 @@ function setActiveTab(tab: TabKey): void {
 }
 
 .swatch-row {
-  justify-content: space-between;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-bottom: 150rpx;
+  gap: 14rpx;
+}
+
+.swatch-option {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid transparent;
+  border-radius: 22rpx;
+  flex-direction: column;
+  gap: 8rpx;
+  min-height: 112rpx;
+  padding: 12rpx 4rpx 10rpx;
+}
+
+.swatch-option.active {
+  border-color: rgba(142, 110, 83, 0.32);
+  background: rgba(255, 247, 236, 0.82);
 }
 
 .swatch {
+  display: flex;
   box-sizing: border-box;
-  width: 68rpx;
-  height: 68rpx;
-  border: 5rpx solid #fff;
+  width: 60rpx;
+  height: 60rpx;
+  align-items: center;
+  justify-content: center;
+  border: 5rpx solid rgba(255, 255, 255, 0.96);
   border-radius: 50%;
-  padding: 0;
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow:
+    0 0 0 1rpx rgba(111, 84, 66, 0.18),
+    0 8rpx 16rpx rgba(111, 84, 66, 0.1);
+}
+
+.swatch-label {
+  color: #5f4637;
+  font-size: 16rpx;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .swatch.cream {
   background: #fff2df;
+  color: #6f5442;
 }
 
 .swatch.brown {
   background: #8e6e53;
 }
 
-.swatch.active {
+.swatch-option.active .swatch {
   border-color: #8e6e53;
+  box-shadow: 0 0 0 4rpx rgba(255, 250, 241, 0.98), 0 8rpx 18rpx rgba(142, 110, 83, 0.14);
 }
 
 .settings-card {

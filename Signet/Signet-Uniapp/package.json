@@ -1,0 +1,23 @@
+{
+	"name": "signet-uniapp",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev:h5": "node scripts/run-h5.mjs dev",
+		"build:h5": "node scripts/run-h5.mjs build",
+		"smoke:h5": "node scripts/smoke-h5.mjs",
+		"smoke:shared-renderer": "node scripts/smoke-shared-renderer.mjs",
+		"audit:h5-ui": "node scripts/audit-h5-ui.mjs"
+	},
+	"dependencies": {
+		"@dcloudio/uni-app": "3.0.0-5000720260410001",
+		"@dcloudio/uni-h5": "3.0.0-5000720260410001",
+		"vue": "^3.5.35"
+	},
+	"devDependencies": {
+		"@dcloudio/vite-plugin-uni": "3.0.0-5000720260410001",
+		"playwright": "^1.60.0",
+		"vite": "5.2.8"
+	}
+}

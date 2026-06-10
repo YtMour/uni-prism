@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Demo landscape">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#b9d7e6"/>
+      <stop offset="0.58" stop-color="#edf0eb"/>
+      <stop offset="1" stop-color="#e4ded2"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#87b6b0"/>
+      <stop offset="1" stop-color="#263a35"/>
+    </linearGradient>
+    <linearGradient id="mountain" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#b7b9ae"/>
+      <stop offset="1" stop-color="#4b5a50"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="#f3efe7"/>
+  <rect width="1200" height="470" fill="url(#sky)"/>
+  <path d="M0 500 L160 260 L260 430 L380 210 L520 490 Z" fill="#69756d"/>
+  <path d="M260 505 L520 170 L690 400 L780 295 L980 505 Z" fill="url(#mountain)"/>
+  <path d="M680 500 L885 230 L1200 510 Z" fill="#435049"/>
+  <path d="M520 170 L560 265 L493 250 Z" fill="#f4f0e6" opacity=".85"/>
+  <path d="M885 230 L940 340 L830 320 Z" fill="#f4f0e6" opacity=".78"/>
+  <rect y="500" width="1200" height="400" fill="url(#water)"/>
+  <path d="M0 610 C180 550 270 560 420 620 C620 705 790 680 1200 575 L1200 900 L0 900 Z" fill="#1f302c" opacity=".24"/>
+  <path d="M760 655 C870 620 985 620 1200 570 L1200 900 L870 900 Z" fill="#8a7650" opacity=".55"/>
+  <ellipse cx="630" cy="705" rx="74" ry="38" fill="#6b6152"/>
+  <ellipse cx="620" cy="696" rx="52" ry="25" fill="#8b8170" opacity=".72"/>
+  <path d="M120 805 C280 755 450 760 620 815 C780 865 960 850 1110 805" fill="none" stroke="#d8d4c9" stroke-width="8" opacity=".26"/>
+  <path d="M135 840 C300 790 455 800 600 845 C770 900 935 885 1100 835" fill="none" stroke="#d8d4c9" stroke-width="5" opacity=".2"/>
+</svg>
