@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>RateLens Preview</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; background: #fbf9f5; color: #1c2d42; }
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      button, input { font: inherit; }
+      button { border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; }
+      .screen {
+        min-height: 100vh;
+        width: 100%;
+        padding: calc(18px + env(safe-area-inset-top)) 16px calc(104px + env(safe-area-inset-bottom));
+        background:
+          radial-gradient(circle at 20% 0%, rgba(46, 90, 68, .08), transparent 32%),
+          linear-gradient(180deg, #fbf9f5 0%, #f3f1eb 100%);
+      }
+      .topbar, .brand, .amount-card, .currency-pill, .quick-row, .rate-left, .rate-value-wrap,
+      .target-row,
+      .cache-card, .status-pill, .control-row, .setting-row, .privacy-card, .tabbar, .back-row {
+        display: flex; align-items: center;
+      }
+      .topbar { justify-content: space-between; margin-bottom: 20px; }
+      .brand { gap: 8px; }
+      .brand img { width: 34px; height: 34px; border-radius: 9px; box-shadow: 0 5px 14px rgba(28,45,66,.12); }
+      .brand-title { font: 600 32px/1 Georgia, "Times New Roman", serif; color: #2e5a44; }
+      .icon-button {
+        width: 42px; height: 42px; border: 1px solid rgba(28,45,66,.24); border-radius: 50%;
+        display: grid; place-items: center; font-size: 20px;
+      }
+      .stack { display: flex; flex-direction: column; gap: 16px; }
+      .amount-card, .rate-card, .target-row, .result-card, .cache-card, .control-card, .summary-card, .settings-card, .privacy-card, .legal-card {
+        border: 1px solid rgba(28,45,66,.13);
+        background: rgba(255,255,252,.76);
+        box-shadow: 0 11px 26px rgba(28,45,66,.09);
+        backdrop-filter: blur(12px);
+      }
+      .amount-card { min-height: 138px; padding: 22px 18px; border-radius: 17px; justify-content: space-between; gap: 14px; }
+      .amount-copy { flex: 1; min-width: 0; }
+      .amount-input {
+        width: 100%; height: 68px; border: 0; outline: 0; background: transparent;
+        font: 400 58px/1 Georgia, "Times New Roman", serif; color: #10243a;
+      }
+      .amount-input.small { height: 54px; font-size: 44px; }
+      .amount-label, .rate-name, .cache-subtitle, .summary-label, .setting-value {
+        display: block; color: rgba(28,45,66,.64);
+      }
+      .amount-label { margin-top: 8px; font-size: 18px; }
+      .currency-pill {
+        flex-shrink: 0; gap: 8px; padding: 11px 12px; border: 1px solid rgba(28,45,66,.16);
+        border-radius: 12px; font-weight: 700; background: rgba(251,249,245,.8);
+      }
+      .currency-mark, .currency-badge { display: grid; place-items: center; color: #fbf9f5; background: #2e5a44; border-radius: 50%; }
+      .currency-mark { width: 30px; height: 30px; }
+      .currency-mark.slate { background: #1c2d42; }
+      .quick-row { gap: 8px; }
+      .quick-row button { flex: 1; height: 38px; border-radius: 12px; background: rgba(46,90,68,.09); color: #2e5a44; font-size: 14px; font-weight: 650; }
+      .currency-menu {
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 11px;
+        border: 1px solid rgba(28,45,66,.13); border-radius: 15px; background: rgba(255,255,252,.82);
+        box-shadow: 0 11px 26px rgba(28,45,66,.08); backdrop-filter: blur(12px);
+      }
+      .currency-option {
+        min-width: 0; min-height: 56px; display: flex; align-items: center; gap: 9px; padding: 8px;
+        border: 1px solid rgba(28,45,66,.1); border-radius: 12px; text-align: left;
+      }
+      .currency-option.selected { border-color: rgba(46,90,68,.45); background: rgba(46,90,68,.09); }
+      .convert-panel { display: flex; flex-direction: column; gap: 11px; }
+      .swap-button { width: 39px; height: 39px; align-self: center; border-radius: 50%; color: #fbf9f5; background: #2e5a44; font-size: 20px; box-shadow: 0 6px 15px rgba(46,90,68,.24); }
+      .target-row, .result-card { width: 100%; min-height: 82px; padding: 14px 15px; border-radius: 15px; color: #1c2d42; }
+      .target-row { justify-content: space-between; text-align: left; }
+      .result-card { display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+      .result-value { display: block; font: 400 38px/1.1 Georgia, "Times New Roman", serif; color: #10243a; word-break: break-word; }
+      .rate-card {
+        width: 100%; min-height: 76px; padding: 13px 15px; border-radius: 15px;
+        display: flex; align-items: center; justify-content: space-between; text-align: left;
+      }
+      .rate-card:active, .quick-row button:active, .icon-button:active, .currency-pill:active { transform: scale(.98); }
+      .rate-left { gap: 12px; }
+      .currency-badge { width: 44px; height: 44px; font-size: 20px; font-weight: 600; }
+      .currency-badge.small { width: 32px; height: 32px; font-size: 14px; flex-shrink: 0; }
+      .currency-badge.slate { background: #425768; }
+      .currency-badge.sage { background: #6d8f72; }
+      .currency-badge.blue { background: #5c7180; }
+      .rate-code { display: block; font-size: 20px; font-weight: 700; }
+      .rate-name { margin-top: 2px; font-size: 14px; }
+      .rate-value-wrap { gap: 9px; }
+      .rate-value { font: 400 26px/1 Georgia, "Times New Roman", serif; }
+      .chevron { color: rgba(28,45,66,.58); }
+      .cache-card, .privacy-card { gap: 11px; min-height: 68px; padding: 13px 15px; border-radius: 15px; }
+      .cache-icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: #e6ece8; color: #2e5a44; }
+      .cache-copy { flex: 1; }
+      .cache-title { display: block; font-size: 15px; font-weight: 650; }
+      .cache-subtitle { margin-top: 2px; font-size: 13px; }
+      .status-pill { gap: 6px; padding: 7px 9px; border-radius: 999px; background: rgba(46,90,68,.1); color: #2e5a44; font-size: 13px; }
+      .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #2e5a44; }
+      .live-dot.muted { background: #8c928c; }
+      .section-heading { padding: 2px 4px; }
+      .eyebrow { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; color: #2e5a44; }
+      .section-title { display: block; margin-top: 6px; font: 400 30px/1.15 Georgia, "Times New Roman", serif; }
+      .amount-card.compact { min-height: 116px; }
+      .control-card, .summary-card, .settings-card, .legal-card { padding: 5px 15px; border-radius: 15px; }
+      .control-row, .setting-row {
+        justify-content: space-between; width: 100%; min-height: 64px;
+        gap: 12px; border-bottom: 1px solid rgba(28,45,66,.08); font-size: 16px; text-align: left;
+      }
+      .control-row:last-child, .setting-row:last-child { border-bottom: 0; }
+      .setting-copy { flex: 1; min-width: 0; }
+      .stepper, .segments { display: flex; align-items: center; gap: 5px; padding: 5px; border-radius: 12px; background: rgba(28,45,66,.05); }
+      .stepper button, .segments button { min-width: 32px; height: 30px; border-radius: 9px; font-size: 14px; display: grid; place-items: center; }
+      .stepper span { min-width: 58px; text-align: center; font-size: 14px; }
+      .stepper.wide span { min-width: 76px; }
+      .segments .selected { background: #2e5a44; color: #fbf9f5; }
+      .summary-card { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; padding-top: 16px; padding-bottom: 16px; }
+      .summary-value { display: block; margin-top: 5px; font: 400 27px/1 Georgia, "Times New Roman", serif; }
+      .summary-value.green { color: #2e5a44; }
+      .home-cost { grid-column: 1 / -1; padding: 13px; border-radius: 13px; background: rgba(46,90,68,.08); color: #2e5a44; font-weight: 650; }
+      .setting-label { display: block; font-size: 16px; font-weight: 650; }
+      .setting-value { margin-top: 4px; font-size: 13px; line-height: 1.35; white-space: normal; word-break: break-word; }
+      .back-row { width: 100%; min-height: 48px; gap: 6px; color: #2e5a44; font-size: 15px; font-weight: 650; border-bottom: 1px solid rgba(28,45,66,.08); }
+      .legal-section { padding: 14px 0; border-bottom: 1px solid rgba(28,45,66,.08); }
+      .legal-heading { display: block; font-size: 16px; font-weight: 700; }
+      .legal-body { display: block; margin-top: 6px; color: rgba(28,45,66,.7); font-size: 14px; line-height: 1.5; white-space: normal; word-break: break-word; }
+      .legal-note { padding: 13px 0 7px; color: rgba(28,45,66,.55); font-size: 13px; }
+      .choice-mark { min-width: 24px; color: #2e5a44; font-weight: 800; text-align: right; }
+      .switch { width: 47px; height: 26px; padding: 3px; border-radius: 999px; background: rgba(28,45,66,.18); }
+      .switch div { width: 20px; height: 20px; border-radius: 50%; background: #fbf9f5; }
+      .switch.on { background: #2e5a44; }
+      .switch.on div { margin-left: auto; }
+      .tabbar {
+        position: fixed; left: 14px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 2;
+        justify-content: space-around; padding: 8px; border: 1px solid rgba(28,45,66,.12);
+        border-radius: 18px; background: rgba(251,249,245,.92); box-shadow: 0 11px 28px rgba(28,45,66,.12);
+        backdrop-filter: blur(16px);
+      }
+      .tab { width: 31%; min-height: 52px; border-radius: 13px; display: grid; place-items: center; gap: 2px; color: rgba(28,45,66,.62); font-size: 13px; }
+      .tab.active { background: rgba(46,90,68,.12); color: #2e5a44; }
+      .tab-icon { font-size: 18px; line-height: 1; }
+      [hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <main class="screen">
+      <section class="topbar">
+        <button class="icon-button" id="top-left" aria-label="Settings">⌘</button>
+        <div class="brand"><img src="../static/ratelens-app-icon.png" alt="" /><span class="brand-title">RateLens</span></div>
+        <button class="icon-button" id="refresh">↻</button>
+      </section>
+
+      <section class="stack view" data-view="home">
+        <article class="amount-card">
+          <div class="amount-copy"><input id="amount" class="amount-input" inputmode="decimal" value="1000" /><span id="base-name" class="amount-label">From · US Dollar</span></div>
+          <button class="currency-pill" id="base"><span class="currency-mark" id="base-symbol">$</span><span id="base-code">USD</span><span class="chevron">⌄</span></button>
+        </article>
+        <section class="currency-menu" id="base-menu" hidden></section>
+        <div class="quick-row"><button data-amount="100">100</button><button data-amount="500">500</button><button data-amount="1000">1000</button><button data-amount="2500">2500</button></div>
+        <section class="convert-panel">
+          <button class="swap-button" id="swap" aria-label="Swap currencies">⇅</button>
+          <button class="target-row" id="target"><div class="rate-left"><div class="currency-badge" id="target-symbol">€</div><div><span class="summary-label" id="target-label">To</span><span class="rate-code" id="target-code">EUR Euro</span></div></div><span class="chevron">⌄</span></button>
+          <section class="currency-menu" id="target-menu" hidden></section>
+          <article class="result-card"><span class="summary-label" id="result-label">Converted amount</span><span class="result-value" id="result-value">€922.41</span></article>
+        </section>
+        <article class="cache-card"><div class="cache-icon">☁</div><div class="cache-copy"><span class="cache-title" id="cache-title">Rates ready for travel</span><span class="cache-subtitle">Updated <span id="updated">09:42</span></span></div><button class="status-pill" id="online"><span class="live-dot"></span><span>Live</span></button></article>
+      </section>
+
+      <section class="stack view" data-view="travel" hidden>
+        <div class="section-heading"><span class="eyebrow" id="travel-eyebrow">Travel Calculator</span><span class="section-title" id="travel-title">Dinner split</span></div>
+        <article class="amount-card compact"><div class="amount-copy"><input id="bill" class="amount-input small" inputmode="decimal" value="18600" /><span class="amount-label" id="travel-currency-name">Japanese Yen</span></div><button class="currency-pill" id="travel-currency"><span class="currency-mark slate" id="travel-symbol">¥</span><span id="travel-code">JPY</span><span class="chevron">⌄</span></button></article>
+        <section class="currency-menu" id="travel-menu" hidden></section>
+        <section class="control-card">
+          <div class="control-row"><span id="tax-label">Tax</span><div class="stepper"><button data-tax="-1">−</button><span id="tax">10%</span><button data-tax="1">+</button></div></div>
+          <div class="control-row"><span id="tip-label">Tip</span><div class="segments"><button data-tip="10">10%</button><button class="selected" data-tip="15">15%</button><button data-tip="20">20%</button></div></div>
+          <div class="control-row"><span id="split-label">Split</span><div class="stepper wide"><button data-people="-1">−</button><span id="people">3 people</span><button data-people="1">+</button></div></div>
+        </section>
+        <section class="summary-card"><div><span class="summary-label" id="total-label">Total</span><span class="summary-value" id="travel-total">¥ 23,529</span></div><div><span class="summary-label" id="each-label">Each</span><span class="summary-value green" id="each-total">¥ 7,843</span></div><div class="home-cost" id="home-cost">Approx. CNY 369.41 per person</div></section>
+      </section>
+
+      <section class="stack view" data-view="settings" hidden>
+        <div class="section-heading"><span class="eyebrow" id="settings-eyebrow">Preferences</span><span class="section-title" id="settings-title">Travel defaults</span></div>
+        <section class="settings-card" id="settings"></section>
+        <section class="legal-card" id="legal" hidden></section>
+        <article class="privacy-card"><div class="cache-icon">◌</div><div><span class="cache-title">Local-first estimates</span><span class="cache-subtitle">Amounts stay on this device.</span></div></article>
+      </section>
+
+      <nav class="tabbar"><button class="tab active" data-tab="home"><span class="tab-icon">⌂</span><span>Convert</span></button><button class="tab" data-tab="travel"><span class="tab-icon">◫</span><span>Travel</span></button><button class="tab" data-tab="settings"><span class="tab-icon">•••</span><span>More</span></button></nav>
+    </main>
+
+    <script>
+      const currencies = [
+        { code: 'USD', name: 'US Dollar', symbol: '$', rate: 1, tone: 'green' },
+        { code: 'EUR', name: 'Euro', symbol: '€', rate: 0.92241, tone: 'green' },
+        { code: 'JPY', name: 'Japanese Yen', symbol: '¥', rate: 153.89, tone: 'slate' },
+        { code: 'CNY', name: 'Chinese Yuan', symbol: '¥', rate: 7.24835, tone: 'sage' },
+        { code: 'GBP', name: 'Pound Sterling', symbol: '£', rate: 0.78916, tone: 'blue' },
+        { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$', rate: 7.8079, tone: 'blue' },
+        { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', rate: 1.5068, tone: 'green' },
+        { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', rate: 1.3652, tone: 'blue' },
+        { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$', rate: 1.3461, tone: 'sage' },
+        { code: 'CHF', name: 'Swiss Franc', symbol: 'Fr', rate: 0.8917, tone: 'slate' },
+        { code: 'KRW', name: 'South Korean Won', symbol: '₩', rate: 1389.42, tone: 'slate' },
+        { code: 'THB', name: 'Thai Baht', symbol: '฿', rate: 36.74, tone: 'sage' },
+        { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM', rate: 4.711, tone: 'green' },
+        { code: 'TWD', name: 'New Taiwan Dollar', symbol: 'NT$', rate: 32.18, tone: 'blue' },
+        { code: 'INR', name: 'Indian Rupee', symbol: '₹', rate: 83.47, tone: 'sage' },
+        { code: 'AED', name: 'UAE Dirham', symbol: 'د.إ', rate: 3.6725, tone: 'slate' }
+      ];
+      const messages = {
+        'en-US': {
+          nav: { convert: 'Convert', travel: 'Travel', more: 'More' },
+          common: { back: 'Back', settings: 'Settings', updated: 'Updated', live: 'Live', offline: 'Offline' },
+          currencies: { USD: 'US Dollar', EUR: 'Euro', JPY: 'Japanese Yen', CNY: 'Chinese Yuan', GBP: 'Pound Sterling', HKD: 'Hong Kong Dollar', AUD: 'Australian Dollar', CAD: 'Canadian Dollar', SGD: 'Singapore Dollar', CHF: 'Swiss Franc', KRW: 'South Korean Won', THB: 'Thai Baht', MYR: 'Malaysian Ringgit', TWD: 'New Taiwan Dollar', INR: 'Indian Rupee', AED: 'UAE Dirham' },
+          home: { ratesReady: 'Rates ready for travel', usingCached: 'Using cached rates', from: 'From', to: 'To', convertedAmount: 'Converted amount', swapCurrencies: 'Swap currencies' },
+          travel: { eyebrow: 'Travel Calculator', title: 'Dinner split', tax: 'Tax', tip: 'Tip', split: 'Split', people: 'people', total: 'Total', each: 'Each', approxHome: 'Approx. CNY {amount} per person' },
+          settings: {
+            eyebrow: 'Preferences', title: 'Travel defaults', homeCurrency: 'Home Currency', watchedCurrencies: 'Watched Currencies',
+            language: 'Language', selectHomeCurrency: 'Select home currency', selectWatchedCurrencies: 'Choose watched currencies',
+            selectLanguage: 'Select language', selected: 'Selected', notSelected: 'Not selected',
+            languageEnglish: 'English', languageChinese: 'Simplified Chinese', offlineRates: 'Offline Rates',
+            liveRefresh: 'Live refresh enabled', cachedRates: 'Cached rates enabled', appearance: 'Appearance', appearanceSystem: 'System',
+            privacyPolicy: 'Privacy Policy', privacySummary: 'Local processing and minimal data use', disclaimer: 'Disclaimer',
+            disclaimerSummary: 'Rates are estimates, not financial advice', localFirstTitle: 'Local-first estimates', localFirstBody: 'Amounts stay on this device.'
+          },
+          legal: {
+            eyebrow: 'Legal', backToSettings: 'Back to settings', updated: 'Updated for prototype review: 2026-06-24',
+            privacy: { title: 'Privacy Policy', sections: [
+              ['Local-first calculations', 'Amounts, tax, tip and split calculations are processed on this device in the current prototype. RateLens does not require an account for these estimates.'],
+              ['Cached exchange rates', 'The app may keep the latest available exchange-rate table on device so travel calculations remain usable offline. Cached rates are used only for display and calculation inside the app.'],
+              ['Permissions', 'The MVP should not request contacts, precise location, camera or microphone permissions. Future OCR or scanner features must add a separate permission notice before release.']
+            ] },
+            disclaimer: { title: 'Disclaimer', sections: [
+              ['Estimate-only rates', 'Exchange rates shown in RateLens are informational estimates. Actual card, bank, cash exchange and platform settlement rates may differ.'],
+              ['No financial advice', 'RateLens is a travel and shopping calculator. It does not provide investment, tax, legal or financial advice.'],
+              ['User responsibility', 'Before making purchases, transfers or financial decisions, users should verify final prices, fees and rates with the relevant provider.']
+            ] }
+          }
+        },
+        'zh-CN': {
+          nav: { convert: '换算', travel: '旅行', more: '更多' },
+          common: { back: '返回', settings: '设置', updated: '更新于', live: '在线', offline: '离线' },
+          currencies: { USD: '美元', EUR: '欧元', JPY: '日元', CNY: '人民币', GBP: '英镑', HKD: '港元', AUD: '澳元', CAD: '加元', SGD: '新加坡元', CHF: '瑞士法郎', KRW: '韩元', THB: '泰铢', MYR: '马来西亚林吉特', TWD: '新台币', INR: '印度卢比', AED: '阿联酋迪拉姆' },
+          home: { ratesReady: '旅行汇率已就绪', usingCached: '正在使用缓存汇率', from: '从', to: '到', convertedAmount: '换算结果', swapCurrencies: '交换货币' },
+          travel: { eyebrow: '旅行计算器', title: '餐费分摊', tax: '税费', tip: '小费', split: '分摊', people: '人', total: '总计', each: '人均', approxHome: '约 CNY {amount} / 人' },
+          settings: {
+            eyebrow: '偏好设置', title: '旅行默认值', homeCurrency: '本币', watchedCurrencies: '关注币种',
+            language: '语言', selectHomeCurrency: '选择本币', selectWatchedCurrencies: '选择关注币种',
+            selectLanguage: '选择语言', selected: '已选择', notSelected: '未选择',
+            languageEnglish: '英文', languageChinese: '简体中文', offlineRates: '离线汇率',
+            liveRefresh: '已启用在线刷新', cachedRates: '已启用缓存汇率', appearance: '外观', appearanceSystem: '跟随系统',
+            privacyPolicy: '隐私政策', privacySummary: '本地处理与最小化数据使用', disclaimer: '免责声明',
+            disclaimerSummary: '汇率仅供估算，不构成金融建议', localFirstTitle: '本地优先估算', localFirstBody: '金额输入仅保留在当前设备。'
+          },
+          legal: {
+            eyebrow: '合规说明', backToSettings: '返回设置', updated: '原型评审更新：2026-06-24',
+            privacy: { title: '隐私政策', sections: [
+              ['本地优先计算', '当前原型中的金额、税费、小费和分摊计算都在本设备完成。RateLens 不要求用户创建账号才能使用这些估算功能。'],
+              ['缓存汇率', '应用可能在设备上保存最近一次可用汇率表，以便旅行场景离线计算。缓存汇率仅用于应用内展示与计算。'],
+              ['权限边界', 'MVP 不应请求通讯录、精确定位、相机或麦克风权限。未来若加入 OCR 或扫描能力，发布前必须补充独立权限说明。']
+            ] },
+            disclaimer: { title: '免责声明', sections: [
+              ['汇率仅供估算', 'RateLens 展示的汇率仅为信息估算。银行卡、银行、现金兑换和平台结算的实际汇率可能不同。'],
+              ['不构成金融建议', 'RateLens 是旅行与购物计算工具，不提供投资、税务、法律或金融建议。'],
+              ['用户自行核实', '在购物、转账或做出财务决策前，用户应向相关服务提供方确认最终价格、手续费和汇率。']
+            ] }
+          }
+        }
+      };
+      const languages = ['en-US', 'zh-CN'];
+      const state = {
+        tab: 'home',
+        locale: 'en-US',
+        base: 0,
+        watched: ['USD', 'EUR', 'JPY', 'CNY', 'GBP', 'HKD'],
+        targetCurrency: 'EUR',
+        travelCurrency: 'JPY',
+        baseMenu: false,
+        targetMenu: false,
+        travelMenu: false,
+        online: true,
+        tax: 10,
+        tip: 15,
+        people: 3,
+        legal: '',
+        settingsMode: 'main'
+      };
+      const $ = (selector) => document.querySelector(selector);
+      const $$ = (selector) => [...document.querySelectorAll(selector)];
+      const t = (key) => key.split('.').reduce((value, part) => value && value[part], messages[state.locale]) || key;
+      const interpolate = (template, values) => String(template).replace(/\{(\w+)\}/g, (_, key) => values[key] ?? '');
+      const currencyName = (code) => t(`currencies.${code}`);
+      const fmt = (value) => Number(value).toLocaleString(state.locale, { maximumFractionDigits: value >= 10000 ? 0 : 2 });
+      const fmtCurrency = (value, currency) => {
+        const isIntegerAmount = Number.isInteger(Number(value));
+        return new Intl.NumberFormat(state.locale, {
+          style: 'currency',
+          currency,
+          minimumFractionDigits: isIntegerAmount ? 0 : undefined,
+          maximumFractionDigits: isIntegerAmount ? 0 : undefined
+        }).format(value);
+      };
+      function amount() { return Number($('#amount').value.replace(/,/g, '')) || 0; }
+      function bill() { return Number($('#bill').value.replace(/,/g, '')) || 0; }
+      function renderTab() {
+        $$('.view').forEach((view) => view.hidden = view.dataset.view !== state.tab);
+        $$('.tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === state.tab));
+        const canGoBack = state.tab !== 'home' || !!state.legal || state.settingsMode !== 'main';
+        $('#top-left').textContent = canGoBack ? '‹' : '⌘';
+        $('#top-left').setAttribute('aria-label', canGoBack ? t('common.back') : t('common.settings'));
+        $$('.tab').forEach((tab) => {
+          const key = tab.dataset.tab === 'home' ? 'nav.convert' : tab.dataset.tab === 'travel' ? 'nav.travel' : 'nav.more';
+          tab.querySelector('span:last-child').textContent = t(key);
+        });
+      }
+      function currencyOptions(selectedCode, action) {
+        return currencies.map((currency) => `<button class="currency-option ${currency.code === selectedCode ? 'selected' : ''}" data-${action}="${currency.code}"><span class="currency-badge small ${currency.tone}">${currency.symbol}</span><span class="setting-copy"><span class="rate-code">${currency.code}</span><span class="rate-name">${currencyName(currency.code)}</span></span></button>`).join('');
+      }
+      function renderHome() {
+        const base = currencies[state.base];
+        const targetCurrency = currencies.find((currency) => currency.code === state.targetCurrency) || currencies[1];
+        $('#base-name').textContent = `${t('home.from')} · ${currencyName(base.code)}`;
+        $('#base-code').textContent = base.code;
+        $('#base-symbol').textContent = base.symbol;
+        $('#base-menu').hidden = !state.baseMenu;
+        $('#base-menu').innerHTML = currencyOptions(base.code, 'base-select');
+        $('#target-symbol').textContent = targetCurrency.symbol;
+        $('#target-symbol').className = `currency-badge ${targetCurrency.tone}`;
+        $('#target-label').textContent = t('home.to');
+        $('#target-code').textContent = `${targetCurrency.code} ${currencyName(targetCurrency.code)}`;
+        $('#target-menu').hidden = !state.targetMenu;
+        $('#target-menu').innerHTML = currencyOptions(targetCurrency.code, 'target-select');
+        $('#result-label').textContent = t('home.convertedAmount');
+        $('#result-value').textContent = fmtCurrency(amount() / base.rate * targetCurrency.rate, targetCurrency.code);
+        $('#swap').setAttribute('aria-label', t('home.swapCurrencies'));
+        renderSettings();
+      }
+      function renderTravel() {
+        const travelCurrency = currencies.find((currency) => currency.code === state.travelCurrency) || currencies[2];
+        const taxedSubtotal = bill() * (1 + state.tax / 100);
+        const total = taxedSubtotal * (1 + state.tip / 100);
+        const each = total / state.people;
+        $('#travel-eyebrow').textContent = t('travel.eyebrow');
+        $('#travel-title').textContent = t('travel.title');
+        $('#travel-currency-name').textContent = currencyName(travelCurrency.code);
+        $('#travel-code').textContent = travelCurrency.code;
+        $('#travel-symbol').textContent = travelCurrency.symbol;
+        $('#travel-symbol').className = `currency-mark ${travelCurrency.tone}`;
+        $('#travel-menu').hidden = !state.travelMenu;
+        $('#travel-menu').innerHTML = currencyOptions(travelCurrency.code, 'travel-select');
+        $('#tax').textContent = `${state.tax}%`;
+        $('#tax-label').textContent = t('travel.tax');
+        $('#tip-label').textContent = t('travel.tip');
+        $('#split-label').textContent = t('travel.split');
+        $('#people').textContent = `${state.people} ${t('travel.people')}`;
+        $('#total-label').textContent = t('travel.total');
+        $('#each-label').textContent = t('travel.each');
+        $('#travel-total').textContent = fmtCurrency(total, travelCurrency.code);
+        $('#each-total').textContent = fmtCurrency(each, travelCurrency.code);
+        $('#home-cost').textContent = interpolate(t('travel.approxHome'), { amount: fmt(each * (7.24835 / travelCurrency.rate)) });
+        $$('[data-tip]').forEach((button) => button.classList.toggle('selected', Number(button.dataset.tip) === state.tip));
+      }
+      function renderSettings() {
+        const base = currencies[state.base];
+        const watched = currencies.filter((currency) => currency.code !== base.code && state.watched.includes(currency.code)).map((currency) => currency.code).join(', ');
+        const rows = [
+          [t('settings.homeCurrency'), `${base.code} ${currencyName(base.code)}`, 'homeCurrency'],
+          [t('settings.watchedCurrencies'), watched, 'watchedCurrencies'],
+          [t('settings.language'), state.locale === 'en-US' ? t('settings.languageEnglish') : t('settings.languageChinese'), 'language'],
+          [t('settings.offlineRates'), state.online ? t('settings.liveRefresh') : t('settings.cachedRates'), 'toggle'],
+          [t('settings.appearance'), t('settings.appearanceSystem')],
+          [t('settings.privacyPolicy'), t('settings.privacySummary'), 'privacy'],
+          [t('settings.disclaimer'), t('settings.disclaimerSummary'), 'disclaimer']
+        ];
+        const doc = state.legal ? t(`legal.${state.legal}`) : null;
+        const modeTitles = {
+          homeCurrency: t('settings.selectHomeCurrency'),
+          watchedCurrencies: t('settings.selectWatchedCurrencies'),
+          language: t('settings.selectLanguage')
+        };
+        $('#settings-eyebrow').textContent = doc ? t('legal.eyebrow') : t('settings.eyebrow');
+        $('#settings-title').textContent = doc ? doc.title : modeTitles[state.settingsMode] || t('settings.title');
+        $('#settings').hidden = !!doc;
+        $('#legal').hidden = !doc;
+        if (doc) {
+          $('#legal').innerHTML = `<button class="back-row" data-back-legal><span class="chevron">‹</span><span>${t('legal.backToSettings')}</span></button>` +
+            doc.sections.map(([heading, body]) => `<section class="legal-section"><span class="legal-heading">${heading}</span><span class="legal-body">${body}</span></section>`).join('') +
+            `<div class="legal-note">${t('legal.updated')}</div>`;
+        }
+        if (state.settingsMode === 'homeCurrency') {
+          $('#settings').innerHTML = `<button class="back-row" data-back-settings><span class="chevron">‹</span><span>${t('legal.backToSettings')}</span></button>` +
+            currencies.map((currency) => `<button class="setting-row" data-base-setting="${currency.code}"><span class="currency-badge small ${currency.tone}">${currency.symbol}</span><div class="setting-copy"><span class="setting-label">${currency.code} ${currencyName(currency.code)}</span><span class="setting-value">${currency.code === base.code ? t('settings.selected') : t('settings.notSelected')}</span></div><span class="choice-mark">${currency.code === base.code ? '✓' : ''}</span></button>`).join('');
+        } else if (state.settingsMode === 'watchedCurrencies') {
+          $('#settings').innerHTML = `<button class="back-row" data-back-settings><span class="chevron">‹</span><span>${t('legal.backToSettings')}</span></button>` +
+            currencies.map((currency) => `<button class="setting-row" data-watched-setting="${currency.code}"><span class="currency-badge small ${currency.tone}">${currency.symbol}</span><div class="setting-copy"><span class="setting-label">${currency.code} ${currencyName(currency.code)}</span><span class="setting-value">${state.watched.includes(currency.code) ? t('settings.selected') : t('settings.notSelected')}</span></div><span class="choice-mark">${state.watched.includes(currency.code) ? '✓' : ''}</span></button>`).join('');
+        } else if (state.settingsMode === 'language') {
+          $('#settings').innerHTML = `<button class="back-row" data-back-settings><span class="chevron">‹</span><span>${t('legal.backToSettings')}</span></button>` +
+            languages.map((locale) => `<button class="setting-row" data-language-select="${locale}"><div class="setting-copy"><span class="setting-label">${locale === 'en-US' ? t('settings.languageEnglish') : t('settings.languageChinese')}</span><span class="setting-value">${locale}</span></div><span class="choice-mark">${locale === state.locale ? '✓' : ''}</span></button>`).join('');
+        } else if (!doc) {
+          $('#settings').innerHTML = rows.map(([label, value, action]) => `<button class="setting-row" data-setting="${label}" ${action === 'toggle' ? 'data-toggle-offline' : ''} ${action === 'homeCurrency' || action === 'watchedCurrencies' || action === 'language' ? `data-settings-mode="${action}"` : ''} ${action && action !== 'toggle' && action !== 'homeCurrency' && action !== 'watchedCurrencies' && action !== 'language' ? `data-legal="${action}"` : ''}><div class="setting-copy"><span class="setting-label">${label}</span><span class="setting-value">${value}</span></div>${action === 'toggle' ? `<span class="switch ${state.online ? 'on' : ''}"><div></div></span>` : '<span class="chevron">›</span>'}</button>`).join('');
+        }
+        $('#cache-title').textContent = state.online ? t('home.ratesReady') : t('home.usingCached');
+        $('#online').innerHTML = `<span class="live-dot ${state.online ? '' : 'muted'}"></span><span>${state.online ? t('common.live') : t('common.offline')}</span>`;
+        document.querySelector('.cache-subtitle').innerHTML = `${t('common.updated')} <span id="updated">${$('#updated')?.textContent || '09:42'}</span>`;
+        document.querySelector('.privacy-card .cache-title').textContent = t('settings.localFirstTitle');
+        document.querySelector('.privacy-card .cache-subtitle').textContent = t('settings.localFirstBody');
+      }
+      function renderAll() { renderTab(); renderHome(); renderTravel(); renderSettings(); }
+      document.addEventListener('click', (event) => {
+        const tab = event.target.closest('[data-tab]');
+        if (tab) { state.tab = tab.dataset.tab; state.baseMenu = false; state.targetMenu = false; state.travelMenu = false; if (state.tab !== 'settings') { state.legal = ''; state.settingsMode = 'main'; } renderAll(); }
+        const amountButton = event.target.closest('[data-amount]');
+        if (amountButton) { $('#amount').value = amountButton.dataset.amount; renderHome(); }
+        if (event.target.closest('#base')) { state.baseMenu = !state.baseMenu; state.targetMenu = false; state.travelMenu = false; renderHome(); }
+        const baseSelect = event.target.closest('[data-base-select]');
+        if (baseSelect) {
+          state.base = currencies.findIndex((currency) => currency.code === baseSelect.dataset.baseSelect);
+          if (currencies[state.base]?.code === state.targetCurrency) {
+            const fallback = currencies.find((currency) => currency.code !== state.targetCurrency);
+            state.targetCurrency = fallback ? fallback.code : state.targetCurrency;
+          }
+          state.baseMenu = false; renderHome();
+        }
+        if (event.target.closest('#target')) { state.targetMenu = !state.targetMenu; state.baseMenu = false; state.travelMenu = false; renderHome(); }
+        const targetSelect = event.target.closest('[data-target-select]');
+        if (targetSelect) {
+          const selected = targetSelect.dataset.targetSelect;
+          if (selected === currencies[state.base].code) {
+            const oldBase = currencies[state.base].code;
+            state.base = currencies.findIndex((currency) => currency.code === state.targetCurrency);
+            state.targetCurrency = oldBase;
+          } else {
+            state.targetCurrency = selected;
+          }
+          state.targetMenu = false; renderHome();
+        }
+        if (event.target.closest('#swap')) {
+          const oldBase = currencies[state.base].code;
+          state.base = currencies.findIndex((currency) => currency.code === state.targetCurrency);
+          state.targetCurrency = oldBase;
+          state.baseMenu = false;
+          state.targetMenu = false;
+          renderHome();
+        }
+        if (event.target.closest('#travel-currency')) { state.travelMenu = !state.travelMenu; state.baseMenu = false; state.targetMenu = false; renderTravel(); }
+        const travelSelect = event.target.closest('[data-travel-select]');
+        if (travelSelect) { state.travelCurrency = travelSelect.dataset.travelSelect; state.travelMenu = false; renderTravel(); }
+        if (event.target.closest('#refresh')) {
+          const now = new Date();
+          $('#updated').textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+          state.baseMenu = false;
+          state.targetMenu = false;
+          state.travelMenu = false;
+          state.online = true; renderSettings();
+        }
+        if (event.target.closest('#online')) { state.online = !state.online; renderSettings(); }
+        if (event.target.closest('#top-left')) {
+          state.baseMenu = false; state.targetMenu = false; state.travelMenu = false;
+          if (state.legal || state.settingsMode !== 'main') { state.legal = ''; state.settingsMode = 'main'; state.tab = 'settings'; renderAll(); return; }
+          if (state.tab !== 'home') { state.tab = 'home'; renderAll(); return; }
+          state.tab = 'settings'; renderAll(); return;
+        }
+        const tax = event.target.closest('[data-tax]');
+        if (tax) { state.tax = Math.min(25, Math.max(0, state.tax + Number(tax.dataset.tax))); renderTravel(); }
+        const tip = event.target.closest('[data-tip]');
+        if (tip) { state.tip = Number(tip.dataset.tip); renderTravel(); }
+        const people = event.target.closest('[data-people]');
+        if (people) { state.people = Math.min(12, Math.max(1, state.people + Number(people.dataset.people))); renderTravel(); }
+        if (event.target.closest('[data-toggle-offline]')) { state.online = !state.online; renderSettings(); }
+        const mode = event.target.closest('[data-settings-mode]');
+        if (mode) { state.settingsMode = mode.dataset.settingsMode; renderSettings(); }
+        const baseSetting = event.target.closest('[data-base-setting]');
+        if (baseSetting) { state.base = currencies.findIndex((currency) => currency.code === baseSetting.dataset.baseSetting); state.settingsMode = 'main'; renderAll(); }
+        const watchedSetting = event.target.closest('[data-watched-setting]');
+        if (watchedSetting) {
+          const code = watchedSetting.dataset.watchedSetting;
+          if (state.watched.includes(code)) {
+            if (state.watched.length > 1) state.watched = state.watched.filter((item) => item !== code);
+          } else {
+            state.watched = [...state.watched, code];
+          }
+          renderAll();
+        }
+        const languageSelect = event.target.closest('[data-language-select]');
+        if (languageSelect) { state.locale = languageSelect.dataset.languageSelect; state.settingsMode = 'main'; renderAll(); }
+        const legal = event.target.closest('[data-legal]');
+        if (legal) { state.legal = legal.dataset.legal; state.settingsMode = 'legal'; renderSettings(); }
+        if (event.target.closest('[data-back-legal]') || event.target.closest('[data-back-settings]')) { state.legal = ''; state.settingsMode = 'main'; renderSettings(); }
+      });
+      $('#amount').addEventListener('input', renderHome);
+      $('#bill').addEventListener('input', renderTravel);
+      renderAll();
+    </script>
+  </body>
+</html>

@@ -5,3 +5,172 @@ BMI/*.p12
 BMI/*.pfx
 BMI/*.password
 BMI/*.secret
+
+
+
+# =========================
+# Operating System Files
+# =========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.Spotlight-V100/
+.Trashes/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Dependency Directories
+# =========================
+node_modules/
+vendor/
+.npm-cache
+
+# =========================
+# Build / Output
+# =========================
+dist/
+build/
+out/
+target/
+release/
+debug/
+tmp/
+temp/
+.cache/
+coverage/
+
+# =========================
+# Package Managers
+# =========================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# （注意：团队项目通常建议保留 lock 文件，
+# 如果需要可删除上面三行）
+
+# =========================
+# IDE / Editor
+# =========================
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# JetBrains
+.idea/
+*.iml
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Vim
+*.swp
+*.swo
+*~
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+.venv/
+venv/
+env/
+
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Java
+# =========================
+*.class
+*.jar
+*.war
+.gradle/
+target/
+
+# =========================
+# Go
+# =========================
+bin/
+pkg/
+
+# =========================
+# Rust
+# =========================
+target/
+Cargo.lock
+
+# 应用项目通常保留 Cargo.lock
+# 库项目可忽略
+
+# =========================
+# C / C++
+# =========================
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+
+# =========================
+# Archives
+# =========================
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+
+# =========================
+# Secrets / Certificates
+# =========================
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# =========================
+# Database Files
+# =========================
+*.sqlite
+*.db
+
+# =========================
+# Misc
+# =========================
+*.pid
+*.seed
