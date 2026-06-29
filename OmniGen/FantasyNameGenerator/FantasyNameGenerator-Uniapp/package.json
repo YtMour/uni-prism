@@ -1,0 +1,26 @@
+{
+  "name": "mythosgen-uniapp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:h5": "node ./scripts/run-uni.mjs --host 0.0.0.0 --port 5179",
+    "build:h5": "node ./scripts/run-uni.mjs build -p h5",
+    "smoke:h5": "node ./scripts/smoke-h5.mjs",
+    "sample:quality": "node ./scripts/sample-quality.mjs",
+    "test": "node ./node_modules/vitest/vitest.mjs run --config vitest.config.js",
+    "check": "npm run test && npm run smoke:h5 && npm run build:h5"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "3.0.0-alpha-5010420260626001",
+    "@dcloudio/uni-h5": "3.0.0-alpha-5010420260626001",
+    "@dcloudio/uni-ui": "latest",
+    "vue": "3.4.21"
+  },
+  "devDependencies": {
+    "@dcloudio/types": "3.4.31",
+    "@dcloudio/vite-plugin-uni": "3.0.0-alpha-5010420260626001",
+    "vite": "5.2.8",
+    "vitest": "3.2.6"
+  }
+}

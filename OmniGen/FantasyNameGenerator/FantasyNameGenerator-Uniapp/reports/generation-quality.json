@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-06-29T03:09:58.013Z",
+  "perRealm": 300,
+  "total": 900,
+  "unique": 836,
+  "duplicateRate": 0.0711,
+  "realms": [
+    {
+      "id": "elf",
+      "samples": 300,
+      "unique": 289,
+      "duplicateRate": 0.0367,
+      "averageLength": 10.74,
+      "shortest": "Aewenlen",
+      "longest": "Lorienquessviel"
+    },
+    {
+      "id": "dragon",
+      "samples": 300,
+      "unique": 295,
+      "duplicateRate": 0.0167,
+      "averageLength": 10.2,
+      "shortest": "Igsyrak",
+      "longest": "Rhazthurnzhar"
+    },
+    {
+      "id": "magic",
+      "samples": 300,
+      "unique": 252,
+      "duplicateRate": 0.16,
+      "averageLength": 12.43,
+      "shortest": "Iris Ash",
+      "longest": "Obsidian Invocation"
+    }
+  ]
+}

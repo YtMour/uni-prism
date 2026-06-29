@@ -1,28 +1,46 @@
-# OmniGen: Infinite Randomization Engine 🌌🎲
+# OmniGen: Infinite Randomization Engine
 
-> 秩序源于随机。OmniGen 是一款将“极简画廊美学”与“无限灵感随机”完美结合的跨平台生成器矩阵集群。它打破了传统工具类应用粗糙死板的界面，转而服务于海外跑团玩家、独立创作者、创业者与自由职业者的“核心灵感激发”诉求。
+> 秩序源于随机。OmniGen 是随机生成系列 App 的管理文件夹，用于沉淀系列级规划、文档索引、通用设计原则和后续多个生成器项目的路线。
 
-[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android-black?style=for-the-badge)]()
-[![Framework](https://img.shields.io/badge/Framework-uni--app%20%7C%20Vue3-blue?style=for-the-badge)]()
+当前正在构建的 App 项目位于 `FantasyNameGenerator/`，产品名为 **MythosGen: Fantasy Name Creator**，面向跑团玩家、奇幻小说作者与 RPG 玩家生成人名、咒语、神器和神话词汇。
 
----
+## 项目定位
 
-## 🌟 全局设计语言：极简画廊风 (Gallerist Minimalism)
+OmniGen 根目录不作为单个 App 工程使用，而是作为随机生成系列的管理层。每个子 App 都应有自己的项目文件夹、独立品牌、独立数据集和独立发布路径。根目录只保留 README 作为系列管理和介绍入口。
 
-OmniGen 旗下所有子生成器模块必须严格遵循统一的视觉动线，拒绝繁琐的输入框与刺眼的广告网格：
+## 当前子项目
 
-*   **色调方案：** 统一采用温润的**羊皮纸白 (#FBF9F5)** 或 **清透浅灰 (#F2F2F2)** 作为主画布背景。针对不同的子模块，仅切换微弱的**高亮交互点缀色**（如幻想类使用深紫、商业类使用靛蓝）。
-*   **字视认性：** 生成的核心结果一律采用大字号、电影海报质感的**经典衬线体 (Serif)** 呈现，而功能标签、参数滑块则使用极简的**无衬线体 (Sans-Serif)**。
-*   **灵感祭坛交互 (The Ritual UI)：** 摒弃生硬的“点击按钮”，全量采用**轻触屏幕中央空白画布**或**物理摇晃手机**触发生成，配合清脆的**微弱触感反馈（Haptic Feedback）**与淡入放大动画。
+| 子项目 | 阶段 | 说明 |
+| --- | --- | --- |
+| FantasyNameGenerator / MythosGen | 规划中 | 当前 App 工程目录，奇幻姓名、咒语和神话词汇生成器 |
+| D&D Character Generator | 候选 | 跑团角色、背景和属性灵感生成 |
+| Startup Name Generator | 候选 | 面向 indie hackers 的创业命名生成 |
+| Business Name Generator | 候选 | 公司、品牌和实体命名生成 |
+| Baby Name Generator | 候选 | 家庭向寓意筛选姓名生成 |
 
----
+## 当前文档入口
 
-## 🗂️ 模块集群规划 (Generators Matrix)
+- [MythosGen App README](FantasyNameGenerator/README.md)
+- [MythosGen 文档索引](FantasyNameGenerator/docs/DOCUMENTATION_INDEX.md)
 
-OmniGen 采用高度解耦的模块化设计，统一入口，底层逻辑互不干扰。目前规划的子生成器序列如下：
+## 文件夹职责
 
-1.  **Fantasy Name Generator (幻想命名生成器)：** 精灵、巨龙、古老魔法咒语与神话姓名生成。
-2.  **D&D Character Generator (D&D角色生成器)：** 跑团玩家刚需，一键生成种族、职业、阵营、背景故事及属性骰子。
-3.  **Startup Name Generator (创业项目命名器)：** 专为海外独立创作者（Indie Hackers）量身定制，融合现代科技感词根。
-4.  **Business Name Generator (公司/企业命名器)：** 更加稳重、符合注册合规调性的经典商业实体命名。
-5.  **Baby Name Generator (新生儿命名器)：** 融入寓意过滤器（如勇敢、智慧、自然）的温情家庭向命名器。
+| 路径 | 职责 |
+| --- | --- |
+| `OmniGen/` | 系列管理文件夹，根目录只保留 README 管理和介绍文档 |
+| `OmniGen/FantasyNameGenerator/` | MythosGen App 项目文件夹，后续应用代码、资源、项目内文档和构建配置都放这里 |
+
+## 全局设计语言
+
+OmniGen 采用极简画廊风，减少工具感和广告感，让生成结果成为屏幕中心。
+
+- 主画布使用羊皮纸白 `#FBF9F5` 或清透浅灰 `#F2F2F2`。
+- 子项目只切换低饱和点缀色，不破坏整体品牌一致性。
+- 生成结果使用大字号衬线体，控制项使用清晰无衬线体。
+- 核心交互优先采用轻触画布、摇晃手机、收藏滑动与海报导出。
+
+## 技术方向
+
+MythosGen App 计划在 `FantasyNameGenerator/` 内采用 uni-app + Vue 3 构建跨平台移动应用。生成逻辑优先本地化，数据集以结构化词根、音节权重和过滤规则组织，避免早期依赖服务端。
+
+第一阶段目标是完成 MythosGen 的 H5/Mobile MVP：核心生成、过滤、收藏、复制、海报导出和基础设置。
