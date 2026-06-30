@@ -12,7 +12,7 @@
 | `04-character-card-details.png` | 角色卡详情续页 | 熟练项、装备、背景故事、底部操作 |
 | `05-reroll-sheet.png` | 重掷面板 | 整体重掷、只重写故事、只重掷属性、保留 seed |
 | `06-export-text.png` | 文本导出 | 纯文本预览、复制文本、切换海报预览 |
-| `07-export-poster-preview.png` | 海报预览 | App 内海报预览、保存海报、复制文本、包含 seed |
+| `07-export-poster-preview.png` | 海报预览 | App 内海报预览、复制文本、返回文本导出、包含 seed |
 | `08-recent-characters.png` | 最近角色列表 | 本地最近角色、搜索、清空、生成新角色 |
 
 ## 使用原则
@@ -38,6 +38,7 @@
 - Copy
 - Export
 - Copy Text
-- Save Poster
+- Preview Poster
 - Generate New
 
+说明：设计图中的早期 `Save Poster` 文案不再作为 MVP 发布承诺。当前 MVP 保留海报预览，真实 PNG 保存移入后续增强。

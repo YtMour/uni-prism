@@ -1,0 +1,30 @@
+{
+  "name": "diceforge-uniapp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:h5": "set UNI_INPUT_DIR=.&& uni -p h5 --host 127.0.0.1 --port 5186 --strictPort",
+    "clean": "node scripts/clean-output.mjs all",
+    "clean:browser": "node scripts/clean-output.mjs browser",
+    "clean:h5": "node scripts/clean-output.mjs h5",
+    "build:h5": "npm run clean:h5 && set UNI_INPUT_DIR=.&& uni build -p h5",
+    "dev:browser": "vite --config vite.h5.config.js --host 127.0.0.1 --port 5188 --strictPort",
+    "build:browser": "npm run clean:browser && vite build --config vite.h5.config.js",
+    "preview:h5": "node scripts/serve-static.mjs",
+    "test": "node --test",
+    "smoke:h5": "node scripts/smoke-h5.mjs",
+    "audit:release": "node scripts/audit-release.mjs",
+    "assess:release": "node scripts/assess-release.mjs",
+    "check": "npm test && npm run build:browser && npm run build:h5 && npm run smoke:h5 && npm run audit:release && npm run assess:release"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "3.0.0-4020920240930001",
+    "@dcloudio/vite-plugin-uni": "3.0.0-4020920240930001",
+    "vite": "5.4.21",
+    "vue": "3.4.21"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.4"
+  }
+}

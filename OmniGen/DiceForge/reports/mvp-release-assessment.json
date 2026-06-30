@@ -1,0 +1,46 @@
+{
+  "app": "DiceForge",
+  "generatedAt": "2026-06-30T08:38:46.052Z",
+  "status": "h5-mvp-candidate",
+  "h5MvpCandidate": true,
+  "publicReleaseReady": false,
+  "auditSummary": {
+    "info": 0,
+    "low": 0,
+    "moderate": 4,
+    "high": 15,
+    "critical": 0,
+    "total": 19
+  },
+  "checks": [
+    {
+      "command": "npm test",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "npm run build:browser",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "npm run build:h5",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "npm run smoke:h5",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "command": "npm run audit:release",
+      "ok": true,
+      "status": 0
+    }
+  ],
+  "publicReleaseBlockers": [
+    "npm audit still has known moderate/high vulnerabilities",
+    "manual WebView/native smoke is still required before public release"
+  ]
+}
