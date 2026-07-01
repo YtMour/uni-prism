@@ -2,7 +2,7 @@
 
 > 秩序源于随机。OmniGen 是随机生成系列 App 的管理文件夹，用于沉淀系列级规划、文档索引、通用设计原则和后续多个生成器项目的路线。
 
-当前正在构建的 App 项目位于 `FantasyNameGenerator/`，产品名为 **MythosGen: Fantasy Name Creator**，面向跑团玩家、奇幻小说作者与 RPG 玩家生成人名、咒语、神器和神话词汇。
+当前已建立的 App 项目包括 `FantasyNameGenerator/`、`DiceForge/` 和 `VibeName/`。其中 **VibeName: Startup Name Generator** 是新的创业命名生成器规划项目，面向独立开发者、SaaS 创业者与科技产品团队。
 
 ## 项目定位
 
@@ -12,9 +12,9 @@ OmniGen 根目录不作为单个 App 工程使用，而是作为随机生成系�
 
 | 子项目 | 阶段 | 说明 |
 | --- | --- | --- |
-| FantasyNameGenerator / MythosGen | 规划中 | 当前 App 工程目录，奇幻姓名、咒语和神话词汇生成器 |
-| D&D Character Generator | 候选 | 跑团角色、背景和属性灵感生成 |
-| Startup Name Generator | 候选 | 面向 indie hackers 的创业命名生成 |
+| FantasyNameGenerator / MythosGen | 规划中 | 奇幻姓名、咒语和神话词汇生成器 |
+| DiceForge | 规划中 | 跑团角色、背景和属性灵感生成 |
+| VibeName | 文档建设中 | 面向 indie hackers 和 SaaS 创业者的创业命名生成 |
 | Business Name Generator | 候选 | 公司、品牌和实体命名生成 |
 | Baby Name Generator | 候选 | 家庭向寓意筛选姓名生成 |
 
@@ -22,6 +22,8 @@ OmniGen 根目录不作为单个 App 工程使用，而是作为随机生成系�
 
 - [MythosGen App README](FantasyNameGenerator/README.md)
 - [MythosGen 文档索引](FantasyNameGenerator/docs/DOCUMENTATION_INDEX.md)
+- [VibeName App README](VibeName/README.md)
+- [VibeName 文档索引](VibeName/docs/DOCUMENTATION_INDEX.md)
 
 ## 文件夹职责
 
@@ -29,6 +31,8 @@ OmniGen 根目录不作为单个 App 工程使用，而是作为随机生成系�
 | --- | --- |
 | `OmniGen/` | 系列管理文件夹，根目录只保留 README 管理和介绍文档 |
 | `OmniGen/FantasyNameGenerator/` | MythosGen App 项目文件夹，后续应用代码、资源、项目内文档和构建配置都放这里 |
+| `OmniGen/DiceForge/` | DiceForge App 项目文件夹，沉淀 D&D 角色生成方向 |
+| `OmniGen/VibeName/` | VibeName App 项目文件夹，沉淀 Startup Name Generator 方向 |
 
 ## 全局设计语言
 
