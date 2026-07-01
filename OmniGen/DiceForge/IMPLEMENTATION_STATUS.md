@@ -4,7 +4,7 @@
 
 当前阶段：H5 MVP 发布候选加固。
 
-已在 `DiceForge-Uniapp` 模板项目内完成核心生成器、手机端页面流、浏览器验证入口、正式 UniApp H5 构建链路、H5 smoke 和 release audit 基线。当前可作为 H5 内测/发布候选继续真机与依赖风险复核，尚不应宣称为所有平台公开发布完成。
+已在 `DiceForge-Uniapp` 模板项目内完成核心生成器、手机端页面流、浏览器验证入口、正式 UniApp H5 构建链路、H5 smoke、release audit 基线和自动发布评估。当前可作为 H5 内测/发布候选继续真机与依赖风险复核，尚不应宣称为所有平台公开发布完成。
 
 ## 状态说明
 
@@ -21,14 +21,16 @@
 | 项目 | 状态 | 说明 |
 | --- | --- | --- |
 | 原始概念文档 | Done | `DiceForge.md` 已存在 |
-| README 入口 | Done | 已建立文档导航和 MVP 原则 |
+| README 入口 | Done | 已更新为 H5 MVP 发布候选入口 |
+| 文档索引 | Done | `DOCUMENTATION_INDEX.md` 已建立当前文档、实现入口和验证命令索引 |
 | 产品规格 | Done | 已定义目标用户、场景和 MVP 范围 |
 | 规则规格 | Done | 已定义 5E 轻量规则边界 |
 | 生成系统设计 | Done | 已定义生成流水线和文本矩阵 |
 | UX 设计规范 | Done | 已定义视觉、布局、动效和导出体验 |
 | 数据结构设计 | Done | 已定义核心 TypeScript 风格模型 |
-| 构建计划 | Done | 已定义 Phase 0 到 Phase 5 |
-| 界面设计图 | Done | 已生成手机端完整页面流，见 `designs/mobile-v2/` |
+| 构建计划 | Done | 已定义 Phase 0 到 Phase 5，并补充当前阶段状态 |
+| MVP 发布清单 | Done | `MVP_RELEASE_CHECKLIST.md` 已建立 H5 候选和公开发布门槛 |
+| 界面设计图 | Done | 已生成手机端完整页面流，见 `designs/01-home-empty.png` 到 `designs/08-recent-characters.png` |
 
 ## 功能实现状态
 
@@ -59,12 +61,12 @@
 
 | 资产 | 状态 | 说明 |
 | --- | --- | --- |
-| 移动端首页空状态 | Done | `designs/mobile-home-empty.png` |
-| 移动端角色卡详情 | Done | `designs/mobile-character-card.png` |
-| 移动端导出复制页 | Done | `designs/mobile-export-copy.png` |
-| 桌面端生成工作台 | Done | `designs/desktop-generator-workbench.png` |
-| 手机端 V2 完整页面流 | Done | `designs/mobile-v2/`，作为当前手机端 MVP 设计基准 |
+| 手机端完整页面流 | Done | `designs/01-home-empty.png` 到 `designs/08-recent-characters.png`，作为当前手机端 MVP 设计基准 |
+| 设计图说明 | Done | `designs/README.md` 记录页面清单、使用原则和功能一致性 |
 | App 图标与界面图标素材 | Done | `assets/icons/`，包含 App 图标、源图和透明 PNG |
+| 中心 D20 源素材 | Done | `assets/source/` 保留 D20 源图和中间素材 |
+
+说明：当前实现基准以 `designs/README.md` 中列出的 8 张手机端页面图为准；未在磁盘中存在的旧版移动端或桌面端设计图不再作为状态文档条目。
 
 ## 本轮实现验证
 

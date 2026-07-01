@@ -4,6 +4,21 @@
 
 DiceForge 应先打通完整生成闭环，再做动效和视觉强化。每个阶段都必须产出用户可见能力，并同步更新状态文档。
 
+## 当前阶段状态
+
+当前已完成 Phase 0 到 Phase 4 的 H5 MVP 主线能力，处于 H5 MVP 发布候选加固阶段。Phase 5 仍是后续扩展方向，不进入当前 MVP 发布承诺。
+
+| 阶段 | 当前状态 | 说明 |
+| --- | --- | --- |
+| Phase 0 文档和数据准备 | Done | 产品、规则、UX、数据结构、构建计划和文档索引已建立 |
+| Phase 1 角色生成 MVP | Done | 生成器、seed、4d6、职业友好属性、去重和故事生成已实现 |
+| Phase 2 角色卡 UI | Done | 首页、生成中、角色卡、重掷、复制、导出和最近列表已覆盖 |
+| Phase 3 导出和本地记录 | Done | 文本复制、海报预览和最近角色记录已实现；PNG 保存暂缓 |
+| Phase 4 动效和体验打磨 | Done | 中心 D20 使用透明 premium 图片和短投骰动效，H5 smoke 已覆盖关键标记 |
+| Phase 5 扩展能力 | Deferred | 批量 NPC、锁定字段、Homebrew、多语言和 PDF 不进入 MVP |
+
+发布门槛以 [MVP_RELEASE_CHECKLIST.md](./MVP_RELEASE_CHECKLIST.md) 为准。
+
 ## Phase 0: 文档和数据准备
 
 目标：把产品、规则、数据和设计边界固定下来。
