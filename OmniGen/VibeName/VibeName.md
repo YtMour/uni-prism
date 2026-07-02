@@ -10,7 +10,7 @@ VibeName 是 OmniGen 随机生成系列中的创业命名方向子项目。它�
 - 帮助用户在短时间内比较名称的气质、长度、发音、品牌感和可扩展性。
 - 用极简视觉卡片预览名称落地后的产品首屏感，而不是只输出一串文本。
 
-第一阶段目标是完成 H5/Mobile MVP：本地生成、风格与行业过滤、候选收藏、名称评分、复制导出和概念卡片预览。
+第一阶段目标是完成 H5/Mobile MVP：本地生成、风格与行业过滤、候选收藏、名称评分、复制导出、概念卡片预览、分段隐私政策、分段免责声明和 18 个主流应用语种选择与关键路径国际化。
 
 ## 核心体验
 
@@ -71,7 +71,7 @@ VibeName 的核心体验应保持短、快、明确：
 
 ## 文档入口
 
-VibeName 当前处于项目规划与文档建设阶段。后续以这些文件为准：
+VibeName 当前处于 H5 MVP preview candidate 向 public H5 MVP release candidate 收敛阶段。后续以这些文件为准：
 
 | 文档 | 用途 |
 | --- | --- |
@@ -83,7 +83,8 @@ VibeName 当前处于项目规划与文档建设阶段。后续以这些文件�
 | [docs/ROADMAP.md](./docs/ROADMAP.md) | 阶段计划和后续功能路线 |
 | [docs/IMPLEMENTATION_STATUS.md](./docs/IMPLEMENTATION_STATUS.md) | 当前实现状态、风险和下一步 |
 | [docs/MVP_RELEASE_CHECKLIST.md](./docs/MVP_RELEASE_CHECKLIST.md) | MVP 发布门槛与回归清单 |
+| [docs/MVP_RELEASE_ASSESSMENT.md](./docs/MVP_RELEASE_ASSESSMENT.md) | 当前 H5 MVP 发布评估 |
 
 ## 当前状态
 
-当前只有项目概念和规划文档，尚未创建应用工程、代码、数据词库或自动化验证脚本。任何发布判断都应以 `docs/IMPLEMENTATION_STATUS.md` 和 `docs/MVP_RELEASE_CHECKLIST.md` 为准。
+`VibeName-Uniapp/` 已创建并实现本地生成器、模块化移动端界面、收藏白板、概念预览、真实设置偏好、分段隐私政策、分段免责声明、18 个主流应用语种选择、Arabic RTL 接线、质量采样和 H5 验证链路。任何发布判断都应以 `docs/IMPLEMENTATION_STATUS.md`、`docs/MVP_RELEASE_CHECKLIST.md` 和 `docs/MVP_RELEASE_ASSESSMENT.md` 为准。

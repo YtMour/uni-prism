@@ -1,8 +1,8 @@
 # VibeName
 
-VibeName 是 OmniGen 系列中的 Startup Name Generator 子项目，面向独立开发者、SaaS 创业者和科技产品团队，提供创业项目命名生成、筛选、评分、收藏和品牌概念卡片预览。
+VibeName 是 OmniGen 系列中的 Startup Name Generator 子项目，面向独立开发者、SaaS 创业者和科技产品团队，提供创业项目命名生成、筛选、评分、收藏、品牌概念卡片预览、分段隐私政策、分段免责声明和 18 个主流应用语种界面切换。
 
-当前阶段：产品规划与文档建设。项目尚未创建 App 工程或实现代码。
+当前阶段：H5 MVP preview candidate，正在向 public H5 MVP release candidate 收敛。`VibeName-Uniapp/` 已创建并完成可运行 H5、模块化界面、本地生成器、真实设置偏好、分段隐私政策、分段免责声明、18 个主流应用语种选择和关键路径本地化。
 
 ## 项目目标
 
@@ -24,10 +24,11 @@ VibeName 是 OmniGen 系列中的 Startup Name Generator 子项目，面向独�
 | [docs/ROADMAP.md](./docs/ROADMAP.md) | 版本路线和阶段计划 |
 | [docs/IMPLEMENTATION_STATUS.md](./docs/IMPLEMENTATION_STATUS.md) | 当前实现状态和风险 |
 | [docs/MVP_RELEASE_CHECKLIST.md](./docs/MVP_RELEASE_CHECKLIST.md) | MVP 发布门槛 |
+| [docs/MVP_RELEASE_ASSESSMENT.md](./docs/MVP_RELEASE_ASSESSMENT.md) | 当前 H5 MVP 发布评估 |
 
 ## 推荐技术方向
 
-第一版建议采用 uni-app + Vue 3，沿用 OmniGen 系列移动端优先、本地生成、轻量导出的方向。
+第一版已经采用 uni-app + Vue 3，沿用 OmniGen 系列移动端优先、本地生成、轻量导出的方向。
 
 建议工程目录：
 
@@ -58,6 +59,7 @@ MVP 只承诺本地命名生成和轻量品牌预览，不承诺域名查询、�
 - 收藏与白板。
 - 复制导出。
 - 概念卡片预览。
+- 分段隐私政策、分段免责声明和 18 个主流应用语种语言切换。
 - H5 构建和 smoke 验证。
 
 暂缓：

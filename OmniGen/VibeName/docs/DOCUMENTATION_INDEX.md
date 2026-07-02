@@ -4,9 +4,9 @@
 
 ## 当前结论
 
-VibeName 当前处于产品规划与文档建设阶段，不是可发布 MVP，也不是可运行 App。当前目录只有文档，没有应用工程、代码、词库、构建脚本或验证脚本。
+VibeName 当前处于 H5 MVP preview candidate 向 public H5 MVP release candidate 推进阶段。`VibeName-Uniapp/` 已具备本地生成器、模块化移动端界面、收藏白板、概念预览、真实设置偏好、分段隐私政策、分段免责声明、18 个主流应用语种选择、Arabic RTL 接线、质量采样、单元测试、UI 源码审计、i18n 审计、H5 静态 smoke、Playwright 真浏览器 smoke、视觉截图归档、依赖审计基线和 H5 构建链路。
 
-第一阶段建议先建立 uni-app + Vue 3 工程，完成本地生成闭环，再进入 H5 MVP 候选评估。
+当前可以用于本地 H5 预览和内部 MVP 演示，生成质量已经达到 public release 建议重复率阈值，核心 H5 验证链路和法律/i18n 入口也已可复跑。尚未宣称最终 public MVP release 的主要原因是 `npm audit` 仍有 19 个 uni/vite 工具链漏洞基线，需要单独做升级决策和最终发布前复核。
 
 ## 核心文档
 
@@ -20,6 +20,7 @@ VibeName 当前处于产品规划与文档建设阶段，不是可发布 MVP，�
 | [ROADMAP.md](./ROADMAP.md) | Done | Phase 0 到 Phase 5 的路线计划 |
 | [IMPLEMENTATION_STATUS.md](./IMPLEMENTATION_STATUS.md) | Done | 当前实现事实、风险和下一步 |
 | [MVP_RELEASE_CHECKLIST.md](./MVP_RELEASE_CHECKLIST.md) | Done | H5 MVP 与公开发布门槛 |
+| [MVP_RELEASE_ASSESSMENT.md](./MVP_RELEASE_ASSESSMENT.md) | Done | 当前 H5 MVP preview 发布评估 |
 
 ## 设计图与素材
 
@@ -35,13 +36,14 @@ VibeName 当前处于产品规划与文档建设阶段，不是可发布 MVP，�
 
 | 路径 | 用途 |
 | --- | --- |
-| `VibeName-Uniapp/` | 后续 App 工程目录 |
+| `VibeName-Uniapp/` | 当前 App 工程目录 |
 | `VibeName-Uniapp/src/core/` | 生成器、评分器、过滤器和 seed 随机逻辑 |
 | `VibeName-Uniapp/src/data/` | 词根、后缀、行业词、禁用词和示例短语 |
 | `VibeName-Uniapp/src/components/` | 名称卡片、过滤器、白板、概念卡片组件 |
 | `VibeName-Uniapp/src/services/` | 本地存储、复制、导出和平台兼容封装 |
-| `VibeName-Uniapp/scripts/` | 质量采样、重复率检查、H5 smoke 和发布评估脚本 |
+| `VibeName-Uniapp/scripts/` | 质量采样、重复率检查、UI 审计、i18n 审计、H5 smoke 和发布评估脚本 |
 | `VibeName-Uniapp/tests/` | 生成器、评分和 UI 状态测试 |
+| `VibeName-Uniapp/reports/` | 质量采样报告和后续视觉回归报告 |
 
 ## 文档维护规则
 

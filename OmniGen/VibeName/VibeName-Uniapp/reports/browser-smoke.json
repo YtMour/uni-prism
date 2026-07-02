@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-07-02T10:29:27.068Z",
+  "targetUrl": "http://127.0.0.1:5191/",
+  "candidateCardCount": 8,
+  "settingsResultCount": 12,
+  "mainstreamLocaleCount": 18,
+  "languageControlVisible": true,
+  "whiteboardCount": 1,
+  "previewVisible": true,
+  "localeSwitched": true,
+  "privacyVisible": true,
+  "privacySectionCount": 8,
+  "disclaimerVisible": true,
+  "disclaimerSectionCount": 7,
+  "finalMetrics": {
+    "viewportWidth": 390,
+    "viewportHeight": 844,
+    "appFrameWidth": 390,
+    "candidateCardCount": 12,
+    "detailSheetWidth": 0,
+    "detailFormula": "",
+    "scorePills": 0,
+    "overflowX": false,
+    "previewVisible": false,
+    "whiteboardVisible": false,
+    "settingsVisible": false,
+    "legalVisible": false,
+    "appDirection": "ltr"
+  },
+  "logs": []
+}

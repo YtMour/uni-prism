@@ -1,0 +1,137 @@
+{
+  "generatedAt": "2026-07-02T10:28:55.177Z",
+  "sampleConfig": {
+    "samplesPerCombination": 40,
+    "styles": [
+      "micro-saas",
+      "abstract",
+      "action-driven"
+    ],
+    "industries": [
+      "ai",
+      "devtools",
+      "fintech",
+      "creator"
+    ],
+    "lengths": [
+      "short",
+      "standard",
+      "descriptive"
+    ],
+    "candidatesPerBatch": 8
+  },
+  "metrics": {
+    "batchCount": 1440,
+    "totalCandidates": 11520,
+    "uniqueNames": 10643,
+    "duplicateInstances": 877,
+    "duplicateRate": 0.0761,
+    "averageScore": 86.58,
+    "passRate": 1,
+    "averageLength": {
+      "short": 7.8,
+      "standard": 11.48,
+      "descriptive": 14.86
+    },
+    "structures": {
+      "compound-saas": 3840,
+      "coined-abstract": 3840,
+      "verb-noun": 3840
+    }
+  },
+  "thresholds": {
+    "duplicateRate": 0.08,
+    "averageScore": 70,
+    "passRate": 0.98,
+    "sampleSize": 1000
+  },
+  "status": {
+    "duplicateRate": "pass",
+    "averageScore": "pass",
+    "passRate": "pass",
+    "sampleSize": "pass"
+  },
+  "violations": [],
+  "topDuplicates": [
+    {
+      "name": "flowlane",
+      "count": 5
+    },
+    {
+      "name": "forgestack",
+      "count": 5
+    },
+    {
+      "name": "vectorport",
+      "count": 4
+    },
+    {
+      "name": "flowflow",
+      "count": 4
+    },
+    {
+      "name": "pulsecast",
+      "count": 4
+    },
+    {
+      "name": "craftmerge",
+      "count": 4
+    },
+    {
+      "name": "tradekit",
+      "count": 4
+    },
+    {
+      "name": "humavian",
+      "count": 4
+    },
+    {
+      "name": "mergebase",
+      "count": 4
+    },
+    {
+      "name": "tunespark",
+      "count": 4
+    },
+    {
+      "name": "renoem",
+      "count": 4
+    },
+    {
+      "name": "cortexworks",
+      "count": 4
+    },
+    {
+      "name": "forgeflux",
+      "count": 3
+    },
+    {
+      "name": "forgemark",
+      "count": 3
+    },
+    {
+      "name": "paybase",
+      "count": 3
+    },
+    {
+      "name": "tradeone",
+      "count": 3
+    },
+    {
+      "name": "sparkrun",
+      "count": 3
+    },
+    {
+      "name": "luis",
+      "count": 3
+    },
+    {
+      "name": "castreview",
+      "count": 3
+    },
+    {
+      "name": "movesignal",
+      "count": 3
+    }
+  ]
+}

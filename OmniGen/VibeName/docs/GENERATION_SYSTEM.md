@@ -51,6 +51,7 @@ export interface NameCandidate {
   name: string;
   style: NamingStyle;
   industries: Industry[];
+  formula: string;
   syllables: string[];
   sourceParts: NamePart[];
   score: NameScore;
@@ -70,13 +71,17 @@ export interface NameScore {
 
 export interface NamePart {
   value: string;
-  type: 'root' | 'suffix' | 'prefix' | 'verb' | 'domain' | 'syllable';
+  type: 'industry' | 'suffix' | 'action' | 'benefit' | 'syllable';
   tags: string[];
   weight: number;
 }
 ```
 
 ## 词库分类
+
+当前实现中，核心生成逻辑位于 `VibeName-Uniapp/src/core/generator.js`，词库数据已拆分到 `VibeName-Uniapp/src/data/lexicon.js`。后续扩词库时优先编辑 `lexicon.js`，避免把数据继续堆进生成器逻辑。
+
+短名重复率曾经是主要瓶颈，因此当前词库额外拆出了 `SHORT_DOMAIN_ROOTS`、`SHORT_ACTION_WORDS` 和扩展后的 `SHORT_SUFFIXES`。Short 模式优先使用短词池，避免先生成过长组合再过滤导致实际可用组合空间变窄。
 
 ### 现代科技词根
 
@@ -132,6 +137,8 @@ export interface NamePart {
 root + suffix
 domainRoot + productSuffix
 verbRoot + platformSuffix
+shortRoot + shortSuffix
+root + benefit + suffix
 ```
 
 示例：
@@ -177,6 +184,9 @@ softRoot + abstractEnding
 actionVerb + domain
 speedWord + productDomain
 valuePromise + object
+shortAction + shortRoot
+shortAction + shortRoot + shortSuffix
+actionVerb + industryNoun + benefit
 ```
 
 示例：
@@ -190,6 +200,8 @@ valuePromise + object
 
 - industryFit 和清晰度权重高。
 - 长度过长时 brevity 降权。
+
+每个候选会输出 `formula`，例如 `industry + suffix` 或 `action + industry + benefit`，详情面板显示这个公式和词源片段，防止用户只看到无法解释的组合结果。
 
 ## 评分模型
 
@@ -222,7 +234,7 @@ valuePromise + object
 
 ## 质量采样脚本
 
-后续建议提供：
+当前已提供：
 
 ```bash
 npm run sample:quality
@@ -238,17 +250,40 @@ npm run sample:quality
 - topRejectedReasons
 - scoreDistribution
 
-MVP 候选阈值建议：
+当前报告输出：
+
+- `VibeName-Uniapp/reports/generation-quality.json`
+
+当前 2026-07-02 采样结果：
+
+| 指标 | 当前值 |
+| --- | ---: |
+| batchCount | 1440 |
+| totalCandidates | 11520 |
+| uniqueNames | 10643 |
+| duplicateRate | 7.61% |
+| averageScore | 86.58 |
+| passRate | 100% |
+
+MVP preview 阈值：
+
+- `sampleSize >= 1000`
+- `duplicateRate <= 0.25`
+- `passRate >= 0.98`
+- `averageScore >= 70`
+
+Public release 建议阈值：
 
 - `sampleSize >= 1000`
 - `duplicateRate <= 0.08`
 - `passRate >= 0.70`
 - `averageScore >= 70`
 
-## 商标与域名边界
+## 商标、域名与隐私边界
 
-MVP 不做实时域名或商标可用性判断。可以显示固定免责声明：
+MVP 不做实时域名或商标可用性判断。当前 App 已在 Preview 保留创意建议提醒，并在 Settings 提供分段 Privacy policy 和 Disclaimer：
 
-> Names are creative suggestions only. Always verify domain, trademark, and legal availability before launch.
+- Privacy policy：说明生成结果、收藏和偏好设置保存在本地设备，当前 MVP 不收集账号/邮箱/位置/支付/媒体权限等信息，不出售、不共享、不上传命名输入，并说明保留期限、清除方式、剪贴板边界和安全限制。
+- Disclaimer：说明生成名称仅为创意建议，不检查域名、商标、公司注册、应用商店、社交账号或限制词，公开使用前需要自行完成检索、法律审查和市场适配判断。
 
 后续如接入域名查询，应明确标注只是域名注册状态，不代表商标或法律可用性。

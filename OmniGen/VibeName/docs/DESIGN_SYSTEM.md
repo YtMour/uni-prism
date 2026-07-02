@@ -64,6 +64,7 @@ Generate 按钮
 - 生成按钮始终明确。
 - 候选名称要比说明文字更醒目。
 - 控件密度适中，移动端不堆叠过多说明文案。
+- Style、Industry、Length 下方的说明文案必须解释当前选择的真实作用。
 
 ### Candidate Card
 
@@ -73,6 +74,7 @@ Generate 按钮
 - 风格标签
 - 总分
 - 1 句理由
+- 结构公式和词源片段在详情中展示
 - 收藏按钮
 - 复制按钮
 - 详情入口
@@ -91,8 +93,8 @@ Generate 按钮
 - 名称结构拆解。
 - 评分条。
 - 生成理由。
-- 相似变体。
-- 锁定词根按钮。
+- 生成公式，例如 `industry + suffix`。
+- 操作：保存、复制、预览。
 
 ### Founder Whiteboard
 
@@ -111,6 +113,20 @@ Generate 按钮
 - 复制全部。
 - 清空白板。
 - 按评分排序。
+
+### Settings
+
+MVP 设置页只保留会真实影响产品行为的偏好：
+
+- Result count：控制每次生成 4 到 12 个候选。
+- Use seed：开启时使用可复现生成序列，关闭时进入探索模式。
+- Filter hard-to-read names：控制可读性过滤是否启用。
+- Show score details：控制候选卡评分 pill 和详情评分条是否展示。
+- Language：18 个主流应用语种，通过紧凑下拉控件选择；切换后核心界面、关键设置、预览字段和法律页即时更新，Arabic 使用 RTL 方向。
+- Privacy policy：分段解释本地存储范围、未收集内容、用途、不出售/不远程传输、保留期限、用户控制、安全限制和变更条件。
+- Disclaimer：分段解释创意建议边界、不做可用性检查、商标/品牌风险、非专业建议、按现状提供和发布前自行尽调。
+
+设置项不得只是静态 On/Off 文案；如果没有真实状态和展示影响，不进入 Settings。
 
 ### Concept Preview
 
@@ -156,6 +172,15 @@ MVP 只做 App 内预览，不承诺保存 PNG。
 - 按钮文字不得被截断。
 - 白板列表不得遮挡主操作。
 
+当前视觉归档保存在 `VibeName-Uniapp/reports/visual/`：
+
+- `desktop-1280x720.png`
+- `mobile-390x844.png`
+- `mobile-360x800.png`
+- `layout-report.json`
+
+`npm run audit:visual` 会检查截图和布局指标是否存在，并确认无横向溢出。
+
 ## 文案风格
 
 UI 文案应短、直接、偏产品工具语气。
@@ -175,6 +200,21 @@ UI 文案应短、直接、偏产品工具语气。
 - 大段解释。
 - 夸张营销语。
 - 暗示商标、域名或法律可用。
+
+## 国际化与法律页
+
+MVP 已接入 18 个主流应用语种：English、简体中文、繁體中文、Español、Français、Deutsch、日本語、한국어、Português (Brasil)、Русский、Italiano、Nederlands、العربية、हिन्दी、Bahasa Indonesia、Tiếng Việt、ไทย、Türkçe。语言切换位于 Settings，使用下拉控件承载完整列表，且必须真实影响页面文案，不允许只改变按钮状态。Arabic 必须设置 RTL 方向并通过移动视口无横向溢出检查。
+
+当前必须覆盖：
+
+- 顶部副标题、生成页、空状态、白板、预览页、设置页和详情面板核心操作。
+- Style、Industry、Length 的选项说明。
+- 结构标签、tagline、评分标签。
+- Privacy policy 和 Disclaimer。
+
+说明：当前 MVP 的关键路径文案和可见选项说明必须本地化，不能缺 key 或回落到英文；后续继续做专业语言质量审校。
+
+法律页保持工具页风格，不做营销页，不使用弹窗堆叠。Privacy policy 和 Disclaimer 必须使用可扫描分段结构，不允许退回单段短提示。Privacy policy 强调本地设备存储、不出售/不远程传输、用户清除数据控制和安全限制；Disclaimer 强调名称生成不构成商标、域名、财务或法律建议，且当前 MVP 按现状提供。公开发布前仍需正式法律审校。
 
 ## 可访问性
 

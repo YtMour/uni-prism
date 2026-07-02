@@ -1,0 +1,312 @@
+{
+  "generatedAt": "2026-07-02T10:29:37.338Z",
+  "command": "npm audit --json",
+  "allowVulnerabilities": {
+    "maxModerate": 4,
+    "maxHigh": 15,
+    "maxCritical": 0,
+    "acceptedSources": [
+      "@dcloudio",
+      "vite",
+      "@intlify",
+      "esbuild"
+    ]
+  },
+  "counts": {
+    "info": 0,
+    "low": 0,
+    "moderate": 4,
+    "high": 15,
+    "critical": 0,
+    "total": 19
+  },
+  "status": {
+    "moderate": "pass",
+    "high": "pass",
+    "critical": "pass",
+    "acceptedSources": "pass"
+  },
+  "vulnerabilities": [
+    {
+      "name": "@dcloudio/uni-app",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-components",
+        "@dcloudio/uni-push",
+        "@dcloudio/uni-stat"
+      ],
+      "effects": [],
+      "range": "*",
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "@dcloudio/uni-cli-shared",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/core-base",
+        "@intlify/vue-devtools",
+        "esbuild"
+      ],
+      "effects": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-h5-vite",
+        "@dcloudio/uni-push",
+        "@dcloudio/uni-stat"
+      ],
+      "range": "<=0.0.1-nvue3.3040020220301001 || >=2.0.1-32920211122002",
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "@dcloudio/uni-cloud",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [
+        "@dcloudio/uni-components"
+      ],
+      "range": "*",
+      "fixAvailable": true
+    },
+    {
+      "name": "@dcloudio/uni-components",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-h5"
+      ],
+      "effects": [],
+      "range": "*",
+      "fixAvailable": true
+    },
+    {
+      "name": "@dcloudio/uni-h5",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-h5-vite"
+      ],
+      "effects": [],
+      "range": ">=2.0.1-32920211122002",
+      "fixAvailable": true
+    },
+    {
+      "name": "@dcloudio/uni-h5-vite",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [
+        "@dcloudio/uni-h5"
+      ],
+      "range": "*",
+      "fixAvailable": true
+    },
+    {
+      "name": "@dcloudio/uni-push",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [
+        "@dcloudio/uni-app"
+      ],
+      "range": "*",
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "@dcloudio/uni-stat",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [],
+      "range": ">=2.0.1-32920211122002",
+      "fixAvailable": true
+    },
+    {
+      "name": "@dcloudio/vite-plugin-uni",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@dcloudio/uni-cli-shared",
+        "@vitejs/plugin-legacy",
+        "@vitejs/plugin-vue",
+        "@vitejs/plugin-vue-jsx",
+        "vite"
+      ],
+      "effects": [],
+      "range": "*",
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "@intlify/core-base",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-compiler",
+        "@intlify/message-resolver",
+        "@intlify/runtime",
+        "@intlify/vue-devtools",
+        "@intlify/core-base",
+        "@intlify/core-base"
+      ],
+      "effects": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "range": "9.0.0 - 9.14.4",
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "@intlify/message-compiler",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-resolver"
+      ],
+      "effects": [],
+      "range": "9.1.0 - 9.1.10",
+      "fixAvailable": true
+    },
+    {
+      "name": "@intlify/message-resolver",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-resolver"
+      ],
+      "effects": [
+        "@intlify/core-base",
+        "@intlify/message-compiler",
+        "@intlify/runtime",
+        "@intlify/vue-devtools"
+      ],
+      "range": "9.1.0 - 9.1.10",
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "@intlify/runtime",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-compiler",
+        "@intlify/message-resolver"
+      ],
+      "effects": [],
+      "range": "9.1.0 - 9.1.10",
+      "fixAvailable": true
+    },
+    {
+      "name": "@intlify/vue-devtools",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-resolver",
+        "@intlify/runtime"
+      ],
+      "effects": [],
+      "range": "<=9.1.10",
+      "fixAvailable": true
+    },
+    {
+      "name": "@vitejs/plugin-legacy",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "effects": [],
+      "range": "1.0.1 - 5.4.3",
+      "fixAvailable": true
+    },
+    {
+      "name": "@vitejs/plugin-vue",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "effects": [
+        "@dcloudio/vite-plugin-uni"
+      ],
+      "range": "1.8.0 - 5.2.0",
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "@vitejs/plugin-vue-jsx",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "effects": [],
+      "range": "2.0.0-alpha.0 - 4.1.0",
+      "fixAvailable": true
+    },
+    {
+      "name": "esbuild",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "esbuild"
+      ],
+      "effects": [
+        "@dcloudio/uni-cli-shared",
+        "vite"
+      ],
+      "range": "<=0.24.2",
+      "fixAvailable": {
+        "name": "vite",
+        "version": "8.1.3",
+        "isSemVerMajor": true
+      }
+    },
+    {
+      "name": "vite",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "vite",
+        "vite",
+        "vite",
+        "esbuild"
+      ],
+      "effects": [
+        "@dcloudio/vite-plugin-uni",
+        "@vitejs/plugin-legacy",
+        "@vitejs/plugin-vue",
+        "@vitejs/plugin-vue-jsx"
+      ],
+      "range": "<=6.4.2",
+      "fixAvailable": {
+        "name": "vite",
+        "version": "8.1.3",
+        "isSemVerMajor": true
+      }
+    }
+  ],
+  "unaccepted": [],
+  "recommendation": "Do not run npm audit fix --force blindly. Evaluate the uni/vite toolchain upgrade path and rerun npm run check after any dependency change."
+}

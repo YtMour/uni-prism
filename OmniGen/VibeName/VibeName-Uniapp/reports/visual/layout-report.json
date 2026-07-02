@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-07-02T06:20:41.394Z",
+  "viewports": [
+    {
+      "id": "desktop-1280x720",
+      "screenshot": "desktop-1280x720.png",
+      "appFrameLeft": 418,
+      "appFrameWidth": 430,
+      "bodyWidth": 1265,
+      "candidateCardCount": 8,
+      "detailSheetLeft": 418,
+      "detailSheetWidth": 430,
+      "firstReason": "A standard SaaS compound from Agent (industry), Loop (suffix), with an AI root, product suffix, and optional benefit cue.",
+      "formula": "industry + suffix",
+      "overflowX": false,
+      "primaryButtonWidth": 394,
+      "scorePills": 9,
+      "viewportHeight": 720,
+      "viewportWidth": 1280
+    },
+    {
+      "id": "mobile-390x844",
+      "screenshot": "mobile-390x844.png",
+      "appFrameLeft": 0,
+      "appFrameWidth": 375,
+      "bodyWidth": 375,
+      "candidateCardCount": 8,
+      "detailSheetLeft": 0,
+      "detailSheetWidth": 375,
+      "firstReason": "A standard SaaS compound from Agent (industry), Loop (suffix), with an AI root, product suffix, and optional benefit cue.",
+      "formula": "industry + suffix",
+      "overflowX": false,
+      "primaryButtonWidth": 339,
+      "scorePills": 9,
+      "viewportHeight": 844,
+      "viewportWidth": 390
+    },
+    {
+      "id": "mobile-360x800",
+      "screenshot": "mobile-360x800.png",
+      "appFrameLeft": 0,
+      "appFrameWidth": 345,
+      "bodyWidth": 345,
+      "candidateCardCount": 8,
+      "detailSheetLeft": 0,
+      "detailSheetWidth": 345,
+      "firstReason": "A standard SaaS compound from Agent (industry), Loop (suffix), with an AI root, product suffix, and optional benefit cue.",
+      "formula": "industry + suffix",
+      "overflowX": false,
+      "primaryButtonWidth": 309,
+      "scorePills": 9,
+      "viewportHeight": 800,
+      "viewportWidth": 360
+    }
+  ]
+}
