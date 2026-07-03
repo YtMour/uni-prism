@@ -1,0 +1,63 @@
+{
+  "generatedAt": "2026-07-03T09:35:21.208Z",
+  "assessment": "not-public-release-ready",
+  "gates": [
+    {
+      "id": "quality",
+      "status": "pass",
+      "detail": "11520 candidates, duplicate 0.0688, banned 0"
+    },
+    {
+      "id": "copy",
+      "status": "pass",
+      "detail": "0 risky claims"
+    },
+    {
+      "id": "a11y",
+      "status": "pass",
+      "detail": "0 findings"
+    },
+    {
+      "id": "visual",
+      "status": "pass",
+      "detail": "0 findings"
+    },
+    {
+      "id": "release-assets",
+      "status": "pass",
+      "detail": "0 findings"
+    },
+    {
+      "id": "interaction-smoke",
+      "status": "pass",
+      "detail": "8 checkpoints, 0 console issues"
+    },
+    {
+      "id": "manual-review-sample",
+      "status": "prepared",
+      "detail": "100 candidates prepared, human review not complete"
+    },
+    {
+      "id": "human-review",
+      "status": "blocked",
+      "detail": "100 candidates prepared; manual signoff missing. Create reports/manual-review-signoff.json from the template."
+    },
+    {
+      "id": "dependency-audit",
+      "status": "risk",
+      "detail": "4 moderate, 15 high, 0 critical; direct @dcloudio/uni-app, @dcloudio/vite-plugin-uni, vite; major fix required"
+    },
+    {
+      "id": "legal-review",
+      "status": "blocked",
+      "detail": "Requires human legal/trademark/privacy review before public release."
+    }
+  ],
+  "blockers": [
+    "human-review",
+    "legal-review"
+  ],
+  "risks": [
+    "dependency-audit"
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "status": "risk",
+  "counts": {
+    "moderate": 4,
+    "high": 15,
+    "critical": 0,
+    "total": 19
+  },
+  "directPackages": [
+    "@dcloudio/uni-app",
+    "@dcloudio/vite-plugin-uni",
+    "vite"
+  ],
+  "transitiveCount": 16,
+  "semverMajorRequired": true,
+  "packages": [
+    {
+      "name": "@dcloudio/uni-app",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-components",
+        "@dcloudio/uni-push",
+        "@dcloudio/uni-stat"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "@dcloudio/vite-plugin-uni",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@dcloudio/uni-cli-shared",
+        "@vitejs/plugin-legacy",
+        "@vitejs/plugin-vue",
+        "@vitejs/plugin-vue-jsx",
+        "vite"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "vite",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling",
+        "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+        "vite: `server.fs.deny` bypass on Windows alternate paths",
+        "esbuild"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "@dcloudio/uni-cli-shared",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/core-base",
+        "@intlify/vue-devtools",
+        "esbuild"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "@dcloudio/uni-cloud",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@dcloudio/uni-components",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-h5"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@dcloudio/uni-h5",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-h5-vite"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@dcloudio/uni-h5-vite",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@dcloudio/uni-push",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "@dcloudio/uni-stat",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@intlify/core-base",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-compiler",
+        "@intlify/message-resolver",
+        "@intlify/runtime",
+        "@intlify/vue-devtools",
+        "Vue I18n Allows Prototype Pollution in `handleFlatJson`",
+        "vue-i18n's escapeParameterHtml does not prevent DOM-based XSS through its tag attributes"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "@intlify/message-compiler",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-resolver"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@intlify/message-resolver",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "Vue I18n Allows Prototype Pollution in `handleFlatJson`"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "@intlify/runtime",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-compiler",
+        "@intlify/message-resolver"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@intlify/vue-devtools",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-resolver",
+        "@intlify/runtime"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@vitejs/plugin-legacy",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "@vitejs/plugin-vue",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "fix": "semver-major"
+    },
+    {
+      "name": "@vitejs/plugin-vue-jsx",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "fix": "available"
+    },
+    {
+      "name": "esbuild",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "esbuild enables any website to send any requests to the development server and read the response"
+      ],
+      "fix": "semver-major"
+    }
+  ],
+  "recommendation": "Do not run npm audit fix --force blindly; validate the uni-app/Vite major upgrade chain in a separate branch."
+}

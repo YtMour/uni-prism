@@ -63,8 +63,9 @@ StrateName 的视觉语言应像一份克制、稳重、可带进董事会会议
 1. 顶部品牌栏：StrateName、Settings 图标。
 2. 过滤器区：行业、风格、组织形式、长度、稳重程度。
 3. 生成按钮：主色按钮，文字简短。
-4. 候选列表：名称卡片垂直排列。
-5. Shortlist 入口：底部或顶部轻量按钮。
+4. 生成后筛选区：切换为 compact filter chips，避免完整筛选面板挤压结果。
+5. 候选列表：名称卡片垂直排列。
+6. Shortlist 入口：底部或顶部轻量按钮。
 
 ### Candidate Detail
 
@@ -72,7 +73,7 @@ StrateName 的视觉语言应像一份克制、稳重、可带进董事会会议
 
 - 候选名称。
 - 总分和维度评分。
-- 结构拆解。
+- 结构拆解，使用 label/value 两列布局，避免 Root/Bridge 与值粘连。
 - 命名理由。
 - 风险提示。
 - 复制、收藏、加入提案卡。
@@ -105,6 +106,8 @@ MVP 内置四种预览：
 
 MVP 只承诺 App 内预览和复制摘要，不承诺真实 PNG 保存。
 
+Proposal 页面首屏必须暴露 Export summary、Copy proposal text 和 Add to Shortlist，预览高度不能把核心操作压到移动端底部导航下方。
+
 ## 组件规范
 
 | 组件 | 规则 |
@@ -126,7 +129,9 @@ MVP 只承诺 App 内预览和复制摘要，不承诺真实 PNG 保存。
 - 用户开启 seed 后，生成结果应可复现。
 - 风险提示需要短句说明，不要用长篇法律文案打断主流程。
 - 清空本地数据必须二次确认。
-- 法律免责声明在首次使用或 Settings 中可访问。
+- 法律免责声明和隐私政策必须以独立页面从 Settings 进入。
+- 法律语言在 Settings 内使用原生下拉选择；法律文档页只展示当前语言内容，不在顶部重复放语言选择框。
+- 阿语等 RTL 语言必须保持正确阅读方向。
 
 ## 响应式要求
 
@@ -173,7 +178,24 @@ H5 MVP 发布前至少归档：
 - 1280x720 桌面首页截图。
 - 1280x720 桌面提案卡截图。
 
-截图应放入后续 `StrateName-Uniapp/reports/visual/`。
+截图和自动视觉审计结果放入 `StrateName-Uniapp/reports/visual-audit/` 与 `StrateName-Uniapp/reports/visual-audit.json`。
+
+当前自动视觉审计已覆盖：
+
+- 360x780 移动宽度。
+- 390x844 移动宽度。
+- 1280x720 桌面宽度。
+- 生成结果 compact chips。
+- Candidate Detail 结构表两列布局。
+- Proposal 首屏复制按钮。
+- 横向滚动和 console error/warning。
+
+当前 a11y/交互审计已补充覆盖：
+
+- 独立 Privacy Policy 页面。
+- 独立 Disclaimer 页面。
+- 16 种主流语言法律文案数据层。
+- 阿语 RTL 法律文档渲染。
 
 ## 当前设计参考图
 
@@ -186,4 +208,4 @@ H5 MVP 发布前至少归档：
 - Boardroom Proposal
 - Settings / Compliance
 
-这些图片用于指导真实 UI 实现，不等同于 H5 运行截图或视觉验收结果。真实工程完成后，仍需要用浏览器或真机截图重新归档到 `StrateName-Uniapp/reports/visual/`。
+这些图片用于指导真实 UI 实现，不等同于 H5 运行截图或视觉验收结果。真实工程完成后，需要用浏览器或真机截图重新归档到 `StrateName-Uniapp/reports/visual-audit/`。

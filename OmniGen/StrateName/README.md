@@ -2,7 +2,7 @@
 
 StrateName 是 OmniGen 系列中的 Business Name Generator 子项目，面向传统实体企业、咨询机构、现代服务业、地产工程、物流贸易、投资控股和集团型业务，提供稳重、专业、可解释的企业命名生成、筛选、评分、收藏、复制和董事会提案卡预览。
 
-当前阶段：Phase 0 文档建设中。当前目录尚未创建 App 工程、词库代码、测试脚本或构建链路；本轮文档先建立产品、生成、设计、路线、实现状态和发布门槛的基线。
+当前阶段：H5 MVP engineering candidate。`StrateName-Uniapp/` 已创建并完成本地生成、候选详情、Shortlist、Boardroom Proposal、Settings 法律语言选择器、独立隐私政策页、独立免责声明页、16 种主流语言法律文案、素材接入、PWA 元数据、测试、构建、质量采样、100 候选人工审查包、文案审计、扩展 a11y 审计、视觉审计、发布资源审计、交互 smoke、浏览器 smoke、依赖风险报告和 MVP assessment。工程侧已接近可发布 MVP；公开发布当前决策为 Hold，剩余阻断见 [docs/RELEASE_DECISION.md](./docs/RELEASE_DECISION.md)。
 
 ## 项目目标
 
@@ -25,8 +25,29 @@ StrateName 是 OmniGen 系列中的 Business Name Generator 子项目，面向�
 | [docs/ROADMAP.md](./docs/ROADMAP.md) | Phase 0 到 Phase 5 的路线计划 |
 | [docs/IMPLEMENTATION_STATUS.md](./docs/IMPLEMENTATION_STATUS.md) | 当前实现事实、风险和下一步 |
 | [docs/MVP_RELEASE_CHECKLIST.md](./docs/MVP_RELEASE_CHECKLIST.md) | H5 MVP 发布门槛 |
+| [docs/RELEASE_DECISION.md](./docs/RELEASE_DECISION.md) | 当前公开发布决策、阻断项和解除条件 |
 | [designs/README.md](./designs/README.md) | 后续真实界面状态参考图 |
 | [assets/README.md](./assets/README.md) | App 图标、品牌元素和提案模板运行时素材 |
+
+## 当前工程
+
+| 路径 | 用途 |
+| --- | --- |
+| [StrateName-Uniapp/](./StrateName-Uniapp/) | uni-app + Vue 3 H5 工程 |
+| [StrateName-Uniapp/src/core/generator.js](./StrateName-Uniapp/src/core/generator.js) | 本地企业名生成、过滤、评分和 Proposal 摘要 |
+| [StrateName-Uniapp/src/data/lexicon.js](./StrateName-Uniapp/src/data/lexicon.js) | 行业、风格、tone、后缀和词根 |
+| [StrateName-Uniapp/src/components/](./StrateName-Uniapp/src/components/) | Generate、Detail、Shortlist、Proposal、Settings、Legal Document 组件 |
+| [StrateName-Uniapp/reports/](./StrateName-Uniapp/reports/) | 质量采样、人工审查包、签核模板、文案审计、a11y 审计、视觉审计、发布资源审计、交互 smoke、MVP assessment、依赖风险报告和截图 |
+
+本地运行：
+
+```text
+cd StrateName/StrateName-Uniapp
+npm install
+npm run dev:h5
+```
+
+当前预览地址为 `http://127.0.0.1:5193/`。
 
 ## 推荐技术方向
 
@@ -62,9 +83,9 @@ MVP 只承诺本地企业命名灵感生成和轻量提案预览，不承诺公�
 - 候选名称评分、理由和结构拆解。
 - 收藏、复制、批量导出和本地持久化。
 - Boardroom Proposal 提案卡预览。
-- 分段隐私政策和分段免责声明。
+- 独立隐私政策页、独立免责声明页和主流语言法律文案。
 - App 图标、品牌小元素和提案模板素材接入。
-- H5 构建、质量采样、UI 审计、i18n 审计和浏览器 smoke。
+- H5 构建、质量采样、人工审查包、承诺性文案审计、a11y 审计、视觉审计、发布资源审计、交互 smoke、静态 smoke、浏览器 smoke 和 MVP assessment。
 
 暂缓：
 

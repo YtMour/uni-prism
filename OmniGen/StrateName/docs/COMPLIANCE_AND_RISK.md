@@ -13,13 +13,32 @@ StrateName 只能提供企业命名灵感，不能提供法律、商标、公司
 
 ## MVP 免责声明
 
-建议在 Settings、首次使用提示和导出摘要中保留分段免责声明：
+建议在独立 Disclaimer 页面、首次使用提示和导出摘要中保留免责声明：
 
 1. StrateName generates creative business-name suggestions only.
 2. It does not check company registry, trademark, domain, social handle or legal availability.
 3. It is not legal, financial, tax, investment or business advice.
 4. Users must verify availability and compliance with qualified professionals before using a name.
 5. Legal suffixes such as Ltd., Inc., LLC and Corp. are visual formatting options only.
+
+当前 H5 MVP 已将隐私政策和免责声明拆成独立页面，并提供 16 种主流语言法律文案：
+
+- `en`
+- `zh-Hans`
+- `zh-Hant`
+- `es`
+- `fr`
+- `de`
+- `ja`
+- `ko`
+- `pt-BR`
+- `it`
+- `ru`
+- `ar`
+- `hi`
+- `id`
+- `tr`
+- `vi`
 
 中文界面可对应为：
 
@@ -118,6 +137,7 @@ MVP 建议完全本地化：
 - 清空本地数据。
 - 隐私政策入口。
 - 本地数据范围说明。
+- 法律文案语言选择。
 
 ## 高监管行业提示
 
@@ -138,7 +158,9 @@ MVP 建议完全本地化：
 
 公开 H5 MVP 发布前必须完成：
 
-- 分段免责声明存在且可从 Settings 访问。
+- 独立免责声明页存在且可从 Settings 访问。
+- 独立隐私政策页存在且可从 Settings 访问。
+- 主流语言法律文案已覆盖，且公开发布前完成对应语言审校。
 - 导出摘要包含免责声明。
 - 法律后缀选择器有预览用途提示。
 - 生成结果没有“可注册”“无商标风险”等承诺性文案。

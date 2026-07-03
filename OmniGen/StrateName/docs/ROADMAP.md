@@ -2,9 +2,9 @@
 
 ## 当前阶段
 
-当前阶段：Phase 0，文档建设和产品边界定义。
+当前阶段：H5 MVP engineering candidate，Phase 1 到 Phase 3 已完成主要工程项，正在进行 Phase 4 发布前加固。
 
-`StrateName/` 当前已有原始概念文档，并新增完整规划文档。尚未创建 `StrateName-Uniapp/` 工程，后续重点应从文档进入最小可运行 H5、生成器代码和验证链路。
+`StrateName/` 当前已有完整规划文档和 `StrateName-Uniapp/` 工程。本地生成、详情、Shortlist、Proposal、Settings 法律语言选择器、独立隐私政策页、独立免责声明页、16 种主流语言法律文案、素材接入、PWA 元数据、测试、构建、质量采样、文案审计、视觉审计、发布资源审计、交互 smoke 和浏览器 smoke 已跑通。后续重点是依赖风险决策、人工法律审校和发布包检查。
 
 ## Phase 0：项目定义与文档建设
 
@@ -30,7 +30,7 @@
 
 ## Phase 1：工程脚手架与最小生成器
 
-状态：Planned
+状态：Done for H5 candidate
 
 目标：
 
@@ -56,9 +56,15 @@
 - 单次生成 8 个候选。
 - 生成结果包含名称、评分、标签和理由。
 
+当前补充：
+
+- `npm run check` 通过。
+- `npm run smoke:browser` 通过。
+- `npm run sample:quality` 当前 11520 candidates，重复率 6.88%。
+
 ## Phase 2：评分、过滤与 Shortlist
 
-状态：Planned
+状态：Done for H5 candidate
 
 目标：
 
@@ -75,6 +81,11 @@
 - 本地持久化。
 - 单个名称复制和批量复制。
 
+当前补充：
+
+- Candidate Detail、Shortlist、备注、本地持久化和复制已实现。
+- UI/a11y 审计和 100 候选人工抽样包已建立；公开发布前仍需人工签核。
+
 验收：
 
 - 刷新后收藏和备注可保留。
@@ -84,7 +95,7 @@
 
 ## Phase 3：Boardroom Proposal 与质量验证
 
-状态：Planned
+状态：Done for engineering candidate
 
 目标：
 
@@ -97,10 +108,11 @@
 - 自动 tagline。
 - seed 复现。
 - `npm run sample:quality`。
-- `npm run audit:ui`。
+- `npm run audit:copy`。
+- `npm run audit:visual`。
 - `npm run smoke:h5`。
 - 质量报告输出到 `reports/generation-quality.json`。
-- 视觉截图归档输出到 `reports/visual/`。
+- 视觉截图归档输出到 `reports/visual-audit/`。
 
 验收：
 
@@ -112,7 +124,7 @@
 
 ## Phase 4：H5 MVP 候选加固
 
-状态：Planned
+状态：In Progress
 
 目标：
 
@@ -120,10 +132,12 @@
 
 交付：
 
-- `npm run check` 串联测试、质量采样、UI 审计、i18n 审计、H5 构建、静态 smoke、浏览器 smoke、视觉审计和依赖审计。
-- Settings 接入真实偏好。
-- 分段隐私政策和分段免责声明。
+- `npm run check` 串联测试、质量采样、文案审计、H5 构建、静态 smoke、视觉审计、发布资源审计和交互 smoke。
+- Settings 接入真实偏好和法律语言选择器。
+- 独立隐私政策页和独立免责声明页。
+- 16 种主流语言法律文案数据层。
 - 法律后缀选择器风险提示。
+- PWA manifest、favicon 和 192/512 图标。
 - 依赖审计基线。
 - MVP release assessment。
 
@@ -146,7 +160,7 @@
 - 多行业词库扩展。
 - B2B 提案 PDF/PNG 导出。
 - 团队共享 Shortlist。
-- 多语言界面。
+- 完整界面多语言。
 - App、小程序和 PWA 分发。
 - 品牌命名报告模板。
 

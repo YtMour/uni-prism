@@ -1,0 +1,18 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "StrateName"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "StrateName",
+		"navigationBarBackgroundColor": "#FBF9F5",
+		"backgroundColor": "#F8F5EF"
+	},
+	"uniIdRouter": {}
+}

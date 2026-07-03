@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-07-03T10:45:25.065Z",
+  "url": "http://127.0.0.1:5193",
+  "checkpoints": [
+    "generated candidates",
+    "regenerated candidates changed",
+    "saved from detail",
+    "note entered",
+    "proposal template switched",
+    "note persisted after reload",
+    "clear shortlist confirmed",
+    "privacy page language switched",
+    "disclaimer page opened"
+  ],
+  "consoleIssues": []
+}

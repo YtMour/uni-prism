@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-07-03T09:34:08.022Z",
+  "scannedRoots": [
+    "src",
+    "pages",
+    "../docs"
+  ],
+  "findings": []
+}

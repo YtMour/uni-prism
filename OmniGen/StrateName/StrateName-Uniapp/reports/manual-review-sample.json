@@ -1,0 +1,1414 @@
+{
+  "generatedAt": "2026-07-03T09:34:03.886Z",
+  "purpose": "Human review queue for brand confusion, offensive wording and legal/commercial risk. This script prepares the sample; it does not mark human review complete.",
+  "sampleSize": 100,
+  "targetPerIndustry": 25,
+  "byIndustry": {
+    "Finance & Capital": 25,
+    "Consulting & Service": 25,
+    "Real Estate & Construction": 25,
+    "Logistics & Trade": 25
+  },
+  "candidates": [
+    {
+      "index": 1,
+      "displayName": "VerityHall Holdings",
+      "score": 94,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 2,
+      "displayName": "RegentCompass Holdings",
+      "score": 94,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Regent suggests formal stewardship, seniority and capital discipline.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 3,
+      "displayName": "SovereignRiver Partners",
+      "score": 93,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Sovereign suggests independence, authority and long-term financial control.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 4,
+      "displayName": "UnionWorth Capital Global",
+      "score": 92,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Union suggests coordination, alignment and institutional scale.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 5,
+      "displayName": "SlateYard Market Partners",
+      "score": 94,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 6,
+      "displayName": "SovereignTerra Market Advisory",
+      "score": 90,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Sovereign suggests independence, authority and long-term financial control.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 7,
+      "displayName": "SovereignMount Capital Advisory",
+      "score": 90,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Sovereign suggests independence, authority and long-term financial control.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 8,
+      "displayName": "UnionSector Principal Global",
+      "score": 90,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Union suggests coordination, alignment and institutional scale.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 9,
+      "displayName": "VerityBridgeline Holdings",
+      "score": 91,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 10,
+      "displayName": "VerityPointscope Regent Global",
+      "score": 90,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 11,
+      "displayName": "VerityMarkcompass Asset Capital",
+      "score": 90,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Capital gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 12,
+      "displayName": "RegentFieldvale Ledger Partners",
+      "score": 90,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Regent suggests formal stewardship, seniority and capital discipline.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 13,
+      "displayName": "AtlasUrban Holdings",
+      "score": 95,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Atlas suggests global scale, routes and operational coverage.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 14,
+      "displayName": "VerityVale Partners",
+      "score": 94,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 15,
+      "displayName": "UnionPort Regent Partners",
+      "score": 94,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Union suggests coordination, alignment and institutional scale.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 16,
+      "displayName": "CardinalStead Equity Trust",
+      "score": 93,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Cardinal suggests principal direction, priority and executive clarity.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 17,
+      "displayName": "ApexCompass Global",
+      "score": 95,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Apex suggests a high point, focused ambition and leadership.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 18,
+      "displayName": "CrestCourt Market Advisory",
+      "score": 93,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Crest suggests authority, elevation and established ambition.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 19,
+      "displayName": "SummitVector Equity Trust",
+      "score": 93,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Summit suggests elevation, permanence and strategic perspective.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 20,
+      "displayName": "PinnacleAnchor Meridian Holdings",
+      "score": 91,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Pinnacle suggests high-value positioning, elevation and premium perspective.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 21,
+      "displayName": "SlateTerrabank Principal Capital",
+      "score": 91,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Capital gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 22,
+      "displayName": "SummitRidgebank Principal Capital",
+      "score": 91,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Summit suggests elevation, permanence and strategic perspective.",
+        "Capital gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 23,
+      "displayName": "CardinalForgeaxis Capital Partners",
+      "score": 91,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Cardinal suggests principal direction, priority and executive clarity.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 24,
+      "displayName": "GlobalBankhorizon Ledger Capital",
+      "score": 91,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Global suggests international reach and cross-market presence.",
+        "Capital gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 25,
+      "displayName": "SovereignFleet Partners",
+      "score": 91,
+      "industry": "Finance & Capital",
+      "style": "Global Venture",
+      "tone": "Modern",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Sovereign suggests independence, authority and long-term financial control.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with finance & capital contexts."
+      ]
+    },
+    {
+      "index": 26,
+      "displayName": "PrincipleYard Trust",
+      "score": 96,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Principle suggests disciplined standards and trusted professional judgment.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 27,
+      "displayName": "AnchorPoint Partners",
+      "score": 95,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Anchor suggests stability, reference point and dependable coordination.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 28,
+      "displayName": "BeaconWay Operating Trust",
+      "score": 92,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 29,
+      "displayName": "UnionHorizon Advisory",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Union suggests coordination, alignment and institutional scale.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 30,
+      "displayName": "BeaconCivic Accord Partners",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 31,
+      "displayName": "VerityAnchor Accord Partners",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 32,
+      "displayName": "BeaconCivic Practice Advisory",
+      "score": 90,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 33,
+      "displayName": "PrinciplePlaza Advisory Partners",
+      "score": 90,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Principle suggests disciplined standards and trusted professional judgment.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 34,
+      "displayName": "BeaconSignalbridge Partners",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 35,
+      "displayName": "PrimeLinegate Clarity Advisory",
+      "score": 90,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Prime suggests first-tier quality and concise professional intent.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 36,
+      "displayName": "VerityRiverbank Practice Partners",
+      "score": 90,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 37,
+      "displayName": "KeystoneUniongateway Advisory",
+      "score": 90,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Keystone suggests central support, structure and durable trust.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 38,
+      "displayName": "CompassCross Partners",
+      "score": 96,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Compass suggests navigation, advice and clear strategic orientation.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 39,
+      "displayName": "CardinalMark Partners",
+      "score": 95,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Cardinal suggests principal direction, priority and executive clarity.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 40,
+      "displayName": "BridgeSector Partner Trust",
+      "score": 94,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Bridge suggests connection, cross-border flow and practical coordination.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 41,
+      "displayName": "CardinalCorridor Trust",
+      "score": 94,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Cardinal suggests principal direction, priority and executive clarity.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 42,
+      "displayName": "CardinalUrban Partner Trust",
+      "score": 92,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Cardinal suggests principal direction, priority and executive clarity.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 43,
+      "displayName": "CardinalTerra Service Partners",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Cardinal suggests principal direction, priority and executive clarity.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 44,
+      "displayName": "VerityHall Service Advisory",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Verity suggests truthfulness, audit confidence and accountable decisions.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 45,
+      "displayName": "BeaconHaven Insight Advisory",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 46,
+      "displayName": "BridgeUrbanhaven Partner Trust",
+      "score": 92,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Bridge suggests connection, cross-border flow and practical coordination.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 47,
+      "displayName": "SterlingVectorriver Advisory",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Sterling suggests quality, reliability and formal business trust.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 48,
+      "displayName": "AnchorGatewayharbor Partners",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Anchor suggests stability, reference point and dependable coordination.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 49,
+      "displayName": "CompassUrbanfrontier Advisory",
+      "score": 91,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Compass suggests navigation, advice and clear strategic orientation.",
+        "Advisory gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 50,
+      "displayName": "CompassField Partners",
+      "score": 94,
+      "industry": "Consulting & Service",
+      "style": "Global Venture",
+      "tone": "Modern",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Compass suggests navigation, advice and clear strategic orientation.",
+        "Partners gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with consulting & service contexts."
+      ]
+    },
+    {
+      "index": 51,
+      "displayName": "BeaconVector Trust",
+      "score": 95,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 52,
+      "displayName": "KeystoneWorth Civic Trust",
+      "score": 93,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Keystone suggests central support, structure and durable trust.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 53,
+      "displayName": "BeaconWorth Terrace Trust",
+      "score": 93,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 54,
+      "displayName": "BeaconForge Asset Global",
+      "score": 92,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 55,
+      "displayName": "SlateForge Build Trust",
+      "score": 94,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 56,
+      "displayName": "SlateLane District Trust",
+      "score": 93,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 57,
+      "displayName": "HarborBridge Civic Global",
+      "score": 92,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Harbor suggests safe arrival, trade flow and reliable shelter.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 58,
+      "displayName": "SlateWay Terrace Holdings",
+      "score": 92,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 59,
+      "displayName": "BeaconStoneroute Global",
+      "score": 92,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 60,
+      "displayName": "HarborSummityard District Trust",
+      "score": 91,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Harbor suggests safe arrival, trade flow and reliable shelter.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 61,
+      "displayName": "SlateRidgepoint Development Trust",
+      "score": 90,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 62,
+      "displayName": "KeystoneMatrixtower Asset Trust",
+      "score": 90,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Keystone suggests central support, structure and durable trust.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 63,
+      "displayName": "CrownHarbor Trust",
+      "score": 97,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Crown suggests premium status, completion and elevated asset quality.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 64,
+      "displayName": "GatewayCourt Trust",
+      "score": 96,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Gateway suggests market entry, route access and controlled passage.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 65,
+      "displayName": "VistaCourt Build Global",
+      "score": 95,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Vista suggests wide view, planning horizon and strategic perspective.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 66,
+      "displayName": "SlatePillar Holdings",
+      "score": 95,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 67,
+      "displayName": "CrownForge Terrace Trust",
+      "score": 94,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Crown suggests premium status, completion and elevated asset quality.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 68,
+      "displayName": "BeaconMount Estate Holdings",
+      "score": 92,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 69,
+      "displayName": "PioneerRiver Civic Holdings",
+      "score": 92,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Pioneer suggests expansion, initiative and market entry.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 70,
+      "displayName": "GatewaySquare Estate Global",
+      "score": 91,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Gateway suggests market entry, route access and controlled passage.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 71,
+      "displayName": "UrbanTerrahall Build Trust",
+      "score": 94,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Urban suggests city systems, development context and modern infrastructure.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 72,
+      "displayName": "PinnacleSquareterra Holdings",
+      "score": 91,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Pinnacle suggests high-value positioning, elevation and premium perspective.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 73,
+      "displayName": "SlateSignalgateway Estate Trust",
+      "score": 91,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Slate suggests clean foundation, restraint and practical strength.",
+        "Trust gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 74,
+      "displayName": "PioneerAxissquare Civic Global",
+      "score": 91,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Pioneer suggests expansion, initiative and market entry.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 75,
+      "displayName": "UrbanPillar Civic Holdings",
+      "score": 91,
+      "industry": "Real Estate & Construction",
+      "style": "Global Venture",
+      "tone": "Modern",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Urban suggests city systems, development context and modern infrastructure.",
+        "Holdings gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with real estate & construction contexts."
+      ]
+    },
+    {
+      "index": 76,
+      "displayName": "BeaconCross Trading",
+      "score": 95,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 77,
+      "displayName": "HarborYard Forward Trading",
+      "score": 93,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Harbor suggests safe arrival, trade flow and reliable shelter.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 78,
+      "displayName": "AnchorBank Forward Trading",
+      "score": 93,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Anchor suggests stability, reference point and dependable coordination.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 79,
+      "displayName": "BeaconTower Trade Trading",
+      "score": 92,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 80,
+      "displayName": "BeaconLane Forward Global",
+      "score": 92,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Beacon suggests guidance, visibility and trusted direction.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 81,
+      "displayName": "AnchorTower Global Trading",
+      "score": 92,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Anchor suggests stability, reference point and dependable coordination.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 82,
+      "displayName": "HarborStone Forward Trading",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Harbor suggests safe arrival, trade flow and reliable shelter.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 83,
+      "displayName": "MarinerCivic Gateway Global",
+      "score": 90,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Mariner suggests trade movement, port confidence and global routes.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 84,
+      "displayName": "PortageUnionstation Route Trading",
+      "score": 90,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Portage suggests movement across routes and dependable transfer.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 85,
+      "displayName": "HarborAxishorizon Forward Global",
+      "score": 90,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Harbor suggests safe arrival, trade flow and reliable shelter.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 86,
+      "displayName": "PortageCourtyard Trade Trading",
+      "score": 90,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Portage suggests movement across routes and dependable transfer.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 87,
+      "displayName": "FleetScopehorizon Network Trading",
+      "score": 90,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Conservative",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Fleet suggests transport capacity, scale and coordinated movement.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 88,
+      "displayName": "UnionVale Route Global",
+      "score": 93,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Union suggests coordination, alignment and institutional scale.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 89,
+      "displayName": "BridgeHaven Transit Global",
+      "score": 93,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Bridge suggests connection, cross-border flow and practical coordination.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 90,
+      "displayName": "VectorLane Network Global",
+      "score": 93,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Vector suggests direction, force and measurable progress.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 91,
+      "displayName": "UrbanHorizon Trade Trading",
+      "score": 92,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Urban suggests city systems, development context and modern infrastructure.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 92,
+      "displayName": "CompassBridge Fleet Trading",
+      "score": 93,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Compass suggests navigation, advice and clear strategic orientation.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 93,
+      "displayName": "GatewayStation Route Global",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Gateway suggests market entry, route access and controlled passage.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 94,
+      "displayName": "MeridianAxis Forward Trading",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Meridian suggests global balance, orientation and long-range reach.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 95,
+      "displayName": "UnionCompass Corridor Trading",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Union suggests coordination, alignment and institutional scale.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 96,
+      "displayName": "PioneerGatesignal Transit Trading",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Pioneer suggests expansion, initiative and market entry.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 97,
+      "displayName": "AtlasLanetower Network Global",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Atlas suggests global scale, routes and operational coverage.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 98,
+      "displayName": "WaypointCorridorhall Port Trading",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Waypoint suggests route planning, progress markers and delivery control.",
+        "Trading gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 99,
+      "displayName": "VectorStonecivic Forward Global",
+      "score": 91,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Boardroom",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Vector suggests direction, force and measurable progress.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    },
+    {
+      "index": 100,
+      "displayName": "CompassHall Global",
+      "score": 94,
+      "industry": "Logistics & Trade",
+      "style": "Global Venture",
+      "tone": "Modern",
+      "riskLevel": "Low structural risk",
+      "rationale": [
+        "Compass suggests navigation, advice and clear strategic orientation.",
+        "Global gives the name a familiar corporate role.",
+        "Global Venture aligns the candidate with logistics & trade contexts."
+      ]
+    }
+  ]
+}

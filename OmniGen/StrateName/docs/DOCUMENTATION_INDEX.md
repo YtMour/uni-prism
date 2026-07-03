@@ -4,9 +4,9 @@
 
 ## 当前结论
 
-StrateName 当前处于 Phase 0 文档建设阶段。项目已有原始概念文档 [../StrateName.md](../StrateName.md)，本轮新增产品规格、生成系统、设计系统、合规风险、路线图、实现状态和 MVP 发布清单。
+StrateName 当前处于 H5 MVP engineering candidate。项目已有原始概念文档 [../StrateName.md](../StrateName.md)、规划文档和可运行 `StrateName-Uniapp/` 工程。
 
-当前尚未创建 `StrateName-Uniapp/` 工程，也没有可运行 H5、生成器代码、测试、构建产物、质量采样报告或浏览器 smoke 结果。后续不能把本文档中的计划项写成已实现能力，除非代码和验证已经落地。
+当前已完成本地生成器、H5 UI、素材接入、PWA 元数据、测试、构建、11520 候选质量采样、100 候选人工审查包、人工签核模板、承诺性文案审计、独立隐私政策页、独立免责声明页、16 种主流语言法律文案、扩展 a11y 审计、静态 smoke、自动视觉审计、发布资源审计、交互 smoke、浏览器 smoke、依赖风险报告、MVP assessment 和右侧浏览器 390px 检查。当前工程侧已接近可发布 MVP，但公开发布当前为 Hold，仍需完成人工候选签核、人工法律审校和依赖风险决策。
 
 ## 核心文档
 
@@ -21,6 +21,7 @@ StrateName 当前处于 Phase 0 文档建设阶段。项目已有原始概念文
 | [ROADMAP.md](./ROADMAP.md) | Done | Phase 0 到 Phase 5 的路线计划 |
 | [IMPLEMENTATION_STATUS.md](./IMPLEMENTATION_STATUS.md) | Done | 当前实现事实、风险和下一步 |
 | [MVP_RELEASE_CHECKLIST.md](./MVP_RELEASE_CHECKLIST.md) | Done | H5 MVP 与公开发布门槛 |
+| [RELEASE_DECISION.md](./RELEASE_DECISION.md) | Done | 当前公开发布决策、阻断项和解除条件 |
 
 ## 设计图与素材
 
@@ -32,18 +33,30 @@ StrateName 当前处于 Phase 0 文档建设阶段。项目已有原始概念文
 | [../assets/README.md](../assets/README.md) | Done | 运行时素材清单、源图归档和接入建议 |
 | [../assets/ASSET_AUDIT.md](../assets/ASSET_AUDIT.md) | Done | 资产覆盖、透明检查和后续缺口 |
 
+## 当前工程入口
+
+| 路径 | 状态 | 用途 |
+| --- | --- | --- |
+| [../StrateName-Uniapp/](../StrateName-Uniapp/) | Done for H5 candidate | uni-app + Vue 3 工程 |
+| [../StrateName-Uniapp/src/core/generator.js](../StrateName-Uniapp/src/core/generator.js) | Done | 本地生成、过滤、评分和提案摘要 |
+| [../StrateName-Uniapp/src/data/lexicon.js](../StrateName-Uniapp/src/data/lexicon.js) | Done | 结构化词库和选项 |
+| [../StrateName-Uniapp/src/data/legalContent.js](../StrateName-Uniapp/src/data/legalContent.js) | Done | 隐私政策、免责声明和 16 种主流语言法律文案 |
+| [../StrateName-Uniapp/src/components/](../StrateName-Uniapp/src/components/) | Done | 真实页面组件 |
+| [../StrateName-Uniapp/scripts/](../StrateName-Uniapp/scripts/) | Done | 采样、人工审查包、文案审计、a11y、视觉审计、smoke、依赖审计和评估脚本 |
+| [../StrateName-Uniapp/reports/](../StrateName-Uniapp/reports/) | Done for current pass | 当前验证报告、人工审查包、签核模板、依赖风险报告、MVP assessment 和截图 |
+
 ## 建议后续目录
 
 | 路径 | 用途 |
 | --- | --- |
-| `StrateName-Uniapp/` | 后续 App 工程目录 |
+| `StrateName-Uniapp/` | 当前 App 工程目录 |
 | `StrateName-Uniapp/src/core/` | 生成器、评分器、过滤器和 seed 随机逻辑 |
 | `StrateName-Uniapp/src/data/` | 词根、行业词、后缀、组织形式、禁用词和示例数据 |
 | `StrateName-Uniapp/src/components/` | 候选卡片、过滤器、详情面板、收藏夹、提案卡组件 |
 | `StrateName-Uniapp/src/services/` | 本地存储、复制、导出、平台兼容和法律文案封装 |
 | `StrateName-Uniapp/src/styles/` | 全局视觉 token、排版、响应式和提案卡样式 |
 | `StrateName-Uniapp/static/` | App 图标、品牌纹理、卡片背景和导出模板素材 |
-| `StrateName-Uniapp/scripts/` | 质量采样、重复率检查、UI 审计、i18n 审计、H5 smoke 和发布评估脚本 |
+| `StrateName-Uniapp/scripts/` | 质量采样、人工审查包、重复率检查、copy/a11y/visual/release-assets 审计、H5 smoke 和发布评估脚本 |
 | `StrateName-Uniapp/tests/` | 生成器、评分、过滤、状态管理和关键 UI 交互测试 |
 | `StrateName-Uniapp/reports/` | 质量采样、依赖审计、视觉回归和浏览器 smoke 报告 |
 | `assets/` | 源素材、图标、品牌纹理和导出模板源文件 |

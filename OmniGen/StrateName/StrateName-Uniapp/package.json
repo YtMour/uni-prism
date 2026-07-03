@@ -1,0 +1,33 @@
+{
+  "name": "stratename-uniapp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:h5": "set UNI_INPUT_DIR=.&& uni -p h5 --host 127.0.0.1 --port 5193 --strictPort",
+    "build:h5": "set UNI_INPUT_DIR=.&& uni build -p h5",
+    "test": "node --test",
+    "sample:quality": "node scripts/sample-quality.mjs",
+    "audit:copy": "node scripts/audit-copy.mjs",
+    "audit:a11y": "node scripts/audit-a11y.mjs",
+    "audit:visual": "node scripts/audit-visual.mjs",
+    "audit:i18n-ui": "node scripts/audit-i18n-ui.mjs",
+    "audit:release-assets": "node scripts/audit-release-assets.mjs",
+    "audit:deps": "node scripts/audit-deps.mjs",
+    "assess:mvp": "node scripts/assess-mvp.mjs",
+    "sample:manual-review": "node scripts/manual-review-sample.mjs",
+    "smoke:h5": "node scripts/smoke-h5.mjs",
+    "smoke:browser": "node scripts/smoke-browser.mjs",
+    "smoke:interactions": "node scripts/smoke-interactions.mjs",
+    "check": "npm test && npm run sample:quality && npm run sample:manual-review && npm run audit:copy && npm run build:h5 && npm run smoke:h5 && npm run audit:a11y && npm run audit:visual && npm run audit:release-assets && npm run smoke:interactions && npm run audit:deps && npm run assess:mvp"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "3.0.0-4020920240930001",
+    "@dcloudio/vite-plugin-uni": "3.0.0-4020920240930001",
+    "vite": "5.4.21",
+    "vue": "3.4.21"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}

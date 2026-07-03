@@ -4,7 +4,7 @@
 
 ## 当前结论
 
-StrateName 已生成第一批运行时视觉素材，覆盖 App 图标、品牌小元素、空状态图标、装饰印章和 Boardroom Proposal 的 4 类模板底图。
+StrateName 已生成第一批运行时视觉素材，覆盖 App 图标、H5 PWA 图标、favicon、品牌小元素、空状态图标、装饰印章和 Boardroom Proposal 的 4 类模板底图。
 
 本批素材是独立生成，不从 `designs/` 界面图中裁切。透明素材已通过 chroma-key 本地处理和基础 alpha 验证。
 
@@ -15,6 +15,8 @@ StrateName 已生成第一批运行时视觉素材，覆盖 App 图标、品牌�
 | 类别 | 状态 | 文件 |
 | --- | --- | --- |
 | App icon | Done | `icons/app-icon-1024.png`, `icons/app-icon-512.png` |
+| H5 PWA icons | Done | `StrateName-Uniapp/static/icons/icon-192.png`, `StrateName-Uniapp/static/icons/icon-512.png` |
+| H5 favicon / manifest | Done | `StrateName-Uniapp/static/favicon.svg`, `StrateName-Uniapp/static/manifest.webmanifest` |
 | Brand glyph | Done | `brand/brand-glyph.png`, `brand/brand-glyph-512.png` |
 | Empty state icon | Done | `brand/empty-letterhead.png`, `brand/empty-letterhead-512.png` |
 | Corporate seal accent | Done | `brand/corporate-seal.png`, `brand/corporate-seal-512.png` |
@@ -62,21 +64,22 @@ StrateName 已生成第一批运行时视觉素材，覆盖 App 图标、品牌�
 | Chroma-key residue sampling | 三个透明素材抽样未发现洋红可见像素 |
 | Template text risk | 模板底图无公司名称、域名、注册或商标承诺 |
 | Palette sampling | 8 个核心素材均主要落在 StrateName 设计色板附近；`lobby-wall-bg.png` 因写字楼墙面纹理更写实，色板近似度低于其他素材但仍未越出品牌方向 |
+| H5 release asset audit | `npm run audit:release-assets` 通过，检查 title/meta、manifest、favicon、192/512 PWA icons |
 
 ## 已知限制
 
 - App icon 是生成式 raster 图标，不是手工矢量源；后续如需极小尺寸像素级控制，可以再做 SVG/矢量化版本。
-- 透明素材已完成基础 alpha 验证，但尚未在真实 UI 中进行深色/浅色背景叠加回归。
-- 模板底图尚未在 `StrateName-Uniapp/` 中接入，因为工程还未创建。
-- 未生成平台完整图标矩阵，如 iOS/Android/微信小程序全部尺寸。
+- 透明素材已完成基础 alpha 验证，并已接入 `StrateName-Uniapp/static/`；公开发布前仍需更完整的深色/浅色背景叠加回归。
+- 模板底图已接入 `StrateName-Uniapp/static/templates/`，并在 Boardroom Proposal 页面用于 Letterhead、Lobby Wall、Business Card 和 Cover 预览。
+- 未生成平台完整图标矩阵，如 iOS/Android/微信小程序全部尺寸；H5 PWA 192/512 已完成。
 - 未生成 native `tabBar` PNG 图标矩阵；如果后续使用 uni-app 原生 `tabBar`，需要按 `Generate`、`Shortlist`、`Proposal`、`Settings` 派生 normal/selected 图标。若采用自定义底部导航和 lucide 图标，则不需要这组位图。
-- 未生成 favicon/PWA manifest 全尺寸矩阵；可由 `icons/app-icon-1024.png` 派生。
+- 已生成 H5 favicon、PWA manifest、192/512 icons；若进入 App Store/小程序发布，再派生对应平台尺寸。
 - 未生成通用纸张纹理 tile；当前设计可先用 CSS 色值、边框和阴影实现卡片质感，避免过早引入纹理噪声。
 
 ## 后续建议
 
-1. 创建 App 工程后，把 `assets/icons/app-icon-1024.png` 作为图标源，按平台脚本派生尺寸。
-2. 在 UI 中分别用浅色和深色背景测试透明素材边缘。
-3. 在 Boardroom Proposal 页面中用模板底图叠加真实候选名称，跑视觉截图回归。
-4. 如后续进入 public MVP，补齐平台图标矩阵和 PWA manifest icons。
-5. 如果产品决定使用原生 tabBar，再补 4 个底部导航图标的 normal/selected PNG；如果使用自定义导航，则继续用代码图标。
+1. 把 `assets/icons/app-icon-1024.png` 作为图标源，按平台脚本派生完整尺寸。
+2. 在 UI 中继续补浅色和深色背景的透明素材边缘回归。
+3. 扩展 Boardroom Proposal 视觉截图回归，覆盖 4 个模板和 360/390/1280 宽度。
+4. 如后续进入 App/小程序发布，补齐对应平台图标矩阵。
+5. 当前工程使用自定义底部导航和代码图标；若后续改用原生 tabBar，再补 4 个 normal/selected PNG。

@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-07-03T09:34:01.160Z",
+  "sampleRounds": 10,
+  "sampleSize": 11520,
+  "uniqueCount": 10728,
+  "duplicateInstanceRate": 0.0688,
+  "bannedHits": 0,
+  "readabilityPassRate": 1,
+  "averageScore": 91.38,
+  "minScore": 87,
+  "byIndustry": {
+    "finance": {
+      "sampleSize": 2880,
+      "uniqueCount": 2737
+    },
+    "consulting": {
+      "sampleSize": 2880,
+      "uniqueCount": 2741
+    },
+    "realEstate": {
+      "sampleSize": 2880,
+      "uniqueCount": 2722
+    },
+    "logistics": {
+      "sampleSize": 2880,
+      "uniqueCount": 2746
+    }
+  }
+}

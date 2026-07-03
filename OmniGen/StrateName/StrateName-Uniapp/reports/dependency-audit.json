@@ -1,0 +1,468 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@dcloudio/uni-app": {
+      "name": "@dcloudio/uni-app",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-components",
+        "@dcloudio/uni-push",
+        "@dcloudio/uni-stat"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@dcloudio/uni-app"
+      ],
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    "@dcloudio/uni-cli-shared": {
+      "name": "@dcloudio/uni-cli-shared",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/core-base",
+        "@intlify/vue-devtools",
+        "esbuild"
+      ],
+      "effects": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-h5-vite",
+        "@dcloudio/uni-push",
+        "@dcloudio/uni-stat"
+      ],
+      "range": "<=0.0.1-nvue3.3040020220301001 || >=2.0.1-32920211122002",
+      "nodes": [
+        "node_modules/@dcloudio/uni-cli-shared"
+      ],
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    "@dcloudio/uni-cloud": {
+      "name": "@dcloudio/uni-cloud",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [
+        "@dcloudio/uni-components"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@dcloudio/uni-cloud"
+      ],
+      "fixAvailable": true
+    },
+    "@dcloudio/uni-components": {
+      "name": "@dcloudio/uni-components",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cloud",
+        "@dcloudio/uni-h5"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@dcloudio/uni-components"
+      ],
+      "fixAvailable": true
+    },
+    "@dcloudio/uni-h5": {
+      "name": "@dcloudio/uni-h5",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-h5-vite"
+      ],
+      "effects": [],
+      "range": ">=2.0.1-32920211122002",
+      "nodes": [
+        "node_modules/@dcloudio/uni-h5"
+      ],
+      "fixAvailable": true
+    },
+    "@dcloudio/uni-h5-vite": {
+      "name": "@dcloudio/uni-h5-vite",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [
+        "@dcloudio/uni-h5"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@dcloudio/uni-h5-vite"
+      ],
+      "fixAvailable": true
+    },
+    "@dcloudio/uni-push": {
+      "name": "@dcloudio/uni-push",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [
+        "@dcloudio/uni-app"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@dcloudio/uni-push"
+      ],
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    "@dcloudio/uni-stat": {
+      "name": "@dcloudio/uni-stat",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "effects": [],
+      "range": ">=2.0.1-32920211122002",
+      "nodes": [
+        "node_modules/@dcloudio/uni-stat"
+      ],
+      "fixAvailable": true
+    },
+    "@dcloudio/vite-plugin-uni": {
+      "name": "@dcloudio/vite-plugin-uni",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@dcloudio/uni-cli-shared",
+        "@vitejs/plugin-legacy",
+        "@vitejs/plugin-vue",
+        "@vitejs/plugin-vue-jsx",
+        "vite"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@dcloudio/vite-plugin-uni"
+      ],
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    "@intlify/core-base": {
+      "name": "@intlify/core-base",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-compiler",
+        "@intlify/message-resolver",
+        "@intlify/runtime",
+        "@intlify/vue-devtools",
+        {
+          "source": 1102467,
+          "name": "@intlify/core-base",
+          "dependency": "@intlify/core-base",
+          "title": "Vue I18n Allows Prototype Pollution in `handleFlatJson`",
+          "url": "https://github.com/advisories/GHSA-p2ph-7g93-hw3m",
+          "severity": "high",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=9.1.0 <9.1.11"
+        },
+        {
+          "source": 1106453,
+          "name": "@intlify/core-base",
+          "dependency": "@intlify/core-base",
+          "title": "vue-i18n's escapeParameterHtml does not prevent DOM-based XSS through its tag attributes",
+          "url": "https://github.com/advisories/GHSA-x8qp-wqqm-57ph",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-79"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=9.0.0 <9.14.5"
+        }
+      ],
+      "effects": [
+        "@dcloudio/uni-cli-shared"
+      ],
+      "range": "9.0.0 - 9.14.4",
+      "nodes": [
+        "node_modules/@intlify/core-base"
+      ],
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    "@intlify/message-compiler": {
+      "name": "@intlify/message-compiler",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-resolver"
+      ],
+      "effects": [],
+      "range": "9.1.0 - 9.1.10",
+      "nodes": [
+        "node_modules/@intlify/message-compiler"
+      ],
+      "fixAvailable": true
+    },
+    "@intlify/message-resolver": {
+      "name": "@intlify/message-resolver",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1102471,
+          "name": "@intlify/message-resolver",
+          "dependency": "@intlify/message-resolver",
+          "title": "Vue I18n Allows Prototype Pollution in `handleFlatJson`",
+          "url": "https://github.com/advisories/GHSA-p2ph-7g93-hw3m",
+          "severity": "high",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=9.1.0 <9.1.11"
+        }
+      ],
+      "effects": [
+        "@intlify/core-base",
+        "@intlify/message-compiler",
+        "@intlify/runtime",
+        "@intlify/vue-devtools"
+      ],
+      "range": "9.1.0 - 9.1.10",
+      "nodes": [
+        "node_modules/@intlify/message-resolver"
+      ],
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    "@intlify/runtime": {
+      "name": "@intlify/runtime",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-compiler",
+        "@intlify/message-resolver"
+      ],
+      "effects": [],
+      "range": "9.1.0 - 9.1.10",
+      "nodes": [
+        "node_modules/@intlify/runtime"
+      ],
+      "fixAvailable": true
+    },
+    "@intlify/vue-devtools": {
+      "name": "@intlify/vue-devtools",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@intlify/message-resolver",
+        "@intlify/runtime"
+      ],
+      "effects": [],
+      "range": "<=9.1.10",
+      "nodes": [
+        "node_modules/@intlify/vue-devtools"
+      ],
+      "fixAvailable": true
+    },
+    "@vitejs/plugin-legacy": {
+      "name": "@vitejs/plugin-legacy",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "effects": [],
+      "range": "1.0.1 - 5.4.3",
+      "nodes": [
+        "node_modules/@vitejs/plugin-legacy"
+      ],
+      "fixAvailable": true
+    },
+    "@vitejs/plugin-vue": {
+      "name": "@vitejs/plugin-vue",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "effects": [
+        "@dcloudio/vite-plugin-uni"
+      ],
+      "range": "1.8.0 - 5.2.0",
+      "nodes": [
+        "node_modules/@vitejs/plugin-vue"
+      ],
+      "fixAvailable": {
+        "isSemVerMajor": true
+      }
+    },
+    "@vitejs/plugin-vue-jsx": {
+      "name": "@vitejs/plugin-vue-jsx",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "vite"
+      ],
+      "effects": [],
+      "range": "2.0.0-alpha.0 - 4.1.0",
+      "nodes": [
+        "node_modules/@vitejs/plugin-vue-jsx"
+      ],
+      "fixAvailable": true
+    },
+    "esbuild": {
+      "name": "esbuild",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1102341,
+          "name": "esbuild",
+          "dependency": "esbuild",
+          "title": "esbuild enables any website to send any requests to the development server and read the response",
+          "url": "https://github.com/advisories/GHSA-67mh-4wv8-2f99",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-346"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+          },
+          "range": "<=0.24.2"
+        }
+      ],
+      "effects": [
+        "@dcloudio/uni-cli-shared",
+        "vite"
+      ],
+      "range": "<=0.24.2",
+      "nodes": [
+        "node_modules/esbuild",
+        "node_modules/vite/node_modules/esbuild"
+      ],
+      "fixAvailable": {
+        "name": "vite",
+        "version": "8.1.3",
+        "isSemVerMajor": true
+      }
+    },
+    "vite": {
+      "name": "vite",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1116229,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling",
+          "url": "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=6.4.1"
+        },
+        {
+          "source": 1120784,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+          "url": "https://github.com/advisories/GHSA-v6wh-96g9-6wx3",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-73",
+            "CWE-522"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=6.4.2"
+        },
+        {
+          "source": 1120789,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "vite: `server.fs.deny` bypass on Windows alternate paths",
+          "url": "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+          "severity": "high",
+          "cwe": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=6.4.2"
+        },
+        "esbuild"
+      ],
+      "effects": [
+        "@dcloudio/vite-plugin-uni",
+        "@vitejs/plugin-legacy",
+        "@vitejs/plugin-vue",
+        "@vitejs/plugin-vue-jsx"
+      ],
+      "range": "<=6.4.2",
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "fixAvailable": {
+        "name": "vite",
+        "version": "8.1.3",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 4,
+      "high": 15,
+      "critical": 0,
+      "total": 19
+    },
+    "dependencies": {
+      "prod": 381,
+      "dev": 3,
+      "optional": 73,
+      "peer": 19,
+      "peerOptional": 0,
+      "total": 474
+    }
+  }
+}

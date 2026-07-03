@@ -6,9 +6,10 @@
 
 - App 独立名称：StrateName
 - 副标题：Business Name Generator
-- 当前阶段：文档建设阶段
-- 推荐工程方向：uni-app + Vue 3 + 本地生成器
+- 当前阶段：H5 MVP engineering candidate
+- 当前工程方向：uni-app + Vue 3 + 本地生成器
 - MVP 边界：提供命名灵感、评分、收藏、复制和提案卡预览；不提供公司注册、商标、域名或法律可用性判断
+- 发布判断：工程侧候选已通过测试、构建、质量采样、文案审计、扩展 a11y 审计、视觉审计和浏览器 smoke；公开发布当前为 Hold，仍需人工候选签核、法律审校和依赖风险决策
 
 ## 文档入口
 
@@ -23,6 +24,7 @@
 | [docs/ROADMAP.md](./docs/ROADMAP.md) | 后续阶段计划 |
 | [docs/IMPLEMENTATION_STATUS.md](./docs/IMPLEMENTATION_STATUS.md) | 当前实现状态 |
 | [docs/MVP_RELEASE_CHECKLIST.md](./docs/MVP_RELEASE_CHECKLIST.md) | MVP 发布门槛 |
+| [docs/RELEASE_DECISION.md](./docs/RELEASE_DECISION.md) | 当前公开发布决策、阻断项和解除条件 |
 
 ## 视觉定位与微调
 
@@ -70,11 +72,21 @@
 - 商务名片预览：快速感受企业名称在正式商务场景中的比例和气质。
 - 提案封面预览：用于顾问或创始人向决策人展示候选名称。
 
+## 当前已完成
+
+1. 创建 `StrateName-Uniapp/` 工程和本地生成器。
+2. 建立结构化词库、行业限定词、评分器、过滤器和 seed 复现。
+3. 实现首页生成、compact results、候选卡片、详情面板、收藏和复制。
+4. 实现 Shortlist、备注、本地持久化和批量复制。
+5. 实现 Boardroom Proposal 四模板预览，并让导出操作进入移动端首屏。
+6. 扩展 Settings 法律语言选择器、独立隐私政策页、独立免责声明页和法律后缀风险提示。
+7. 建立 16 种主流语言法律文案数据层，覆盖英语、简中、繁中、西语、法语、德语、日语、韩语、葡语、意语、俄语、阿语、印地语、印尼语、土耳其语和越南语。
+8. 建立 `npm test`、11520 质量采样、人工审查包、人工签核模板、承诺性文案审计、H5 构建、静态 smoke、扩展 a11y 审计、视觉审计、发布资源审计、交互 smoke、浏览器 smoke、依赖风险报告和 MVP assessment 验证链路。
+
 ## 后续建设优先级
 
-1. 创建 `StrateName-Uniapp/` 工程和最小生成器。
-2. 建立结构化词库、评分器、过滤器和 seed 复现。
-3. 实现首页生成、候选卡片、详情面板、收藏和复制。
-4. 实现 Boardroom Proposal 预览。
-5. 补齐隐私政策、免责声明和法律后缀风险提示。
-6. 建立 `npm test`、质量采样、H5 构建和浏览器 smoke 验证链路。
+1. 使用 `reports/manual-review-sample.md` 完成 100 个候选人工品牌/混淆/冒犯性审查，并生成 `reports/manual-review-signoff.json`。
+2. 完成人工法律、商标、隐私和免责声明审校。
+3. 在独立分支处理 npm audit 报告中的 uni-app / Vite major upgrade 风险。
+4. 若发布 App/小程序，派生对应平台完整图标矩阵。
+5. 若后续承诺图片导出，再实现真实 PNG/PDF 导出链路。

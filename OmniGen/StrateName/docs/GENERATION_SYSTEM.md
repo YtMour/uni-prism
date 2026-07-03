@@ -48,6 +48,7 @@ MVP 必须至少实现前四类，后两类可以作为扩展。
 
 - `strategicRoot + entitySuffix`
 - `prestigeRoot + bridgeMorpheme + entitySuffix`
+- `prestigeRoot + bridgeMorpheme + qualifier + entitySuffix`
 - `directionalRoot + corporateSuffix`
 
 示例：
@@ -65,6 +66,7 @@ MVP 必须至少实现前四类，后两类可以作为扩展。
 
 - `materialRoot + industrialSuffix`
 - `geographyRoot + tradeSuffix`
+- `foundationRoot + bridgeMorpheme + qualifier + trustSuffix`
 - `foundationRoot + trustSuffix`
 
 示例：
@@ -81,6 +83,7 @@ MVP 必须至少实现前四类，后两类可以作为扩展。
 结构：
 
 - `latinStem + enterpriseEnding`
+- `latinStem + enterpriseEnding + qualifier + entitySuffix`
 - `abstractRoot + softenedEnding`
 - `strategicRoot + modernMorpheme`
 
@@ -156,6 +159,23 @@ export const roots = [
 - `Crestway Partners` 中的 `Partners` 是企业语义后缀。
 - `Crestway Partners LLC` 中的 `LLC` 是法律形式后缀。
 
+### 企业限定词
+
+当前实现新增 `QUALIFIERS`，用于扩大高质量采样空间，同时保持名称的行业语感。
+
+| 行业 | 示例限定词 | 作用 |
+| --- | --- | --- |
+| finance | Asset、Reserve、Portfolio、Equity、Principal | 增强资本、资产和治理语感 |
+| consulting | Strategy、Method、Practice、Insight、Systems | 增强专业服务和方法论语感 |
+| realEstate | Property、Urban、Landmark、Development、District | 增强资产、建设和场所语感 |
+| logistics | Trade、Route、Gateway、Freight、Network | 增强贸易、路线和供应链语感 |
+
+限定词只在长度过滤允许时插入，示例：
+
+- `Crestway Asset Partners`
+- `KeystoneBridge Strategy Advisory`
+- `GatewayFleet Network Trading`
+
 ## 生成流程
 
 1. 读取用户输入和本地偏好。
@@ -172,9 +192,12 @@ export const roots = [
 | 模板 | 示例 | 适用 |
 | --- | --- | --- |
 | `{prestigeRoot}{bridge} {suffix}` | Crestway Partners | capital, consulting |
+| `{prestigeRoot}{bridge} {qualifier} {suffix}` | Crestway Asset Partners | capital, consulting |
 | `{materialRoot}{geoRoot} {suffix}` | IronRiver Industries | industrial, realEstate |
+| `{materialRoot}{bridge} {qualifier} {suffix}` | MasonForge Property Trust | realEstate, logistics |
 | `{geoRoot} {suffix}` | Beacon Global | logistics, industrial |
 | `{latinStem}{enterpriseEnding}` | Novaterra | neo-enterprise |
+| `{latinStem}{enterpriseEnding} {qualifier} {suffix}` | StratisCore Strategy Group | neo-enterprise |
 | `{directionalRoot} {suffix}` | Northstar Group | holding, consulting |
 | `{foundationRoot}{bridge} {suffix}` | Stonebridge Trust | realEstate, finance |
 
@@ -222,7 +245,7 @@ export const roots = [
 
 ## 质量采样
 
-后续工程应提供 `npm run sample:quality`，输出到 `reports/generation-quality.json`。
+工程提供 `npm run sample:quality`，输出到 `reports/generation-quality.json`。
 
 建议指标：
 
@@ -235,6 +258,16 @@ export const roots = [
 | 可读性通过率 | >= 92% |
 | 行业覆盖 | 每个 MVP 行业都能生成 >= 500 个唯一候选 |
 | 单批通过候选数 | 单次 8 个候选中至少 5 个通过 |
+
+当前验证记录：
+
+- sample size: 11520
+- unique count: 10728
+- duplicate instance rate: 0.0688
+- banned hits: 0
+- readability pass rate: 1
+- average score: 91.38
+- each MVP industry unique candidates: >= 2722
 
 ## 示例输出对象
 

@@ -1,0 +1,13 @@
+{
+  "status": "not-started",
+  "reviewer": "",
+  "reviewedAt": "",
+  "reviewedSampleGeneratedAt": "2026-07-03T09:34:03.886Z",
+  "sampleSize": 100,
+  "reviewedCount": 0,
+  "rejectedCount": 0,
+  "notes": [
+    "Copy this file to reports/manual-review-signoff.json after human review.",
+    "Set status to approved only when reviewedCount equals sampleSize and rejectedCount is 0."
+  ]
+}

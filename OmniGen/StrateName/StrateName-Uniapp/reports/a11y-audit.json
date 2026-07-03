@@ -1,0 +1,12 @@
+{
+  "generatedAt": "2026-07-03T10:28:27.931Z",
+  "url": "http://127.0.0.1:63648",
+  "screens": [
+    "candidate-detail",
+    "proposal",
+    "settings",
+    "privacy",
+    "disclaimer"
+  ],
+  "findings": []
+}
